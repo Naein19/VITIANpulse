@@ -1,0 +1,177 @@
+{
+  "format": "clonewebsite-design",
+  "schemaVersion": "1.0",
+  "createdAt": "2026-08-31T16:13:23.632Z",
+  "generator": {
+    "name": "CloneWebsite Chrome Extension",
+    "version": "1.1.0"
+  },
+  "source": {
+    "url": "https://posthog.com/self-driving",
+    "title": "PostHog self-driving",
+    "capturedAt": "2026-08-31T16:13:23.632Z"
+  },
+  "capture": {
+    "scope": "page",
+    "viewports": [
+      {
+        "id": "current",
+        "name": "Current",
+        "width": 1347,
+        "height": 953,
+        "deviceScaleFactor": 1
+      }
+    ],
+    "themes": [
+      "current",
+      "light",
+      "dark"
+    ],
+    "useDebugger": true,
+    "debuggerGranted": true,
+    "inferAutoLayout": true,
+    "detectComponents": true,
+    "capturePseudoStates": false
+  },
+  "scenes": [
+    {
+      "id": "scene-1-current-current-default",
+      "name": "Current / Current",
+      "path": "scenes/scene-1-current-current-default.json",
+      "rootNodeId": "scene-1-current-current-default-page-649",
+      "nodeCount": 651,
+      "viewport": {
+        "id": "current",
+        "name": "Current",
+        "width": 1347,
+        "height": 953,
+        "deviceScaleFactor": 1
+      },
+      "theme": "current"
+    },
+    {
+      "id": "scene-2-current-light-default",
+      "name": "Current / Light",
+      "path": "scenes/scene-2-current-light-default.json",
+      "rootNodeId": "scene-2-current-light-default-page-651",
+      "nodeCount": 653,
+      "viewport": {
+        "id": "current",
+        "name": "Current",
+        "width": 1347,
+        "height": 953,
+        "deviceScaleFactor": 1
+      },
+      "theme": "light"
+    },
+    {
+      "id": "scene-3-current-dark-default",
+      "name": "Current / Dark",
+      "path": "scenes/scene-3-current-dark-default.json",
+      "rootNodeId": "scene-3-current-dark-default-page-651",
+      "nodeCount": 653,
+      "viewport": {
+        "id": "current",
+        "name": "Current",
+        "width": 1347,
+        "height": 953,
+        "deviceScaleFactor": 1
+      },
+      "theme": "dark"
+    }
+  ],
+  "assets": {
+    "asset-d65abd3f213f925cd033b564": {
+      "id": "asset-d65abd3f213f925cd033b564",
+      "path": "assets/d65abd3f213f925cd033b56408cc70ced9c006b32e24e72a4afbc0c15be32f52.png",
+      "sha256": "d65abd3f213f925cd033b56408cc70ced9c006b32e24e72a4afbc0c15be32f52",
+      "mimeType": "image/png",
+      "byteLength": 52668
+    },
+    "asset-4ad0205d5492b3f7ad294125": {
+      "id": "asset-4ad0205d5492b3f7ad294125",
+      "path": "assets/4ad0205d5492b3f7ad294125d0c7b91328ce70aa866f5e6c29292af38daa3d8f.png",
+      "sha256": "4ad0205d5492b3f7ad294125d0c7b91328ce70aa866f5e6c29292af38daa3d8f",
+      "mimeType": "image/png",
+      "byteLength": 42490
+    },
+    "asset-bb878825e7671ab029f7a075": {
+      "id": "asset-bb878825e7671ab029f7a075",
+      "path": "assets/bb878825e7671ab029f7a075e41f38d21d75df64e4fc97fa477312e2a733fea0.png",
+      "sha256": "bb878825e7671ab029f7a075e41f38d21d75df64e4fc97fa477312e2a733fea0",
+      "mimeType": "image/png",
+      "byteLength": 85773
+    },
+    "asset-78495550116c630e2acb7a77": {
+      "id": "asset-78495550116c630e2acb7a77",
+      "path": "assets/78495550116c630e2acb7a77b725e04c998f6df2d9b42085226f89fe1e2e78e7.png",
+      "sha256": "78495550116c630e2acb7a77b725e04c998f6df2d9b42085226f89fe1e2e78e7",
+      "mimeType": "image/png",
+      "byteLength": 80240
+    },
+    "asset-52cbc6ce538c75c1b77e6235": {
+      "id": "asset-52cbc6ce538c75c1b77e6235",
+      "path": "assets/52cbc6ce538c75c1b77e6235061b0e8628ec4ef744d9606c1724faeeb2055dbd.png",
+      "sha256": "52cbc6ce538c75c1b77e6235061b0e8628ec4ef744d9606c1724faeeb2055dbd",
+      "mimeType": "image/png",
+      "byteLength": 1019
+    },
+    "asset-397de9f22055024fe8e3d569": {
+      "id": "asset-397de9f22055024fe8e3d569",
+      "path": "assets/397de9f22055024fe8e3d569acdcd4b609ba08889316b11ad9da6e5d9049ecfa.png",
+      "sha256": "397de9f22055024fe8e3d569acdcd4b609ba08889316b11ad9da6e5d9049ecfa",
+      "mimeType": "image/png",
+      "byteLength": 23475
+    },
+    "asset-3bb8e9df0b799820895ce7b8": {
+      "id": "asset-3bb8e9df0b799820895ce7b8",
+      "path": "assets/3bb8e9df0b799820895ce7b850c565b4bcf37e6f6adcec7b5a276c4e9cf647af.png",
+      "sha256": "3bb8e9df0b799820895ce7b850c565b4bcf37e6f6adcec7b5a276c4e9cf647af",
+      "mimeType": "image/png",
+      "byteLength": 29240
+    },
+    "asset-af1785b36d11ddb1e652309a": {
+      "id": "asset-af1785b36d11ddb1e652309a",
+      "path": "assets/af1785b36d11ddb1e652309a39f529848b8139d55ddceaadd4e08e48b33e2471.png",
+      "sha256": "af1785b36d11ddb1e652309a39f529848b8139d55ddceaadd4e08e48b33e2471",
+      "mimeType": "image/png",
+      "byteLength": 27403
+    },
+    "asset-2ebcc7616198e6027ca95b4d": {
+      "id": "asset-2ebcc7616198e6027ca95b4d",
+      "path": "assets/2ebcc7616198e6027ca95b4d2507a21fd39791336a4282d0156587819e46ec34.png",
+      "sha256": "2ebcc7616198e6027ca95b4d2507a21fd39791336a4282d0156587819e46ec34",
+      "mimeType": "image/png",
+      "byteLength": 628812
+    },
+    "asset-8d64fc4419184339d43ef437": {
+      "id": "asset-8d64fc4419184339d43ef437",
+      "path": "assets/8d64fc4419184339d43ef43789b524a736adbe61aa2169937a2aad097afcfe0f.png",
+      "sha256": "8d64fc4419184339d43ef43789b524a736adbe61aa2169937a2aad097afcfe0f",
+      "mimeType": "image/png",
+      "byteLength": 2518
+    },
+    "asset-3c3a1fd0b113ed87e47fc2d5": {
+      "id": "asset-3c3a1fd0b113ed87e47fc2d5",
+      "path": "assets/3c3a1fd0b113ed87e47fc2d5778b0cba4d9f96bfd2d81d6753fc56f245fbd286.png",
+      "sha256": "3c3a1fd0b113ed87e47fc2d5778b0cba4d9f96bfd2d81d6753fc56f245fbd286",
+      "mimeType": "image/png",
+      "byteLength": 89637
+    },
+    "asset-a1a1b14ff3006a968cb686f5": {
+      "id": "asset-a1a1b14ff3006a968cb686f5",
+      "path": "assets/a1a1b14ff3006a968cb686f5e77d653b7fc60e05e69f8c4367864d9cdfbbe8ac.png",
+      "sha256": "a1a1b14ff3006a968cb686f5e77d653b7fc60e05e69f8c4367864d9cdfbbe8ac",
+      "mimeType": "image/png",
+      "byteLength": 621790
+    },
+    "asset-e72980f72dd60079b51113f7": {
+      "id": "asset-e72980f72dd60079b51113f7",
+      "path": "assets/e72980f72dd60079b51113f7b64c1895c05d9d8210b52457e57c3105030886c2.png",
+      "sha256": "e72980f72dd60079b51113f7b64c1895c05d9d8210b52457e57c3105030886c2",
+      "mimeType": "image/png",
+      "byteLength": 621725
+    }
+  },
+  "warnings": []
+}

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0v32" fill="none" stroke="#dcdcd3" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f1f1ec" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#f1f1ec" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#f1f1ec"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.85"/>
+  <rect width="1200" height="630" fill="url(#fade)"/>
+
+  <g transform="translate(88 96)">
+    <rect width="72" height="72" rx="17" fill="#15150f"/>
+    <path d="M12 40h8l5.2-14.2L33 47l6.5-15.3L43.6 40H61"
+          fill="none" stroke="#a8d90a" stroke-width="5.2"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <text x="180" y="150" font-family="Inter, system-ui, sans-serif" font-size="46" font-weight="800"
+        letter-spacing="-1.6" fill="#15150f">VIT<tspan fill="#5b3df5">Pulse</tspan></text>
+
+  <text x="88" y="300" font-family="Inter, system-ui, sans-serif" font-size="78" font-weight="800"
+        letter-spacing="-3.2" fill="#15150f">Everything happening</text>
+  <text x="88" y="388" font-family="Inter, system-ui, sans-serif" font-size="78" font-weight="800"
+        letter-spacing="-3.2" fill="#15150f">at VIT-AP, in one place.</text>
+
+  <text x="88" y="454" font-family="Inter, system-ui, sans-serif" font-size="27" font-weight="500"
+        fill="#6b6c60">Campus news · Events · Clubs · PYQs · Opportunities · Resources</text>
+
+  <g transform="translate(88 512)">
+    <rect width="212" height="42" rx="7" fill="#15150f"/>
+    <text x="24" y="28" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="600"
+          fill="#fbfbf8">Amaravati · VIT-AP</text>
+    <rect x="232" width="176" height="42" rx="7" fill="none" stroke="#c2c2b6" stroke-width="1.5"/>
+    <text x="256" y="28" font-family="Inter, system-ui, sans-serif" font-size="17" font-weight="600"
+          fill="#3d3e35">Built by students</text>
+  </g>
+</svg>
