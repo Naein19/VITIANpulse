@@ -64,6 +64,16 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setResolved(applyClass(stored));
   }, []);
 
+  /** Turns on tree-wide colour transitions, then removes them again. */
+  const beginColourCrossfade = useCallback(() => {
+    const root = document.documentElement;
+    root.classList.add('theme-switching');
+    window.clearTimeout(clearTimer.current);
+    clearTimer.current = window.setTimeout(() => {
+      root.classList.remove('theme-switching');
+    }, TRANSITION_MS + 120);
+  }, []);
+
   // Follow the OS while on "system".
   useEffect(() => {
     if (theme !== 'system') return;
@@ -74,17 +84,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     };
     query.addEventListener('change', onChange);
     return () => query.removeEventListener('change', onChange);
-  }, [theme]);
-
-  /** Turns on tree-wide colour transitions, then removes them again. */
-  const beginColourCrossfade = useCallback(() => {
-    const root = document.documentElement;
-    root.classList.add('theme-switching');
-    window.clearTimeout(clearTimer.current);
-    clearTimer.current = window.setTimeout(() => {
-      root.classList.remove('theme-switching');
-    }, TRANSITION_MS + 120);
-  }, []);
+  }, [theme, beginColourCrossfade]);
 
   const setTheme = useCallback(
     (next: Theme, origin?: { x: number; y: number }) => {
