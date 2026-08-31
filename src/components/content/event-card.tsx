@@ -54,7 +54,7 @@ export function EventCard({
     return (
       <article
         className={cn(
-          'group relative flex gap-4 rounded-md border border-line bg-surface p-3.5 transition-[border-color,box-shadow] duration-200',
+          'group relative flex gap-4 rounded-md border border-line bg-primary p-3.5 transition-[border-color,box-shadow] duration-200',
           'hover:border-line-strong hover:shadow-sm',
           past && 'opacity-70',
         )}
@@ -101,12 +101,12 @@ export function EventCard({
   return (
     <article
       className={cn(
-        'group relative flex flex-col overflow-hidden rounded-md border border-line bg-surface',
+        'group relative flex flex-col overflow-hidden rounded-md border border-line bg-primary',
         'transition-[border-color,box-shadow,transform] duration-200 hover:border-line-strong hover:shadow-md',
         past && 'opacity-75',
       )}
     >
-      <div className="relative flex items-start justify-between gap-3 border-b border-line bg-sunken p-3.5">
+      <div className="relative flex items-start justify-between gap-3 border-b border-line bg-tertiary p-3.5">
         <DateBlock iso={event.startsAt} />
         <div className="flex flex-col items-end gap-1.5">
           <EventCategoryBadge category={event.category} />
@@ -174,7 +174,7 @@ export function DateBlock({ iso, compact = false }: { iso: string; compact?: boo
   return (
     <div
       className={cn(
-        'flex shrink-0 flex-col items-center justify-center rounded-sm border border-line bg-raised text-center',
+        'flex shrink-0 flex-col items-center justify-center rounded-sm border border-line bg-primary text-center',
         compact ? 'size-10' : 'size-13 px-1',
       )}
     >

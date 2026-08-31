@@ -8,7 +8,7 @@ export const metadata = { title: 'Not allowed' };
 export default function Forbidden() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-20 text-center sm:py-28">
-      <span className="mb-5 inline-flex size-12 items-center justify-center rounded-md border border-line bg-surface text-faint">
+      <span className="mb-5 inline-flex size-12 items-center justify-center rounded-md border border-line bg-primary text-faint">
         <ShieldOff className="size-5" aria-hidden="true" />
       </span>
       <p className="vp-numeric text-[13px] font-semibold uppercase tracking-[0.16em] text-faint">Error 403</p>

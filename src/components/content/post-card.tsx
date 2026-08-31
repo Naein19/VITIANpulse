@@ -56,7 +56,7 @@ export function PostCard({
   return (
     <article
       className={cn(
-        'group relative rounded-md border bg-surface transition-[border-color,box-shadow] duration-200',
+        'group relative rounded-md border bg-primary transition-[border-color,box-shadow] duration-200',
         'hover:border-line-strong hover:shadow-sm',
         urgent ? 'border-danger/40' : important ? 'border-warning/40' : 'border-line',
         variant === 'lead' ? 'p-5' : 'p-4',

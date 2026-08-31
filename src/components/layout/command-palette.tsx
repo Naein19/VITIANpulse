@@ -239,14 +239,14 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
         aria-label="Close search"
         onClick={onClose}
         tabIndex={-1}
-        className="vp-anim-fade-in absolute inset-0 bg-[var(--vp-overlay)] backdrop-blur-[3px]"
+        className="vp-anim-fade-in absolute inset-0 bg-[var(--overlay)] backdrop-blur-[3px]"
       />
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Search and commands"
         onKeyDown={onKeyDown}
-        className="vp-anim-scale-in relative z-10 flex max-h-[70vh] w-full max-w-2xl flex-col overflow-hidden rounded-lg border border-line-strong bg-raised shadow-lg"
+        className="vp-anim-scale-in relative z-10 flex max-h-[70vh] w-full max-w-2xl flex-col overflow-hidden rounded-lg border border-line-strong bg-primary shadow-lg"
       >
         <div className="flex items-center gap-3 border-b border-line px-4">
           {isFetching ? (
@@ -364,7 +364,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
           )}
         </div>
 
-        <div className="flex items-center gap-4 border-t border-line bg-surface px-4 py-2 text-[11px] text-faint">
+        <div className="flex items-center gap-4 border-t border-line bg-primary px-4 py-2 text-[11px] text-faint">
           <span className="flex items-center gap-1.5">
             <Kbd>↑</Kbd>
             <Kbd>↓</Kbd> navigate
@@ -408,16 +408,16 @@ function Row({
       onMouseEnter={onMouseEnter}
       className={cn(
         'flex w-full items-center gap-3 px-4 py-2 text-left transition-colors duration-75',
-        active ? 'bg-canvas-alt' : 'hover:bg-canvas-alt/60',
+        active ? 'bg-secondary' : 'hover:bg-accent/60',
       )}
     >
-      <span className={cn('shrink-0', active ? 'text-brand' : 'text-faint')}>{icon}</span>
+      <span className={cn('shrink-0', active ? 'text-link' : 'text-faint')}>{icon}</span>
       <span className="min-w-0 flex-1">
         <span className="block truncate text-[13.5px] font-medium text-ink">{title}</span>
         {subtitle && <span className="block truncate text-[12px] text-muted">{subtitle}</span>}
       </span>
       {badge && (
-        <span className="shrink-0 rounded-[var(--radius-xs)] bg-sunken px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-faint">
+        <span className="shrink-0 rounded-[var(--radius-xs)] bg-tertiary px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-faint">
           {badge.replace(/_/g, ' ')}
         </span>
       )}

@@ -93,7 +93,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
       <PageBody>
         {query.length < 2 ? (
           <div className="mx-auto max-w-xl text-center">
-            <span className="inline-flex size-11 items-center justify-center rounded-md border border-line bg-surface text-faint">
+            <span className="inline-flex size-11 items-center justify-center rounded-md border border-line bg-primary text-faint">
               <Sparkles className="size-5" aria-hidden="true" />
             </span>
             <h2 className="mt-4 text-[18px] font-semibold text-ink">Type at least two characters</h2>
@@ -108,7 +108,7 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                   <Link
                     key={suggestion}
                     href={`/search?q=${encodeURIComponent(suggestion)}`}
-                    className="rounded-full border border-line-strong bg-surface px-3 py-1.5 text-[12.5px] font-medium text-muted transition-colors hover:border-line-heavy hover:text-ink"
+                    className="rounded-full border border-line-strong bg-primary px-3 py-1.5 text-[12.5px] font-medium text-muted transition-colors hover:border-line-strong hover:text-ink"
                   >
                     {suggestion}
                   </Link>
@@ -135,12 +135,12 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
             }
           />
         ) : (
-          <ul className="divide-y divide-line rounded-md border border-line bg-surface">
+          <ul className="divide-y divide-line rounded-md border border-line bg-primary">
             {shown.map((hit) => (
               <li key={`${hit.entity}-${hit.id}`}>
                 <Link
                   href={hit.href}
-                  className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-canvas-alt"
+                  className="flex items-start gap-3 px-4 py-3 transition-colors hover:bg-accent"
                 >
                   <span className="min-w-0 flex-1">
                     <span className="flex flex-wrap items-center gap-2">

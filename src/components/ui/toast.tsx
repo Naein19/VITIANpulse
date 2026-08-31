@@ -53,7 +53,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
       {mounted &&
         createPortal(
           <div
-            className="vp-no-print pointer-events-none fixed inset-x-0 bottom-[calc(var(--vp-bottomnav-h)+12px)] z-200 flex flex-col items-center gap-2 px-4 sm:bottom-5 sm:left-auto sm:right-5 sm:items-end sm:px-0"
+            className="vp-no-print pointer-events-none fixed inset-x-0 bottom-[calc(var(--bottomnav-h)+12px)] z-200 flex flex-col items-center gap-2 px-4 sm:bottom-5 sm:left-auto sm:right-5 sm:items-end sm:px-0"
             role="region"
             aria-label="Notifications"
           >
@@ -73,7 +73,7 @@ function ToastRow({ toast, onDismiss }: { toast: Toast; onDismiss: () => void })
   const tones = {
     success: { cls: 'border-success/40 bg-success-soft text-success-ink', Icon: Check },
     error: { cls: 'border-danger/40 bg-danger-soft text-danger-ink', Icon: TriangleAlert },
-    info: { cls: 'border-line-strong bg-raised text-ink', Icon: Info },
+    info: { cls: 'border-line-strong bg-primary text-ink', Icon: Info },
   } as const;
   const { cls, Icon } = tones[toast.tone];
 

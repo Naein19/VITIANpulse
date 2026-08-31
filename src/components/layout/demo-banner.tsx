@@ -23,7 +23,7 @@ export function DemoBanner() {
 
   return (
     <div className="vp-no-print border-b border-warning/30 bg-warning-soft">
-      <div className="mx-auto flex max-w-[var(--vp-shell-max)] items-center gap-3 px-4 py-2 sm:px-6">
+      <div className="mx-auto flex max-w-[var(--content-max)] items-center gap-3 px-4 py-2 sm:px-6">
         <FlaskConical className="size-3.5 shrink-0 text-warning-ink" aria-hidden="true" />
         <p className="flex-1 text-[12px] leading-snug text-warning-ink">
           <strong className="font-semibold">Demo data.</strong> This install is running on sample content for

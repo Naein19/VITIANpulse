@@ -49,7 +49,7 @@ export function PaperRow({
   };
 
   return (
-    <li className="flex items-center gap-3 p-3 transition-colors hover:bg-canvas-alt">
+    <li className="flex items-center gap-3 p-3 transition-colors hover:bg-accent">
       <div className="min-w-0 flex-1">
         <p className="truncate text-[13.5px] font-medium text-ink">
           {showSubject && <span className="font-mono text-[12.5px] text-muted">{paper.subjectCode}</span>}
@@ -75,8 +75,8 @@ export function PaperRow({
           disabled={pending}
           aria-label={`Download ${paper.subjectCode} ${paper.examType} ${paper.year}`}
           className={cn(
-            'inline-flex h-8 items-center gap-1.5 rounded-sm border border-line-strong bg-raised px-2.5',
-            'text-[12.5px] font-medium text-ink transition-colors hover:border-line-heavy disabled:opacity-60',
+            'inline-flex h-8 items-center gap-1.5 rounded-sm border border-line-strong bg-primary px-2.5',
+            'text-[12.5px] font-medium text-ink transition-colors hover:border-line-strong disabled:opacity-60',
           )}
         >
           {pending ? (

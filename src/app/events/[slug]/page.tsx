@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { after } from 'next/server';
 import {
-  ArrowLeft, CalendarClock, CalendarPlus, ExternalLink, IndianRupee, Mail, MapPin, Ticket, Users,
+  ArrowLeft, CalendarClock, ExternalLink, IndianRupee, Mail, MapPin, Ticket, Users,
 } from 'lucide-react';
 import { PageBody } from '@/components/layout/page-header';
 import { Badge, EventCategoryBadge } from '@/components/ui/badge';
@@ -124,7 +124,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             <h1 className="text-[30px] leading-[1.12] text-ink sm:text-[38px]">{event.title}</h1>
             <p className="mt-3 max-w-2xl text-[16px] leading-relaxed text-muted">{event.summary}</p>
 
-            <dl className="mt-6 grid gap-3 rounded-md border border-line bg-surface p-4 sm:grid-cols-2">
+            <dl className="mt-6 grid gap-3 rounded-md border border-line bg-primary p-4 sm:grid-cols-2">
               <Fact icon={CalendarClock} label="When" value={formatEventWindow(event.startsAt, event.endsAt)} />
               <Fact
                 icon={MapPin}
@@ -195,7 +195,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   <Link
                     key={tag}
                     href={`/events?q=${encodeURIComponent(tag)}`}
-                    className="rounded-full border border-line-strong bg-surface px-2.5 py-1 text-[11.5px] text-muted transition-colors hover:border-line-heavy hover:text-ink"
+                    className="rounded-full border border-line-strong bg-primary px-2.5 py-1 text-[11.5px] text-muted transition-colors hover:border-line-strong hover:text-ink"
                   >
                     {tag}
                   </Link>
@@ -215,8 +215,8 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
           </article>
 
           {/* ---------------------------------------------------- action rail */}
-          <aside className="min-w-0 space-y-6 lg:sticky lg:top-[calc(var(--vp-header-h)+16px)] lg:self-start">
-            <section className="rounded-md border border-line-strong bg-raised p-4 shadow-sm">
+          <aside className="min-w-0 space-y-6 lg:sticky lg:top-4 lg:self-start">
+            <section className="rounded-md border border-line-strong bg-primary p-4 shadow-sm">
               {event.registrationRequired && !past ? (
                 <>
                   <div className="mb-3">
@@ -284,7 +284,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
               <ShareButton title={event.title} path={`/events/${event.slug}`} withLabel className="mt-2 w-full justify-center" />
             </section>
 
-            <section className="rounded-md border border-line bg-surface p-4">
+            <section className="rounded-md border border-line bg-primary p-4">
               <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Details</h2>
               <dl className="divide-y divide-line">
                 <MetaRow label="Category">{humanise(event.category)}</MetaRow>
@@ -297,7 +297,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   <MetaRow label="Contact">
                     <a
                       href={`mailto:${event.contactEmail}`}
-                      className="inline-flex items-center gap-1 text-brand hover:underline underline-offset-2"
+                      className="inline-flex items-center gap-1 text-link hover:underline underline-offset-2"
                     >
                       <Mail className="size-3" aria-hidden="true" />
                       Email
@@ -310,7 +310,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                   href={event.registrationUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-3 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-brand hover:underline underline-offset-2"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-link hover:underline underline-offset-2"
                 >
                   External registration form
                   <ExternalLink className="size-3" aria-hidden="true" />
@@ -319,7 +319,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
             </section>
 
             {event.club && (
-              <section className="rounded-md border border-line bg-surface p-4">
+              <section className="rounded-md border border-line bg-primary p-4">
                 <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Organiser</h2>
                 <Link href={`/clubs/${event.club.slug}`} className="group flex items-center gap-3">
                   <ClubAvatar club={event.club} size="sm" />

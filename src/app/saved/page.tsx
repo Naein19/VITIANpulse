@@ -129,7 +129,7 @@ export default async function SavedPage({ searchParams }: { searchParams: Promis
               </div>
             )}
             {tab === 'PYQ' && (
-              <ul className="divide-y divide-line rounded-md border border-line bg-surface">
+              <ul className="divide-y divide-line rounded-md border border-line bg-primary">
                 {papers.map((paper) => (
                   <PaperRow key={paper.id} paper={paper} bookmarked signedIn />
                 ))}

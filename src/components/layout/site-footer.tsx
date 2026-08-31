@@ -27,8 +27,8 @@ const COLUMNS: ReadonlyArray<{ title: string; links: ReadonlyArray<{ label: stri
 
 export function SiteFooter() {
   return (
-    <footer className="vp-no-print mt-16 border-t border-line bg-surface">
-      <div className="mx-auto max-w-[var(--vp-shell-max)] px-4 py-10 sm:px-6">
+    <footer className="vp-no-print mt-16 border-t border-line bg-tertiary">
+      <div className="mx-auto max-w-[var(--content-max)] px-4 py-10 sm:px-6">
         <div className="grid gap-8 md:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div>
             <Wordmark showTagline />
@@ -39,7 +39,7 @@ export function SiteFooter() {
           </div>
           {COLUMNS.map((column) => (
             <nav key={column.title} aria-label={column.title}>
-              <h2 className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">{column.title}</h2>
+              <h2 className="t-label mb-2 text-faint">{column.title}</h2>
               <ul className="space-y-1.5">
                 {column.links.map((link) => (
                   <li key={link.href}>

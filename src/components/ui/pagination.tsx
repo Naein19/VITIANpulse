@@ -78,7 +78,7 @@ function PageLink({
     'vp-numeric inline-flex h-8 min-w-8 items-center justify-center rounded-sm border px-2 text-[12.5px] font-medium transition-colors',
     active
       ? 'border-brand bg-brand-soft text-brand-ink'
-      : 'border-line-strong bg-surface text-muted hover:border-line-heavy hover:text-ink',
+      : 'border-line-strong bg-primary text-muted hover:border-line-strong hover:text-ink',
     disabled && 'pointer-events-none opacity-40',
   );
 

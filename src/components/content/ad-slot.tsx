@@ -67,7 +67,7 @@ export function AdCreative({
           <a
             href={href}
             rel="nofollow sponsored noopener"
-            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-sm bg-brand px-4 text-[13px] font-medium text-[var(--vp-brand-contrast)] transition-colors hover:bg-brand-hover"
+            className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-sm bg-brand px-4 text-[13px] font-medium text-brand-fg transition-colors hover:bg-brand"
           >
             {ad.ctaLabel}
             <ArrowUpRight className="size-3.5" aria-hidden="true" />
@@ -81,7 +81,7 @@ export function AdCreative({
     return (
       <aside
         aria-label="Promoted"
-        className={cn('relative rounded-md border border-dashed border-line-strong bg-sunken p-3.5', className)}
+        className={cn('relative rounded-md border border-dashed border-line-strong bg-tertiary p-3.5', className)}
       >
         <AdImpression adId={ad.id} />
         <div className="mb-1.5 flex items-center gap-2">
@@ -93,7 +93,7 @@ export function AdCreative({
         <a
           href={href}
           rel="nofollow sponsored noopener"
-          className="mt-2 inline-flex items-center gap-1 text-[12.5px] font-medium text-brand hover:underline underline-offset-2"
+          className="mt-2 inline-flex items-center gap-1 text-[12.5px] font-medium text-link hover:underline underline-offset-2"
         >
           {ad.ctaLabel}
           <ArrowUpRight className="size-3" aria-hidden="true" />
@@ -105,7 +105,7 @@ export function AdCreative({
   return (
     <aside
       aria-label="Promoted"
-      className={cn('relative rounded-md border border-line bg-surface p-3.5', className)}
+      className={cn('relative rounded-md border border-line bg-primary p-3.5', className)}
     >
       <AdImpression adId={ad.id} />
       <div className="mb-2 flex items-center justify-between gap-2">
@@ -117,7 +117,7 @@ export function AdCreative({
       <a
         href={href}
         rel="nofollow sponsored noopener"
-        className="mt-2.5 inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-sm border border-line-strong bg-raised text-[12.5px] font-medium text-ink transition-colors hover:border-line-heavy"
+        className="mt-2.5 inline-flex h-8 w-full items-center justify-center gap-1.5 rounded-sm border border-line-strong bg-primary text-[12.5px] font-medium text-ink transition-colors hover:border-line-strong"
       >
         {ad.ctaLabel}
         <ArrowUpRight className="size-3" aria-hidden="true" />

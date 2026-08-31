@@ -47,9 +47,9 @@ export function RegisterButton({
         target="_blank"
         rel="noopener noreferrer"
         onClick={() => void trackRegistrationClick({ id: eventId, slug: eventSlug })}
-        className="inline-flex h-9.5 w-full items-center justify-center gap-2 rounded-sm bg-brand px-4 text-[13.5px] font-medium text-[var(--vp-brand-contrast)] transition-colors hover:bg-brand-hover"
+        className="inline-flex h-9.5 w-full items-center justify-center gap-2 rounded-sm bg-brand px-4 text-[13.5px] font-medium text-brand-fg transition-colors hover:bg-brand"
       >
-        Register on the organiser's form
+        Register on the organiser&rsquo;s form
         <ExternalLink className="size-3.5" aria-hidden="true" />
       </a>
     );

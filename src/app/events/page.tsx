@@ -158,7 +158,7 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
               free: free ?? '',
               registration: registration ?? '',
             }}
-            buildHref={buildHref}
+            params={params}
           />
 
           <div className="min-w-0">

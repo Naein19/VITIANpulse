@@ -51,7 +51,7 @@ export function OpportunityCard({
   return (
     <article
       className={cn(
-        'group relative flex flex-col rounded-md border bg-surface p-4 transition-[border-color,box-shadow] duration-200',
+        'group relative flex flex-col rounded-md border bg-primary p-4 transition-[border-color,box-shadow] duration-200',
         'hover:border-line-strong hover:shadow-sm',
         urgent ? 'border-danger/40' : 'border-line',
         closed && 'opacity-65',

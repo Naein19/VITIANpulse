@@ -12,10 +12,10 @@ import { cn } from '@/lib/cn';
  */
 
 const CONTROL_BASE =
-  'w-full rounded-sm border bg-raised px-3 text-[13.5px] text-ink placeholder:text-faint ' +
+  'w-full rounded-sm border bg-primary px-3 text-[13.5px] text-ink placeholder:text-faint ' +
   'transition-[border-color,box-shadow] duration-150 ' +
-  'focus:outline-none focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/25 ' +
-  'disabled:cursor-not-allowed disabled:bg-sunken disabled:text-faint';
+  'focus:outline-none focus-visible:border-blue focus-visible:ring-2 focus-visible:ring-blue/25 ' +
+  'disabled:cursor-not-allowed disabled:bg-tertiary disabled:text-faint';
 
 export interface FieldProps {
   label: string;
@@ -144,8 +144,8 @@ export function Checkbox({
         id={inputId}
         type="checkbox"
         className={cn(
-          'mt-0.5 size-4 shrink-0 cursor-pointer rounded-[3px] border border-line-strong bg-raised',
-          'accent-[var(--vp-brand)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand',
+          'mt-0.5 size-4 shrink-0 cursor-pointer rounded-[3px] border border-line-strong bg-primary',
+          'accent-[rgb(var(--hue-blue))] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue',
         )}
         {...props}
       />
@@ -174,15 +174,15 @@ export function Switch({
         <span
           aria-hidden="true"
           className={cn(
-            'block h-5 w-9 cursor-pointer rounded-full border border-line-strong bg-sunken transition-colors duration-200',
-            'peer-checked:border-brand peer-checked:bg-brand',
-            'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand',
+            'block h-5 w-9 cursor-pointer rounded-full border border-line-strong bg-tertiary transition-colors duration-200',
+            'peer-checked:border-blue peer-checked:bg-blue',
+            'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-blue',
           )}
         />
         <span
           aria-hidden="true"
           className={cn(
-            'pointer-events-none absolute left-0.5 top-0.5 size-4 rounded-full bg-raised shadow-xs',
+            'pointer-events-none absolute left-0.5 top-0.5 size-4 rounded-full bg-primary shadow-xs',
             'transition-transform duration-200 peer-checked:translate-x-4',
           )}
         />

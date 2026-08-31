@@ -88,7 +88,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
       />
       <JsonLd data={breadcrumbJsonLd(breadcrumbs.slice(0, 2).map((b) => ({ label: b.label, href: b.href! })))} />
 
-      <PageBody className="max-w-[var(--vp-shell-max)]">
+      <PageBody className="max-w-[var(--content-max)]">
         <div className="grid gap-9 lg:grid-cols-[minmax(0,1fr)_290px]">
           <article className="min-w-0 max-w-3xl">
             <Breadcrumbs items={breadcrumbs} />
@@ -140,7 +140,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
             </div>
 
             {(post.location || post.eventDate) && (
-              <dl className="mt-7 grid gap-2 rounded-md border border-line bg-surface p-4 sm:grid-cols-2">
+              <dl className="mt-7 grid gap-2 rounded-md border border-line bg-primary p-4 sm:grid-cols-2">
                 {post.location && (
                   <div className="flex items-start gap-2.5">
                     <MapPin className="mt-0.5 size-4 shrink-0 text-faint" aria-hidden="true" />
@@ -172,7 +172,7 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
                   <Link
                     key={tag}
                     href={`/news?q=${encodeURIComponent(tag)}`}
-                    className="rounded-full border border-line-strong bg-surface px-2.5 py-1 text-[11.5px] text-muted transition-colors hover:border-line-heavy hover:text-ink"
+                    className="rounded-full border border-line-strong bg-primary px-2.5 py-1 text-[11.5px] text-muted transition-colors hover:border-line-strong hover:text-ink"
                   >
                     {tag}
                   </Link>
@@ -191,9 +191,9 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
             </div>
           </article>
 
-          <aside className="min-w-0 space-y-7 lg:sticky lg:top-[calc(var(--vp-header-h)+16px)] lg:self-start">
+          <aside className="min-w-0 space-y-7 lg:sticky lg:top-4 lg:self-start">
             {post.club && (
-              <section className="rounded-md border border-line bg-surface p-4">
+              <section className="rounded-md border border-line bg-primary p-4">
                 <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">
                   Published by
                 </h2>

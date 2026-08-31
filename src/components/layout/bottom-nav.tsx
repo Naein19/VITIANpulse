@@ -20,11 +20,11 @@ export function BottomNav({ signedIn }: { signedIn: boolean }) {
 
   return (
     <nav
-      className="vp-no-print fixed inset-x-0 bottom-0 z-40 border-t border-line bg-canvas/95 backdrop-blur-md md:hidden"
+      className="vp-no-print fixed inset-x-0 bottom-0 z-40 border-t border-line bg-secondary/95 backdrop-blur-md md:hidden"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
       aria-label="Primary mobile"
     >
-      <ul className="mx-auto flex h-[var(--vp-bottomnav-h)] max-w-lg items-stretch">
+      <ul className="mx-auto flex h-[var(--bottomnav-h)] max-w-lg items-stretch">
         {MOBILE_NAV.map((item) => {
           const href = item.href === '/dashboard' && !signedIn ? '/login' : item.href;
           const active = isNavActive(item, pathname);
@@ -35,7 +35,7 @@ export function BottomNav({ signedIn }: { signedIn: boolean }) {
                 aria-current={active ? 'page' : undefined}
                 className={cn(
                   'flex h-full flex-col items-center justify-center gap-1 text-[10.5px] font-medium transition-colors',
-                  active ? 'text-brand' : 'text-faint hover:text-muted',
+                  active ? 'text-link' : 'text-faint hover:text-muted',
                 )}
               >
                 <item.icon className={cn('size-[19px]', active && 'stroke-[2.3]')} aria-hidden="true" />

@@ -147,3 +147,22 @@ export function initialRoleFor(email: string): Role {
 export function rateLimitIdentity(user: SessionUser | null, fallback: string): string {
   return user ? `u:${user.id}` : `a:${fallback}`;
 }
+
+/**
+ * Page-level permission gate.
+ *
+ * Server *actions* throw on failure so a caller cannot ignore the result.
+ * Server *pages* should navigate instead: an unauthenticated visitor belongs at
+ * sign-in, and a signed-in user without the permission belongs at /forbidden —
+ * neither is an application error. `redirect()` throws a control-flow signal
+ * that Next handles, so this never falls through.
+ */
+export async function requirePagePermission(permission: Permission): Promise<SessionUser> {
+  const { redirect } = await import('next/navigation');
+  const user = await getSessionUser();
+  // `redirect` throws, but TypeScript cannot see that through the dynamic
+  // import, so the narrowing is made explicit.
+  if (!user) return redirect('/login');
+  if (user.suspended || !can(user.role, permission)) return redirect('/forbidden');
+  return user;
+}

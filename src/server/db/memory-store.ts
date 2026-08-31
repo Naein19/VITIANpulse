@@ -151,7 +151,9 @@ export class MemoryStore implements Store {
     const row = rows.find((r) => r.id === id);
     if (!row) return;
     const current = typeof row[column] === 'number' ? (row[column] as number) : 0;
-    row[column] = current + by;
+    // Clamped at zero to match `bump_counter`'s `greatest(0, …)` in SQL. The two
+    // adapters must agree, or a counter drifts negative only on one backend.
+    row[column] = Math.max(0, current + by);
     this.schedulePersist();
   }
 

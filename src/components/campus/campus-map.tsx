@@ -64,7 +64,7 @@ export function CampusMap({
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
       {/* ------------------------------------------------------------ plan */}
       <div className="min-w-0">
-        <div className="relative overflow-hidden rounded-md border border-line bg-surface">
+        <div className="relative overflow-hidden rounded-md border border-line bg-primary">
           <svg
             viewBox="0 0 100 100"
             className="block h-auto w-full"
@@ -74,28 +74,28 @@ export function CampusMap({
           >
             <defs>
               <pattern id="map-grid" width="5" height="5" patternUnits="userSpaceOnUse">
-                <path d="M5 0H0v5" fill="none" stroke="var(--vp-line)" strokeWidth="0.15" />
+                <path d="M5 0H0v5" fill="none" stroke="rgb(var(--border))" strokeWidth="0.15" />
               </pattern>
             </defs>
 
-            <rect width="100" height="100" fill="var(--vp-canvas-alt)" />
+            <rect width="100" height="100" fill="rgb(var(--bg-secondary))" />
             <rect width="100" height="100" fill="url(#map-grid)" />
 
             {/* Landscape: green zones and the main circulation spine. */}
-            <ellipse cx="50" cy="90" rx="40" ry="12" fill="var(--vp-cat-sports-bg)" opacity="0.55" />
-            <ellipse cx="88" cy="72" rx="16" ry="14" fill="var(--vp-cat-campus-bg)" opacity="0.4" />
-            <ellipse cx="8" cy="12" rx="14" ry="10" fill="var(--vp-cat-campus-bg)" opacity="0.4" />
+            <ellipse cx="50" cy="90" rx="40" ry="12" fill="var(--cat-sports-bg)" opacity="0.55" />
+            <ellipse cx="88" cy="72" rx="16" ry="14" fill="var(--cat-campus-bg)" opacity="0.4" />
+            <ellipse cx="8" cy="12" rx="14" ry="10" fill="var(--cat-campus-bg)" opacity="0.4" />
 
             <path
               d="M4 52 H96"
-              stroke="var(--vp-line-strong)"
+              stroke="rgb(var(--border-strong))"
               strokeWidth="2.2"
               strokeLinecap="round"
               opacity="0.5"
             />
             <path
               d="M44 8 V96"
-              stroke="var(--vp-line-strong)"
+              stroke="rgb(var(--border-strong))"
               strokeWidth="1.8"
               strokeLinecap="round"
               opacity="0.4"
@@ -103,15 +103,15 @@ export function CampusMap({
             <path
               d="M4 52 Q22 30 44 26"
               fill="none"
-              stroke="var(--vp-line-strong)"
+              stroke="rgb(var(--border-strong))"
               strokeWidth="1.2"
               opacity="0.35"
             />
 
-            <text x="50" y="6" textAnchor="middle" fontSize="2.6" fill="var(--vp-ink-faint)" fontWeight="600">
+            <text x="50" y="6" textAnchor="middle" fontSize="2.6" fill="rgb(var(--text-faint))" fontWeight="600">
               NORTH CAMPUS
             </text>
-            <text x="50" y="98" textAnchor="middle" fontSize="2.6" fill="var(--vp-ink-faint)" fontWeight="600">
+            <text x="50" y="98" textAnchor="middle" fontSize="2.6" fill="rgb(var(--text-faint))" fontWeight="600">
               SPORTS PRECINCT
             </text>
 
@@ -128,8 +128,8 @@ export function CampusMap({
                 >
                   <circle
                     r={active ? 3.4 : 2.4}
-                    fill={`var(--vp-cat-${hue}-bg)`}
-                    stroke={`var(--vp-cat-${hue}-fg)`}
+                    fill={`var(--cat-${hue}-bg)`}
+                    stroke={`var(--cat-${hue}-fg)`}
                     strokeWidth={active ? 0.9 : 0.5}
                     className="cursor-pointer transition-all duration-200"
                     onClick={() => setSelectedId(active ? null : location.id)}
@@ -139,7 +139,7 @@ export function CampusMap({
                     textAnchor="middle"
                     fontSize="1.7"
                     fontWeight="700"
-                    fill={`var(--vp-cat-${hue}-fg)`}
+                    fill={`var(--cat-${hue}-fg)`}
                     className="pointer-events-none select-none"
                   >
                     {location.shortName.slice(0, 4)}
@@ -149,7 +149,7 @@ export function CampusMap({
             })}
           </svg>
 
-          <p className="border-t border-line bg-sunken px-3 py-2 text-[11.5px] text-faint">
+          <p className="border-t border-line bg-tertiary px-3 py-2 text-[11.5px] text-faint">
             Illustrative plan — relative positions only, not to scale. Pin coordinates come from the campus locations
             table, so the plan updates whenever a building is added.
           </p>
@@ -177,7 +177,7 @@ export function CampusMap({
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Find a building…"
             aria-label="Find a building on campus"
-            className="h-9 w-full rounded-sm border border-line-strong bg-raised pl-8 pr-8 text-[13px] text-ink placeholder:text-faint focus:outline-none focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/25"
+            className="h-9 w-full rounded-sm border border-line-strong bg-primary pl-8 pr-8 text-[13px] text-ink placeholder:text-faint focus:outline-none focus-visible:border-blue focus-visible:ring-2 focus-visible:ring-blue/25"
           />
           {query && (
             <button
@@ -239,14 +239,14 @@ export function CampusMap({
             </dl>
             <Link
               href={`/events?q=${encodeURIComponent(selected.name)}`}
-              className="mt-2.5 inline-block text-[12px] font-medium text-brand hover:underline underline-offset-2"
+              className="mt-2.5 inline-block text-[12px] font-medium text-link hover:underline underline-offset-2"
             >
               Events at this venue
             </Link>
           </div>
         )}
 
-        <div className="rounded-md border border-line bg-surface">
+        <div className="rounded-md border border-line bg-primary">
           <p className="border-b border-line px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">
             {visible.length} {visible.length === 1 ? 'place' : 'places'}
           </p>
@@ -264,15 +264,15 @@ export function CampusMap({
                     aria-pressed={location.id === selectedId}
                     className={cn(
                       'flex w-full items-center gap-2.5 px-3 py-2 text-left transition-colors',
-                      location.id === selectedId ? 'bg-brand-soft/50' : 'hover:bg-canvas-alt',
+                      location.id === selectedId ? 'bg-brand-soft/50' : 'hover:bg-accent',
                     )}
                   >
                     <span
                       aria-hidden="true"
                       className="inline-flex size-7 shrink-0 items-center justify-center rounded-sm text-[9.5px] font-bold"
                       style={{
-                        backgroundColor: `var(--vp-cat-${CATEGORY_HUE[location.category]}-bg)`,
-                        color: `var(--vp-cat-${CATEGORY_HUE[location.category]}-fg)`,
+                        backgroundColor: `var(--cat-${CATEGORY_HUE[location.category]}-bg)`,
+                        color: `var(--cat-${CATEGORY_HUE[location.category]}-fg)`,
                       }}
                     >
                       {location.shortName.slice(0, 4)}
@@ -301,7 +301,7 @@ export function CampusMap({
               <span
                 aria-hidden="true"
                 className="size-2 rounded-full"
-                style={{ backgroundColor: `var(--vp-cat-${CATEGORY_HUE[category]}-fg)` }}
+                style={{ backgroundColor: `var(--cat-${CATEGORY_HUE[category]}-fg)` }}
               />
               {humanise(category)}
             </Badge>
@@ -330,7 +330,7 @@ function CategoryChip({
         'shrink-0 rounded-full border px-2.5 py-1 text-[12px] font-medium transition-colors',
         active
           ? 'border-brand bg-brand-soft text-brand-ink'
-          : 'border-line-strong bg-surface text-muted hover:border-line-heavy hover:text-ink',
+          : 'border-line-strong bg-primary text-muted hover:border-line-strong hover:text-ink',
       )}
     >
       {children}

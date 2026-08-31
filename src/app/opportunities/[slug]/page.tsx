@@ -93,7 +93,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
           <p className="mt-2 text-[16px] font-medium text-soft">{opportunity.organisation}</p>
           <p className="mt-3 text-[15px] leading-relaxed text-muted">{opportunity.summary}</p>
 
-          <dl className="mt-6 grid gap-3 rounded-md border border-line bg-surface p-4 sm:grid-cols-2">
+          <dl className="mt-6 grid gap-3 rounded-md border border-line bg-primary p-4 sm:grid-cols-2">
             <Fact icon={Building2} label="Organisation" value={opportunity.organisation} />
             <Fact icon={MapPin} label="Location" value={opportunity.remote ? `${opportunity.location} · Remote` : opportunity.location} />
             <Fact icon={CalendarX2} label="Deadline" value={`${formatDateLong(opportunity.deadline)} · ${formatCountdown(opportunity.deadline, now)}`} />
@@ -158,7 +158,7 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
                 <Link
                   key={tag}
                   href={`/opportunities?q=${encodeURIComponent(tag)}`}
-                  className="rounded-full border border-line-strong bg-surface px-2.5 py-1 text-[11.5px] text-muted transition-colors hover:border-line-heavy hover:text-ink"
+                  className="rounded-full border border-line-strong bg-primary px-2.5 py-1 text-[11.5px] text-muted transition-colors hover:border-line-strong hover:text-ink"
                 >
                   {tag}
                 </Link>
@@ -176,8 +176,8 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
           </div>
         </article>
 
-        <aside className="min-w-0 space-y-6 lg:sticky lg:top-[calc(var(--vp-header-h)+16px)] lg:self-start">
-          <section className="rounded-md border border-line-strong bg-raised p-4 shadow-sm">
+        <aside className="min-w-0 space-y-6 lg:sticky lg:top-4 lg:self-start">
+          <section className="rounded-md border border-line-strong bg-primary p-4 shadow-sm">
             <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Deadline</p>
             <p className={`mt-1 text-[20px] font-bold leading-tight ${urgent ? 'text-danger-ink' : closed ? 'text-faint' : 'text-ink'}`}>
               {formatCountdown(opportunity.deadline, now)}
@@ -190,8 +190,8 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
               rel="noopener noreferrer nofollow"
               className={`mt-4 inline-flex h-10 w-full items-center justify-center gap-2 rounded-sm px-4 text-[14px] font-medium transition-colors ${
                 closed
-                  ? 'pointer-events-none border border-line-strong bg-sunken text-faint'
-                  : 'bg-brand text-[var(--vp-brand-contrast)] hover:bg-brand-hover'
+                  ? 'pointer-events-none border border-line-strong bg-tertiary text-faint'
+                  : 'bg-brand text-brand-fg hover:bg-brand'
               }`}
               aria-disabled={closed}
             >
@@ -212,11 +212,11 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
             </div>
 
             <p className="mt-3 border-t border-line pt-2.5 text-[11.5px] leading-relaxed text-faint">
-              VITPulse links to the organisation's own application page. Never pay a fee to apply for an internship.
+              VITPulse links to the organisation&rsquo;s own application page. Never pay a fee to apply for an internship.
             </p>
           </section>
 
-          <section className="rounded-md border border-line bg-surface p-4">
+          <section className="rounded-md border border-line bg-primary p-4">
             <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">At a glance</h2>
             <dl className="divide-y divide-line">
               <MetaRow label="Type">{humanise(opportunity.type)}</MetaRow>

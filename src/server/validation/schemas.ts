@@ -67,9 +67,18 @@ const optionalUuid = z
   .nullish()
   .transform((v) => (v && /^[0-9a-f-]{36}$/i.test(v) ? v : null));
 
+/**
+ * An optional integer coming from a form field.
+ *
+ * The key may be absent entirely (the input was never rendered), present but
+ * empty (the user left it blank), or a numeric string. All three mean "no
+ * value" and must produce `null` rather than a validation error — which is why
+ * this is `.optional()` rather than a union that merely includes `undefined`.
+ */
 const optionalInt = (min: number, max: number) =>
   z
-    .union([z.string(), z.number(), z.null(), z.undefined()])
+    .union([z.string(), z.number(), z.null()])
+    .optional()
     .transform((v) => {
       if (v === null || v === undefined || v === '') return null;
       const n = Number(v);

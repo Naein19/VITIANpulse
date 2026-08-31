@@ -154,16 +154,16 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
             )}
           </div>
 
-          <aside className="space-y-6 lg:sticky lg:top-[calc(var(--vp-header-h)+16px)] lg:self-start">
+          <aside className="space-y-6 lg:sticky lg:top-4 lg:self-start">
             <AdSlot placement="SIDEBAR" variant="card" />
-            <nav aria-label="Browse by category" className="rounded-md border border-line bg-surface p-4">
+            <nav aria-label="Browse by category" className="rounded-md border border-line bg-primary p-4">
               <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Categories</h2>
               <ul className="space-y-0.5">
                 {POST_CATEGORIES.map((c) => (
                   <li key={c}>
                     <Link
                       href={buildHref({ category: c })}
-                      className="flex items-center justify-between rounded-sm px-2 py-1.5 text-[13px] text-soft transition-colors hover:bg-canvas-alt hover:text-ink"
+                      className="flex items-center justify-between rounded-sm px-2 py-1.5 text-[13px] text-soft transition-colors hover:bg-accent hover:text-ink"
                     >
                       {humanise(c)}
                     </Link>

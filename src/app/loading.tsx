@@ -3,7 +3,7 @@ import { FeedCardSkeleton, Skeleton } from '@/components/ui/skeleton';
 /** Route-level loading shell, shaped like the page it replaces to avoid shift. */
 export default function Loading() {
   return (
-    <div className="mx-auto max-w-[var(--vp-shell-max)] px-4 py-8 sm:px-6" aria-busy="true" aria-live="polite">
+    <div className="mx-auto max-w-[var(--content-max)] px-4 py-8 sm:px-6" aria-busy="true" aria-live="polite">
       <span className="sr-only">Loading</span>
       <Skeleton className="mb-3 h-4 w-32" />
       <Skeleton className="mb-8 h-9 w-2/3 max-w-md" />

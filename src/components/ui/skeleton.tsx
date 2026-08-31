@@ -17,7 +17,7 @@ export function SkeletonText({ lines = 3, className }: { lines?: number; classNa
 
 export function FeedCardSkeleton() {
   return (
-    <div className="rounded-md border border-line bg-surface p-4" aria-hidden="true">
+    <div className="rounded-md border border-line bg-primary p-4" aria-hidden="true">
       <div className="mb-3 flex items-center gap-2">
         <Skeleton className="h-4 w-20" />
         <Skeleton className="h-3 w-14" />
@@ -34,7 +34,7 @@ export function FeedCardSkeleton() {
 
 export function EventCardSkeleton() {
   return (
-    <div className="overflow-hidden rounded-md border border-line bg-surface" aria-hidden="true">
+    <div className="overflow-hidden rounded-md border border-line bg-primary" aria-hidden="true">
       <Skeleton className="h-32 w-full rounded-none" />
       <div className="space-y-2 p-4">
         <Skeleton className="h-4 w-24" />
@@ -47,7 +47,7 @@ export function EventCardSkeleton() {
 
 export function ListRowSkeleton({ rows = 5 }: { rows?: number }) {
   return (
-    <div className="divide-y divide-line rounded-md border border-line bg-surface" aria-hidden="true">
+    <div className="divide-y divide-line rounded-md border border-line bg-primary" aria-hidden="true">
       {Array.from({ length: rows }, (_, i) => (
         <div key={i} className="flex items-center gap-3 p-3">
           <Skeleton className="size-8 rounded-sm" />

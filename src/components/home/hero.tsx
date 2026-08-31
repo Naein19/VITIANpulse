@@ -34,10 +34,10 @@ export function CommandCentre({
   const initialTime = formatTime(now.toISOString());
 
   return (
-    <section className="relative overflow-hidden border-b border-line bg-canvas-alt" aria-labelledby="today-heading">
+    <section className="relative overflow-hidden border-b border-line bg-secondary" aria-labelledby="today-heading">
       <div className="vp-grid-bg vp-fade-b pointer-events-none absolute inset-0 opacity-60" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-[var(--vp-shell-max)] px-4 py-8 sm:px-6 sm:py-11">
+      <div className="relative mx-auto max-w-[var(--content-max)] px-4 py-8 sm:px-6 sm:py-11">
         <div className="grid gap-8 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-12">
           {/* ---------------------------------------------------- date rail */}
           <div>
@@ -112,7 +112,7 @@ export function CommandCentre({
             </div>
 
             {today.length === 0 ? (
-              <div className="mt-4 rounded-md border border-dashed border-line-strong bg-surface px-5 py-8 text-center">
+              <div className="mt-4 rounded-md border border-dashed border-line-strong bg-primary px-5 py-8 text-center">
                 <CalendarDays className="mx-auto mb-2 size-5 text-faint" aria-hidden="true" />
                 <p className="text-[13.5px] font-medium text-ink">Nothing scheduled for today</p>
                 <p className="mx-auto mt-1 max-w-sm text-[12.5px] text-muted">
@@ -120,7 +120,7 @@ export function CommandCentre({
                 </p>
                 <Link
                   href="/events"
-                  className="mt-3 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-brand hover:underline underline-offset-2"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-link hover:underline underline-offset-2"
                 >
                   Browse upcoming events
                   <ArrowRight className="size-3.5" aria-hidden="true" />
@@ -135,12 +135,12 @@ export function CommandCentre({
                     <li key={event.id} className="group relative">
                       <Link
                         href={`/events/${event.slug}`}
-                        className="flex items-start gap-4 py-3 transition-colors hover:bg-surface"
+                        className="flex items-start gap-4 py-3 transition-colors hover:bg-primary"
                       >
                         <span
                           className={cn(
                             'vp-numeric mt-0.5 shrink-0 text-[13px] font-semibold tabular-nums',
-                            running ? 'text-[var(--vp-pulse-ink)]' : 'text-muted',
+                            running ? 'text-[rgb(var(--hue-green)))]' : 'text-muted',
                           )}
                         >
                           {formatTime(event.startsAt)}
@@ -151,7 +151,7 @@ export function CommandCentre({
                               {event.title}
                             </span>
                             {running && (
-                              <span className="inline-flex items-center gap-1.5 rounded-full bg-pulse-soft px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[var(--vp-pulse-ink)]">
+                              <span className="inline-flex items-center gap-1.5 rounded-full bg-success-soft px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[rgb(var(--hue-green)))]">
                                 <PulseDot className="size-1.5" />
                                 Now
                               </span>
@@ -182,7 +182,7 @@ export function CommandCentre({
 
 function Counter({ label, value, href }: { label: string; value: number; href: string }) {
   return (
-    <Link href={href} className="group bg-canvas-alt px-3.5 py-3 transition-colors hover:bg-surface">
+    <Link href={href} className="group bg-secondary px-3.5 py-3 transition-colors hover:bg-primary">
       <dt className="text-[10.5px] font-semibold uppercase tracking-[0.09em] text-faint">{label}</dt>
       <dd className="vp-numeric mt-1 text-[24px] font-bold leading-none tracking-tight text-ink">
         {formatCount(value)}

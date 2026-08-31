@@ -56,7 +56,7 @@ export function Tabs({
                 <span
                   className={cn(
                     'vp-numeric rounded-[var(--radius-xs)] px-1.5 py-0.5 text-[11px] font-semibold',
-                    active ? 'bg-brand-soft text-brand-ink' : 'bg-sunken text-faint',
+                    active ? 'bg-brand-soft text-brand-ink' : 'bg-tertiary text-faint',
                   )}
                 >
                   {item.count}
@@ -82,7 +82,7 @@ export function SegmentedControl({
 }) {
   return (
     <div
-      className={cn('inline-flex rounded-sm border border-line-strong bg-sunken p-0.5', className)}
+      className={cn('inline-flex rounded-sm border border-line-strong bg-tertiary p-0.5', className)}
       role="group"
     >
       {items.map((item) => {
@@ -95,7 +95,7 @@ export function SegmentedControl({
             scroll={false}
             className={cn(
               'inline-flex items-center gap-1.5 rounded-[var(--radius-xs)] px-2.5 py-1.5 text-[12.5px] font-medium transition-colors duration-150',
-              active ? 'bg-raised text-ink shadow-xs' : 'text-muted hover:text-ink',
+              active ? 'bg-primary text-ink shadow-xs' : 'text-muted hover:text-ink',
             )}
           >
             {item.icon}
@@ -133,7 +133,7 @@ export function FilterChips({
               'inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12.5px] font-medium transition-colors duration-150',
               active
                 ? 'border-brand bg-brand-soft text-brand-ink'
-                : 'border-line-strong bg-surface text-muted hover:border-line-heavy hover:text-ink',
+                : 'border-line-strong bg-primary text-muted hover:border-line-strong hover:text-ink',
             )}
           >
             {item.label}

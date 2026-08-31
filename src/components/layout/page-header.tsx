@@ -27,26 +27,20 @@ export function PageHeader({
   compact?: boolean;
 }) {
   return (
-    <div className={cn('relative overflow-hidden border-b border-line bg-canvas-alt', className)}>
+    <div className={cn('relative overflow-hidden border-b border-line bg-primary', className)}>
       <div className="vp-grid-bg vp-fade-b pointer-events-none absolute inset-0 opacity-50" aria-hidden="true" />
       <div
         className={cn(
-          'relative mx-auto max-w-[var(--vp-shell-max)] px-4 sm:px-6',
+          'relative mx-auto max-w-[var(--content-max)] px-4 sm:px-6',
           compact ? 'py-5 sm:py-6' : 'py-7 sm:py-9',
         )}
       >
         {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
         <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
           <div className="min-w-0 max-w-3xl">
-            {eyebrow && (
-              <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-faint">{eyebrow}</p>
-            )}
-            <h1 className={cn('text-ink', compact ? 'text-[24px] sm:text-[27px]' : 'text-[28px] sm:text-[34px]')}>
-              {title}
-            </h1>
-            {description && (
-              <div className="mt-2 text-[14px] leading-relaxed text-muted">{description}</div>
-            )}
+            {eyebrow && <p className="t-eyebrow mb-1.5 text-faint">{eyebrow}</p>}
+            <h1 className={cn('text-ink', compact ? 't-h3' : 't-h2')}>{title}</h1>
+            {description && <div className="t-prose mt-2 text-soft">{description}</div>}
           </div>
           {action && <div className="flex shrink-0 flex-wrap items-center gap-2">{action}</div>}
         </div>
@@ -59,6 +53,6 @@ export function PageHeader({
 /** Standard content container for page bodies. */
 export function PageBody({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={cn('mx-auto max-w-[var(--vp-shell-max)] px-4 py-7 sm:px-6 sm:py-9', className)}>{children}</div>
+    <div className={cn('mx-auto max-w-[var(--content-max)] px-4 py-7 sm:px-6 sm:py-9', className)}>{children}</div>
   );
 }

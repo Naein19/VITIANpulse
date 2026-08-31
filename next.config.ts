@@ -34,6 +34,9 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ['image/avif', 'image/webp'],
+    // The desktop wallpapers are full-bleed, so only large widths are ever used.
+    deviceSizes: [640, 828, 1080, 1200, 1920, 2048, 2560],
+    qualities: [75, 85],
     remotePatterns: [
       { protocol: 'https', hostname: '**.supabase.co' },
       { protocol: 'https', hostname: 'images.unsplash.com' },

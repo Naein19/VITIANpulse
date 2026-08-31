@@ -12,7 +12,7 @@ export function LogoMark({ className }: { className?: string }) {
       <rect x="0.75" y="0.75" width="26.5" height="26.5" rx="7" className="fill-ink" />
       <path
         d="M4.5 15.4h3.2l2.1-5.6 3.4 9.4 2.6-6.1 1.6 2.3h5.9"
-        stroke="var(--vp-pulse)"
+        stroke="rgb(var(--hue-green))"
         strokeWidth="2.1"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -28,7 +28,7 @@ export function Wordmark({ className, showTagline = false }: { className?: strin
       <LogoMark />
       <span className="flex flex-col leading-none">
         <span className="text-[15.5px] font-extrabold tracking-[-0.03em] text-ink">
-          VIT<span className="text-brand">Pulse</span>
+          VIT<span className="text-link">Pulse</span>
         </span>
         {showTagline && (
           <span className="mt-0.5 text-[10px] font-medium tracking-tight text-faint">

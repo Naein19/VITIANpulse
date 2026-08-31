@@ -88,7 +88,7 @@ export default async function HomePage() {
         }}
       />
 
-      <div className="mx-auto max-w-[var(--vp-shell-max)] px-4 py-8 sm:px-6 sm:py-10">
+      <div className="mx-auto max-w-[var(--content-max)] px-4 py-8 sm:px-6 sm:py-10">
         <Suspense fallback={null}>
           <AdSlot placement="HOME_BANNER" variant="banner" className="mb-9" />
         </Suspense>
@@ -190,7 +190,7 @@ export default async function HomePage() {
           </div>
 
           {/* ------------------------------------------------------ sidebar */}
-          <aside className="min-w-0 space-y-8 lg:sticky lg:top-[calc(var(--vp-header-h)+16px)] lg:self-start">
+          <aside className="min-w-0 space-y-8 lg:sticky lg:top-4 lg:self-start">
             <SidebarPanel
               title="Coming up"
               href="/events"
@@ -313,7 +313,7 @@ export default async function HomePage() {
           </div>
 
           {branches.length > 0 && (
-            <div className="mt-4 rounded-md border border-line bg-surface p-4">
+            <div className="mt-4 rounded-md border border-line bg-primary p-4">
               <p className="mb-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">
                 Jump into papers by branch
               </p>
@@ -322,7 +322,7 @@ export default async function HomePage() {
                   <Link
                     key={branch.branch}
                     href={`/pyqs/${branch.branch.toLowerCase()}`}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-raised px-3 py-1.5 text-[12.5px] font-medium text-soft transition-colors hover:border-line-heavy hover:text-ink"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-primary px-3 py-1.5 text-[12.5px] font-medium text-soft transition-colors hover:border-line-strong hover:text-ink"
                   >
                     {branch.branch}
                     <span className="vp-numeric text-[11px] text-faint">{branch.papers}</span>
@@ -411,9 +411,9 @@ function ToolCard({
   return (
     <Link
       href={href}
-      className="group flex flex-col rounded-md border border-line bg-surface p-4 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm"
+      className="group flex flex-col rounded-md border border-line bg-primary p-4 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm"
     >
-      <span className="mb-3 inline-flex size-8 items-center justify-center rounded-sm border border-line bg-sunken text-muted transition-colors group-hover:border-brand group-hover:bg-brand-soft group-hover:text-brand-ink">
+      <span className="mb-3 inline-flex size-8 items-center justify-center rounded-sm border border-line bg-tertiary text-muted transition-colors group-hover:border-brand group-hover:bg-brand-soft group-hover:text-brand-ink">
         <Icon className="size-4" aria-hidden="true" />
       </span>
       <span className="text-[14.5px] font-semibold text-ink">{title}</span>

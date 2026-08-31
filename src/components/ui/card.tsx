@@ -19,7 +19,7 @@ export function Card({ className, interactive, flush, tone = 'default', ...props
     <div
       className={cn(
         'relative rounded-md border border-line',
-        tone === 'sunken' ? 'bg-sunken' : tone === 'raised' ? 'bg-raised' : 'bg-surface',
+        tone === 'sunken' ? 'bg-tertiary' : tone === 'raised' ? 'bg-primary' : 'bg-primary',
         !flush && 'p-4',
         interactive &&
           'transition-[border-color,box-shadow,transform] duration-200 hover:border-line-strong hover:shadow-md focus-within:border-line-strong',
@@ -35,11 +35,11 @@ export function CardHeader({ className, ...props }: HTMLAttributes<HTMLDivElemen
 }
 
 export function CardTitle({ className, as: As = 'h3', ...props }: HTMLAttributes<HTMLHeadingElement> & { as?: 'h2' | 'h3' | 'h4' }) {
-  return <As className={cn('text-[15px] font-semibold leading-snug text-ink', className)} {...props} />;
+  return <As className={cn('t-strong leading-snug text-ink', className)} {...props} />;
 }
 
 export function CardDescription({ className, ...props }: HTMLAttributes<HTMLParagraphElement>) {
-  return <p className={cn('text-[13px] leading-relaxed text-muted', className)} {...props} />;
+  return <p className={cn('t-xs leading-relaxed text-muted', className)} {...props} />;
 }
 
 export function CardFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
@@ -76,11 +76,9 @@ export function Section({
     <section id={id} className={cn('scroll-mt-20', className)}>
       <div className="mb-4 flex flex-wrap items-end justify-between gap-3 border-b border-line pb-3">
         <div className="min-w-0">
-          {eyebrow && (
-            <p className="mb-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-faint">{eyebrow}</p>
-          )}
-          <h2 className="text-[19px] leading-tight text-ink sm:text-[21px]">{title}</h2>
-          {description && <p className="mt-1 max-w-2xl text-[13px] text-muted">{description}</p>}
+          {eyebrow && <p className="t-eyebrow mb-1 text-faint">{eyebrow}</p>}
+          <h2 className="t-h3 text-ink">{title}</h2>
+          {description && <p className="t-prose mt-1 max-w-2xl text-soft">{description}</p>}
         </div>
         {action && <div className="shrink-0">{action}</div>}
       </div>

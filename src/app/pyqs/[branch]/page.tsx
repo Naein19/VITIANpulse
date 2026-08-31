@@ -158,13 +158,13 @@ export default async function BranchPyqPage({
         <div className="grid gap-7 lg:grid-cols-[250px_minmax(0,1fr)]">
           {/* ------------------------------------------------- course picker */}
           <aside className="min-w-0">
-            <div className="lg:sticky lg:top-[calc(var(--vp-header-h)+16px)]">
+            <div className="lg:sticky lg:top-[calc(var(--topbar-h)+16px)]">
               <div className="mb-2 flex items-center justify-between border-b border-line pb-2">
                 <h2 className="text-[12px] font-bold uppercase tracking-[0.12em] text-ink">Courses</h2>
                 {subjectCode && (
                   <Link
                     href={buildHref({ subject: undefined })}
-                    className="text-[11.5px] font-medium text-brand hover:underline underline-offset-2"
+                    className="text-[11.5px] font-medium text-link hover:underline underline-offset-2"
                   >
                     Clear
                   </Link>
@@ -184,7 +184,7 @@ export default async function BranchPyqPage({
                           scroll={false}
                           aria-current={active ? 'true' : undefined}
                           className={`block rounded-sm px-2 py-1.5 transition-colors ${
-                            active ? 'bg-brand-soft text-brand-ink' : 'text-muted hover:bg-canvas-alt hover:text-ink'
+                            active ? 'bg-brand-soft text-brand-ink' : 'text-muted hover:bg-accent hover:text-ink'
                           }`}
                         >
                           <span className="block font-mono text-[11.5px] opacity-80">{subject.code}</span>
@@ -269,7 +269,7 @@ export default async function BranchPyqPage({
               />
             ) : (
               <>
-                <ul className="divide-y divide-line rounded-md border border-line bg-surface">
+                <ul className="divide-y divide-line rounded-md border border-line bg-primary">
                   {allPapers.map((paper) => (
                     <PaperRow
                       key={paper.id}
@@ -297,13 +297,13 @@ export default async function BranchPyqPage({
               </>
             )}
 
-            <div className="mt-8 rounded-md border border-dashed border-line-strong bg-sunken p-4">
+            <div className="mt-8 rounded-md border border-dashed border-line-strong bg-tertiary p-4">
               <h3 className="flex items-center gap-2 text-[13.5px] font-semibold text-ink">
                 <FileText className="size-3.5 text-faint" aria-hidden="true" />
                 Spotted a mistake?
               </h3>
               <p className="mt-1 text-[12.5px] leading-relaxed text-muted">
-                If a paper is filed under the wrong course, exam or year, report it from the paper's own page and a
+                If a paper is filed under the wrong course, exam or year, report it from the paper&rsquo;s own page and a
                 moderator will fix the metadata.
               </p>
             </div>

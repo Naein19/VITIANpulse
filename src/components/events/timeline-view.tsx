@@ -37,7 +37,7 @@ export function TimelineView({
               <span
                 className={cn(
                   'inline-flex h-6 items-center rounded-full px-2.5 text-[11.5px] font-bold uppercase tracking-[0.08em]',
-                  isToday ? 'bg-brand text-[var(--vp-brand-contrast)]' : 'bg-sunken text-muted',
+                  isToday ? 'bg-brand text-brand-fg' : 'bg-tertiary text-muted',
                 )}
               >
                 {isToday ? 'Today' : formatDateLong(dayEvents[0]!.startsAt)}

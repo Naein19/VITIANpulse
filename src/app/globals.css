@@ -1,290 +1,371 @@
 @import 'tailwindcss';
 
-/* VITPulse uses a class-driven dark mode so the theme toggle can override the
-   system preference. `next-themes` is deliberately avoided — see ThemeProvider. */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ==========================================================================
    DESIGN TOKENS
-   Every colour, radius, shadow and space used in the product is declared here.
-   Components must never hard-code a hex value.
+   Values are taken directly from the captured reference design system in
+   `refrence/` (scenes/*.json + the captured stylesheet). Colours are stored as
+   space-separated RGB triples so they compose with Tailwind's opacity syntax,
+   exactly as the reference does.
+
+   Three surface "schemes" stack: primary (cards) sits on secondary (the
+   desktop ground) sits on tertiary (recessed wells).
    ========================================================================== */
-:root {
+:root,
+.light {
   color-scheme: light;
 
-  /* --- Surfaces: a warm paper ground with lighter cards sitting on top ----- */
-  --vp-canvas: #f1f1ec;
-  --vp-canvas-alt: #e9e9e2;
-  --vp-surface: #fbfbf8;
-  --vp-surface-raised: #ffffff;
-  --vp-surface-sunken: #ecece5;
-  --vp-overlay: rgb(20 20 15 / 0.45);
+  /* --- Surfaces --------------------------------------------------------- */
+  --bg-primary: 253 253 248;      /* #fdfdf8  cards, the app window        */
+  --bg-secondary: 238 239 233;    /* #eeefe9  desktop ground               */
+  --bg-tertiary: 229 231 224;     /* #e5e7e0  wells, table headers         */
+  --accent: 238 239 233;          /* #eeefe9  hover fill on primary        */
+  --accent-strong: 229 231 224;   /* #e5e7e0                               */
 
-  /* --- Ink ---------------------------------------------------------------- */
-  --vp-ink: #15150f;
-  --vp-ink-soft: #3d3e35;
-  --vp-ink-muted: #6b6c60;
-  --vp-ink-faint: #90918a;
-  --vp-ink-inverse: #fbfbf8;
+  /* --- Lines ------------------------------------------------------------ */
+  --border: 191 193 183;          /* #bfc1b7                               */
+  --border-soft: 210 211 204;     /* #d2d3cc                               */
+  --border-strong: 158 160 150;   /* #9ea096                               */
 
-  /* --- Lines -------------------------------------------------------------- */
-  --vp-line: #dcdcd3;
-  --vp-line-strong: #c2c2b6;
-  --vp-line-heavy: #15150f;
+  /* --- Ink -------------------------------------------------------------- */
+  --text-primary: 35 37 29;       /* #23251d                               */
+  --text-secondary: 101 103 94;   /* #65675e                               */
+  --text-muted: 115 117 107;      /* #73756b                               */
+  --text-faint: 158 160 150;      /* #9ea096                               */
+  --text-inverse: 253 253 248;    /* #fdfdf8                               */
 
-  /* --- Brand -------------------------------------------------------------- */
-  --vp-brand: #5b3df5;
-  --vp-brand-hover: #4a2fdb;
-  --vp-brand-soft: #ede9ff;
-  --vp-brand-ink: #3a21c4;
-  --vp-brand-contrast: #ffffff;
+  /* Inverted fill used by the reference's `hover-invert` controls. */
+  --invert-bg: 77 79 70;          /* #4d4f46                               */
 
-  /* The "pulse" highlight. Used only for live/today signals and the wordmark. */
-  --vp-pulse: #a8d90a;
-  --vp-pulse-ink: #4a610a;
-  --vp-pulse-soft: #f0f9d2;
+  /* --- Inputs ----------------------------------------------------------- */
+  --input-bg: 253 253 248;
+  --input-border: 191 193 183;
+  --input-border-hover: 210 211 204;
 
-  /* --- Status ------------------------------------------------------------- */
-  --vp-danger: #c0341a;
-  --vp-danger-soft: #fdeae6;
-  --vp-danger-ink: #8f2412;
-  --vp-warning: #b06a05;
-  --vp-warning-soft: #fdf1dc;
-  --vp-warning-ink: #7d4a02;
-  --vp-success: #1f7a4d;
-  --vp-success-soft: #e2f5eb;
-  --vp-success-ink: #145936;
-  --vp-info: #1662c4;
-  --vp-info-soft: #e4f0fd;
-  --vp-info-ink: #0f4a97;
-
-  /* --- Categorical palette -------------------------------------------------
-     One hue per content category so a dense feed stays scannable. Each hue has
-     a foreground (`-fg`, AA on the soft background) and a soft background.     */
-  --vp-cat-announcement-fg: #3a21c4;  --vp-cat-announcement-bg: #ece9fd;
-  --vp-cat-campus-fg:       #0f6b6b;  --vp-cat-campus-bg:       #dff3f2;
-  --vp-cat-guest-fg:        #8b2a8f;  --vp-cat-guest-bg:        #fae7fb;
-  --vp-cat-sports-fg:       #1f7a4d;  --vp-cat-sports-bg:       #e2f5eb;
-  --vp-cat-club-fg:         #8a5a04;  --vp-cat-club-bg:         #fbf0d8;
-  --vp-cat-event-fg:        #1662c4;  --vp-cat-event-bg:        #e4f0fd;
-  --vp-cat-academic-fg:     #4d5260;  --vp-cat-academic-bg:     #eceef2;
-  --vp-cat-placement-fg:    #0d6a5c;  --vp-cat-placement-bg:    #ddf2ee;
-  --vp-cat-opportunity-fg:  #a1490a;  --vp-cat-opportunity-bg:  #fdeadb;
-  --vp-cat-alert-fg:        #a82b12;  --vp-cat-alert-bg:        #fde9e5;
-
-  /* --- Radii: small and technical, never pill-shaped cards ----------------- */
-  --vp-radius-xs: 3px;
-  --vp-radius-sm: 5px;
-  --vp-radius-md: 7px;
-  --vp-radius-lg: 11px;
-  --vp-radius-full: 999px;
-
-  /* --- Elevation ----------------------------------------------------------- */
-  --vp-shadow-xs: 0 1px 2px rgb(21 21 15 / 0.05);
-  --vp-shadow-sm: 0 1px 3px rgb(21 21 15 / 0.07), 0 1px 2px -1px rgb(21 21 15 / 0.06);
-  --vp-shadow-md: 0 4px 10px -2px rgb(21 21 15 / 0.09), 0 2px 4px -2px rgb(21 21 15 / 0.06);
-  --vp-shadow-lg: 0 18px 34px -12px rgb(21 21 15 / 0.20), 0 4px 10px -4px rgb(21 21 15 / 0.08);
-  /* Hard offset shadow — the signature "physical card" treatment. */
-  --vp-shadow-hard: 3px 3px 0 0 var(--vp-line-heavy);
-
-  /* --- Type ---------------------------------------------------------------- */
-  --vp-font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --vp-font-mono: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', Menlo, Consolas, monospace;
-
-  /* --- Layout -------------------------------------------------------------- */
-  --vp-header-h: 56px;
-  --vp-bottomnav-h: 58px;
-  --vp-shell-max: 1400px;
+  /* Scrim behind dialogs. */
+  --overlay: rgb(35 37 29 / 0.45);
 }
 
 .dark {
   color-scheme: dark;
 
-  /* Dark mode is designed, not inverted: a blue-cooled charcoal ground with
-     genuinely lighter raised surfaces, and hues re-tuned for AA on dark. */
-  --vp-canvas: #101014;
-  --vp-canvas-alt: #16161c;
-  --vp-surface: #17171d;
-  --vp-surface-raised: #1e1e26;
-  --vp-surface-sunken: #0c0c10;
-  --vp-overlay: rgb(4 4 6 / 0.65);
+  --bg-primary: 30 31 35;         /* #1e1f23                               */
+  --bg-secondary: 37 38 43;       /* #25262b                               */
+  --bg-tertiary: 45 46 55;        /* #2d2e37                               */
+  --accent: 45 46 55;             /* #2d2e37                               */
+  --accent-strong: 50 52 63;      /* #32343f                               */
 
-  --vp-ink: #f0f0ee;
-  --vp-ink-soft: #c9c9c4;
-  --vp-ink-muted: #94948e;
-  --vp-ink-faint: #6e6e69;
-  --vp-ink-inverse: #101014;
+  --border: 62 66 79;             /* #3e424f                               */
+  --border-soft: 50 52 63;        /* #32343f                               */
+  --border-strong: 74 78 92;      /* #4a4e5c                               */
 
-  --vp-line: #2a2a33;
-  --vp-line-strong: #3b3b47;
-  --vp-line-heavy: #4d4d5c;
+  --text-primary: 237 238 244;    /* #edeef4                               */
+  --text-secondary: 176 180 196;  /* #b0b4c4                               */
+  --text-muted: 110 114 129;      /* #6e7281                               */
+  --text-faint: 98 102 116;       /* #626674                               */
+  --text-inverse: 30 31 35;
 
-  --vp-brand: #9784ff;
-  --vp-brand-hover: #ad9eff;
-  --vp-brand-soft: #241d47;
-  --vp-brand-ink: #c3b7ff;
-  --vp-brand-contrast: #14101f;
+  --invert-bg: 238 239 233;
 
-  --vp-pulse: #c3ee2e;
-  --vp-pulse-ink: #c3ee2e;
-  --vp-pulse-soft: #262f10;
+  --input-bg: 30 31 35;
+  --input-border: 62 66 79;
+  --input-border-hover: 75 78 88;
 
-  --vp-danger: #f2705a;  --vp-danger-soft: #34160f;  --vp-danger-ink: #ff9d8c;
-  --vp-warning: #e0a33a; --vp-warning-soft: #2e2210; --vp-warning-ink: #f5c470;
-  --vp-success: #4fc98a; --vp-success-soft: #10281c; --vp-success-ink: #7fdcaa;
-  --vp-info: #5fa8f5;    --vp-info-soft: #10233a;    --vp-info-ink: #92c6fa;
+  --overlay: rgb(10 10 12 / 0.65);
+}
 
-  --vp-cat-announcement-fg: #b5a6ff; --vp-cat-announcement-bg: #211b40;
-  --vp-cat-campus-fg:       #56c9c4; --vp-cat-campus-bg:       #0f2b2a;
-  --vp-cat-guest-fg:        #dd93e2; --vp-cat-guest-bg:        #2e1830;
-  --vp-cat-sports-fg:       #63cf95; --vp-cat-sports-bg:       #112a1e;
-  --vp-cat-club-fg:         #e0b055; --vp-cat-club-bg:         #2c2110;
-  --vp-cat-event-fg:        #6bacf2; --vp-cat-event-bg:        #12243a;
-  --vp-cat-academic-fg:     #a3aab8; --vp-cat-academic-bg:     #21242b;
-  --vp-cat-placement-fg:    #4fc9b7; --vp-cat-placement-bg:    #0f2a27;
-  --vp-cat-opportunity-fg:  #ef9c5c; --vp-cat-opportunity-bg:  #331f10;
-  --vp-cat-alert-fg:        #f28a72; --vp-cat-alert-bg:        #341811;
+/* --------------------------------------------------------------------------
+   SEMANTIC LAYER
+   The captured palette gives us the hues; these pairs give each one a soft
+   background and a foreground that clears WCAG AA on it, per theme. Components
+   reference the semantic name, never a raw hue, so contrast is guaranteed.
+   -------------------------------------------------------------------------- */
+:root,
+.light {
+  --brand-bg: 235 157 42;        /* #eb9d2a — the accent CTA fill          */
+  --brand-fg: 0 0 0;             /* black text on the accent, as captured  */
+  --brand-soft: 253 244 226;     /* tinted surface                          */
+  --brand-ink: 141 90 8;         /* AA on --brand-soft                      */
+  --link: 194 62 0;              /* #c23e00 — AA-safe form of the red       */
 
-  --vp-shadow-xs: 0 1px 2px rgb(0 0 0 / 0.4);
-  --vp-shadow-sm: 0 1px 3px rgb(0 0 0 / 0.5);
-  --vp-shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.55);
-  --vp-shadow-lg: 0 20px 40px -14px rgb(0 0 0 / 0.75);
-  --vp-shadow-hard: 3px 3px 0 0 var(--vp-line-heavy);
+  --danger-soft: 253 233 227;   --danger-ink: 168 51 12;   --danger-line: 245 78 0;
+  --warning-soft: 253 242 219;  --warning-ink: 138 88 4;   --warning-line: 247 165 1;
+  --success-soft: 233 244 226;  --success-ink: 60 106 38;  --success-line: 106 168 79;
+  --info-soft: 226 238 255;     --info-ink: 22 84 176;     --info-line: 47 128 250;
+
+  --cat-announcement-bg: 236 232 255; --cat-announcement-fg: 74 47 190;
+  --cat-campus-bg: 223 241 246;       --cat-campus-fg: 20 106 128;
+  --cat-guest-bg: 249 229 252;        --cat-guest-fg: 133 30 159;
+  --cat-sports-bg: 233 244 226;       --cat-sports-fg: 60 106 38;
+  --cat-club-bg: 252 240 220;         --cat-club-fg: 141 90 8;
+  --cat-event-bg: 226 238 255;        --cat-event-fg: 22 84 176;
+  --cat-academic-bg: 233 234 229;     --cat-academic-fg: 84 87 76;
+  --cat-placement-bg: 217 246 240;    --cat-placement-fg: 13 108 92;
+  --cat-opportunity-bg: 253 242 219;  --cat-opportunity-fg: 138 88 4;
+  --cat-alert-bg: 253 233 227;        --cat-alert-fg: 168 51 12;
+}
+
+.dark {
+  --brand-bg: 235 157 42;
+  --brand-fg: 0 0 0;
+  --brand-soft: 56 40 14;
+  --brand-ink: 240 184 96;
+  --link: 255 138 92;
+
+  --danger-soft: 58 27 20;      --danger-ink: 255 145 111;  --danger-line: 245 78 0;
+  --warning-soft: 56 42 14;     --warning-ink: 247 190 92;  --warning-line: 247 165 1;
+  --success-soft: 26 46 22;     --success-ink: 148 208 122; --success-line: 106 168 79;
+  --info-soft: 20 38 66;        --info-ink: 130 180 255;    --info-line: 47 128 250;
+
+  --cat-announcement-bg: 40 33 74; --cat-announcement-fg: 178 158 255;
+  --cat-campus-bg: 19 47 56;       --cat-campus-fg: 106 199 222;
+  --cat-guest-bg: 51 24 58;        --cat-guest-fg: 219 141 236;
+  --cat-sports-bg: 26 46 22;       --cat-sports-fg: 148 208 122;
+  --cat-club-bg: 56 40 14;         --cat-club-fg: 240 184 96;
+  --cat-event-bg: 20 38 66;        --cat-event-fg: 130 180 255;
+  --cat-academic-bg: 45 46 55;     --cat-academic-fg: 176 180 196;
+  --cat-placement-bg: 16 48 43;    --cat-placement-fg: 106 220 199;
+  --cat-opportunity-bg: 56 42 14;  --cat-opportunity-fg: 247 190 92;
+  --cat-alert-bg: 58 27 20;        --cat-alert-fg: 255 145 111;
+}
+
+/* --------------------------------------------------------------------------
+   Accent palette — identical in both themes, exactly as captured. These carry
+   categorical meaning across the product (one hue per content category).
+   -------------------------------------------------------------------------- */
+:root {
+  --hue-red: 245 78 0;          /* #f54e00 */
+  --hue-orange: 235 157 42;     /* #eb9d2a */
+  --hue-yellow: 247 165 1;      /* #f7a501 */
+  --hue-blue: 47 128 250;       /* #2f80fa */
+  --hue-green: 106 168 79;      /* #6aa84f */
+  --hue-teal: 41 219 187;       /* #29dbbb */
+  --hue-purple: 182 42 217;     /* #b62ad9 */
+  --hue-lilac: 133 103 255;     /* #8567ff */
+  --hue-salmon: 243 84 84;      /* #f35454 */
+  --hue-seagreen: 48 171 198;   /* #30abc6 */
+
+  /* --- Radii (captured: 4, 6, 9, 12, 20, 50, 9999) ---------------------- */
+  --radius-xs: 3px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 9px;
+  --radius-xl: 12px;
+  --radius-2xl: 20px;
+
+  /* --- Elevation -------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+
+  /* --- Shell geometry (from the captured layout) ------------------------ */
+  --shell-pad: 8px;             /* p-2 on the root                          */
+  --topbar-h: 40px;             /* captured 1331x40                         */
+  --rail-w: 100px;              /* icon + label rail                       */
+  --window-w: 80%;              /* w-[80%]                                  */
+  --window-h: 95%;              /* h-[95%]                                  */
+  --content-max: 1152px;        /* max-w-6xl                                */
+  --bottomnav-h: 58px;
+
+  --font-display: var(--font-figtree), ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono-stack: var(--font-source-code-pro), ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
 }
 
 /* ==========================================================================
-   TAILWIND THEME BRIDGE — exposes the tokens above as utilities.
+   TAILWIND THEME BRIDGE
    ========================================================================== */
 @theme inline {
-  --color-canvas: var(--vp-canvas);
-  --color-canvas-alt: var(--vp-canvas-alt);
-  --color-surface: var(--vp-surface);
-  --color-raised: var(--vp-surface-raised);
-  --color-sunken: var(--vp-surface-sunken);
+  --color-primary: rgb(var(--bg-primary));
+  --color-secondary: rgb(var(--bg-secondary));
+  --color-tertiary: rgb(var(--bg-tertiary));
+  --color-accent: rgb(var(--accent));
+  --color-accent-strong: rgb(var(--accent-strong));
+  --color-invert: rgb(var(--invert-bg));
 
-  --color-ink: var(--vp-ink);
-  --color-soft: var(--vp-ink-soft);
-  --color-muted: var(--vp-ink-muted);
-  --color-faint: var(--vp-ink-faint);
-  --color-inverse: var(--vp-ink-inverse);
+  --color-line: rgb(var(--border));
+  --color-line-soft: rgb(var(--border-soft));
+  --color-line-strong: rgb(var(--border-strong));
 
-  --color-line: var(--vp-line);
-  --color-line-strong: var(--vp-line-strong);
-  --color-line-heavy: var(--vp-line-heavy);
+  --color-ink: rgb(var(--text-primary));
+  --color-soft: rgb(var(--text-secondary));
+  --color-muted: rgb(var(--text-muted));
+  --color-faint: rgb(var(--text-faint));
+  --color-inverse: rgb(var(--text-inverse));
 
-  --color-brand: var(--vp-brand);
-  --color-brand-hover: var(--vp-brand-hover);
-  --color-brand-soft: var(--vp-brand-soft);
-  --color-brand-ink: var(--vp-brand-ink);
-  --color-brand-contrast: var(--vp-brand-contrast);
+  --color-input: rgb(var(--input-bg));
+  --color-input-line: rgb(var(--input-border));
 
-  --color-pulse: var(--vp-pulse);
-  --color-pulse-ink: var(--vp-pulse-ink);
-  --color-pulse-soft: var(--vp-pulse-soft);
+  --color-brand: rgb(var(--brand-bg));
+  --color-brand-fg: rgb(var(--brand-fg));
+  --color-brand-soft: rgb(var(--brand-soft));
+  --color-brand-ink: rgb(var(--brand-ink));
+  --color-link: rgb(var(--link));
 
-  --color-danger: var(--vp-danger);
-  --color-danger-soft: var(--vp-danger-soft);
-  --color-danger-ink: var(--vp-danger-ink);
-  --color-warning: var(--vp-warning);
-  --color-warning-soft: var(--vp-warning-soft);
-  --color-warning-ink: var(--vp-warning-ink);
-  --color-success: var(--vp-success);
-  --color-success-soft: var(--vp-success-soft);
-  --color-success-ink: var(--vp-success-ink);
-  --color-info: var(--vp-info);
-  --color-info-soft: var(--vp-info-soft);
-  --color-info-ink: var(--vp-info-ink);
+  --color-danger: rgb(var(--danger-line));
+  --color-danger-soft: rgb(var(--danger-soft));
+  --color-danger-ink: rgb(var(--danger-ink));
+  --color-warning: rgb(var(--warning-line));
+  --color-warning-soft: rgb(var(--warning-soft));
+  --color-warning-ink: rgb(var(--warning-ink));
+  --color-success: rgb(var(--success-line));
+  --color-success-soft: rgb(var(--success-soft));
+  --color-success-ink: rgb(var(--success-ink));
+  --color-info: rgb(var(--info-line));
+  --color-info-soft: rgb(var(--info-soft));
+  --color-info-ink: rgb(var(--info-ink));
 
-  --radius-xs: var(--vp-radius-xs);
-  --radius-sm: var(--vp-radius-sm);
-  --radius-md: var(--vp-radius-md);
-  --radius-lg: var(--vp-radius-lg);
+  --color-red: rgb(var(--hue-red));
+  --color-orange: rgb(var(--hue-orange));
+  --color-yellow: rgb(var(--hue-yellow));
+  --color-blue: rgb(var(--hue-blue));
+  --color-green: rgb(var(--hue-green));
+  --color-teal: rgb(var(--hue-teal));
+  --color-purple: rgb(var(--hue-purple));
+  --color-lilac: rgb(var(--hue-lilac));
+  --color-salmon: rgb(var(--hue-salmon));
+  --color-seagreen: rgb(var(--hue-seagreen));
 
-  --shadow-xs: var(--vp-shadow-xs);
-  --shadow-sm: var(--vp-shadow-sm);
-  --shadow-md: var(--vp-shadow-md);
-  --shadow-lg: var(--vp-shadow-lg);
-  --shadow-hard: var(--vp-shadow-hard);
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
 
-  --font-sans: var(--vp-font-sans);
-  --font-mono: var(--vp-font-mono);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-2xl: var(--shadow-2xl);
+
+  --font-sans: var(--font-display);
+  --font-mono: var(--font-mono-stack);
 }
 
 /* ==========================================================================
    BASE
    ========================================================================== */
 @layer base {
-  * { border-color: var(--vp-line); }
+  * {
+    border-color: rgb(var(--border));
+  }
 
   html {
     -webkit-text-size-adjust: 100%;
     scroll-behavior: smooth;
-    scrollbar-gutter: stable;
   }
 
   body {
-    background-color: var(--vp-canvas);
-    color: var(--vp-ink);
-    font-family: var(--vp-font-sans);
-    font-feature-settings: 'cv05' 1, 'ss01' 1, 'tnum' 0;
+    background-color: rgb(var(--bg-secondary));
+    color: rgb(var(--text-primary));
+    font-family: var(--font-display);
+    font-weight: 500;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  /* Editorial display type: heavy weight, tight tracking. */
-  h1, h2, h3, h4 {
-    font-weight: 750;
-    letter-spacing: -0.022em;
-    line-height: 1.12;
-    text-wrap: balance;
-  }
-  h5, h6 { font-weight: 650; letter-spacing: -0.012em; }
-  p { text-wrap: pretty; }
+  /* The reference sets every heading to 700. */
+  h1, h2, h3, h4, h5, h6 { font-weight: 700; }
+  /* Balancing helps display headings but produces awkward breaks in the short,
+     constrained headings inside cards — those get `pretty` instead. */
+  h1, h2 { text-wrap: balance; }
+  h3, h4, h5, h6, p { text-wrap: pretty; }
 
   :focus-visible {
-    outline: 2px solid var(--vp-brand);
+    outline: 2px solid rgb(var(--hue-blue));
     outline-offset: 2px;
-    border-radius: var(--vp-radius-xs);
+    border-radius: var(--radius-sm);
   }
-  /* Never remove focus rings — only re-scope them to keyboard users. */
   :focus:not(:focus-visible) { outline: none; }
 
-  ::selection { background: var(--vp-brand-soft); color: var(--vp-brand-ink); }
+  ::selection {
+    background: rgb(var(--hue-yellow) / 0.4);
+    color: rgb(var(--text-primary));
+  }
 
-  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  /* Captured: 0.625rem track, rounded thumb, transparent trough. */
+  ::-webkit-scrollbar { width: 0.625rem; height: 0.625rem; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb {
-    background: var(--vp-line-strong);
-    border-radius: 999px;
-    border: 3px solid var(--vp-canvas);
+    background: rgb(var(--border));
+    border-radius: 9999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
   }
-  ::-webkit-scrollbar-thumb:hover { background: var(--vp-ink-faint); }
+  ::-webkit-scrollbar-thumb:hover { background-color: rgb(var(--border-strong)); background-clip: content-box; }
 
   input, textarea, select, button { font: inherit; color: inherit; }
   [type='search']::-webkit-search-cancel-button { -webkit-appearance: none; }
 }
 
 /* ==========================================================================
+   TYPE SCALE — the exact size/weight/line-height/tracking pairs measured in
+   the reference capture. Using named classes keeps them consistent and makes
+   drift obvious in review.
+   ========================================================================== */
+@layer components {
+  .t-hero      { font-size: 48px;   line-height: 60px;      font-weight: 700; letter-spacing: -0.01em; }
+  .t-h2        { font-size: 30px;   line-height: 36px;      font-weight: 700; letter-spacing: -0.75px; }
+  .t-h3        { font-size: 24px;   line-height: 32px;      font-weight: 700; }
+  .t-h4        { font-size: 18px;   line-height: 28px;      font-weight: 700; }
+  .t-lead      { font-size: 18px;   line-height: 27px;      font-weight: 500; }
+  .t-body-lg   { font-size: 17px;   line-height: 30.22px;   font-weight: 500; }
+  .t-body      { font-size: 16px;   line-height: 24px;      font-weight: 500; }
+  .t-body-rel  { font-size: 16px;   line-height: 26px;      font-weight: 500; }
+  .t-strong    { font-size: 16px;   line-height: 24px;      font-weight: 700; }
+  .t-prose     { font-size: 15px;   line-height: 26px;      font-weight: 500; }
+  .t-sm        { font-size: 14px;   line-height: 20px;      font-weight: 500; }
+  .t-sm-strong { font-size: 14px;   line-height: 20px;      font-weight: 600; }
+  .t-nav       { font-size: 13px;   line-height: 13px;      font-weight: 500; }
+  .t-xs        { font-size: 13px;   line-height: 20px;      font-weight: 500; }
+  .t-badge     { font-size: 12px;   line-height: 16px;      font-weight: 700; }
+  /* Eyebrow / section label: 14px/700, 0.35px tracking, uppercase. */
+  .t-eyebrow   { font-size: 14px;   line-height: 20px;      font-weight: 700; letter-spacing: 0.35px; text-transform: uppercase; }
+  /* Small caps label: 11px/500, 1.54px tracking, uppercase. */
+  .t-label     { font-size: 11px;   line-height: 19.56px;   font-weight: 500; letter-spacing: 1.54px; text-transform: uppercase; }
+  .t-label-tight { font-size: 11px; line-height: 19.56px;   font-weight: 500; letter-spacing: 0.55px; text-transform: uppercase; }
+}
+
+/* ==========================================================================
    PATTERNS & MOTION
    ========================================================================== */
 @layer utilities {
-  /* Subtle technical grid used behind hero / section headers. */
+  /* The reference's control chrome: 1px border, 4px radius, subtle lift on
+     hover, press-down on active. */
+  .chrome {
+    border: 1px solid rgb(var(--border));
+    border-radius: var(--radius-sm);
+    background: rgb(var(--bg-primary));
+    position: relative;
+    transition: top 100ms ease, background-color 150ms ease, border-color 150ms ease;
+    top: 0;
+  }
+  .chrome:hover { top: -0.5px; border-color: rgb(var(--border-strong)); }
+  .chrome:active { top: 0.5px; }
+
   .vp-grid-bg {
     background-image:
-      linear-gradient(to right, color-mix(in srgb, var(--vp-line) 70%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in srgb, var(--vp-line) 70%, transparent) 1px, transparent 1px);
+      linear-gradient(to right, rgb(var(--border) / 0.55) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(var(--border) / 0.55) 1px, transparent 1px);
     background-size: 28px 28px;
   }
   .vp-dot-bg {
-    background-image: radial-gradient(color-mix(in srgb, var(--vp-line-strong) 80%, transparent) 1px, transparent 0);
+    background-image: radial-gradient(rgb(var(--border) / 0.8) 1px, transparent 0);
     background-size: 16px 16px;
   }
-  /* Fades a decorative background out towards the bottom edge. */
   .vp-fade-b { mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%); }
 
-  .vp-hard-card {
-    border: 1px solid var(--vp-line-heavy);
-    box-shadow: var(--vp-shadow-hard);
+  /* Fades the top and bottom of a scrolling region, as the reference does on
+     its scroll areas. */
+  .vp-fade-y {
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 1rem, #000 calc(100% - 1rem), transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0, #000 1rem, #000 calc(100% - 1rem), transparent 100%);
+  }
+  .vp-fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 1.5rem, #000 calc(100% - 1.5rem), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 1.5rem, #000 calc(100% - 1.5rem), transparent);
   }
 
   .vp-numeric { font-variant-numeric: tabular-nums; }
@@ -294,6 +375,9 @@
     scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
   }
+  /* Radix-style hidden scrollbar for the app scroll viewport. */
+  .vp-scroll-hidden { scrollbar-width: none; }
+  .vp-scroll-hidden::-webkit-scrollbar { display: none; }
 
   .vp-clamp-1 { display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
   .vp-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -302,9 +386,9 @@
   .vp-skeleton {
     background: linear-gradient(
       90deg,
-      var(--vp-surface-sunken) 25%,
-      color-mix(in srgb, var(--vp-surface-sunken) 60%, var(--vp-canvas)) 37%,
-      var(--vp-surface-sunken) 63%
+      rgb(var(--bg-tertiary)) 25%,
+      rgb(var(--accent-strong)) 37%,
+      rgb(var(--bg-tertiary)) 63%
     );
     background-size: 400% 100%;
     animation: vp-shimmer 1.4s ease-in-out infinite;
@@ -313,24 +397,68 @@
 
 @keyframes vp-shimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
 @keyframes vp-pulse-ring {
-  0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--vp-pulse) 70%, transparent); }
-  70%  { box-shadow: 0 0 0 6px color-mix(in srgb, var(--vp-pulse) 0%, transparent); }
-  100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--vp-pulse) 0%, transparent); }
+  0%   { box-shadow: 0 0 0 0 rgb(var(--hue-green) / 0.7); }
+  70%  { box-shadow: 0 0 0 6px rgb(var(--hue-green) / 0); }
+  100% { box-shadow: 0 0 0 0 rgb(var(--hue-green) / 0); }
 }
+/* The reference's carousel transition: 300ms ease-out fade. */
+@keyframes carousel-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes vp-fade-up { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 @keyframes vp-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes vp-scale-in { from { opacity: 0; transform: scale(0.97) translateY(-4px); } to { opacity: 1; transform: none; } }
 @keyframes vp-slide-up { from { transform: translateY(100%); } to { transform: none; } }
-@keyframes vp-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
 .vp-anim-pulse-ring { animation: vp-pulse-ring 2.2s ease-out infinite; }
-.vp-anim-fade-up { animation: vp-fade-up 0.32s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.vp-anim-fade-in { animation: vp-fade-in 0.2s ease-out both; }
-.vp-anim-scale-in { animation: vp-scale-in 0.16s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.vp-anim-slide-up { animation: vp-slide-up 0.26s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.vp-anim-marquee { animation: vp-marquee 40s linear infinite; }
+.vp-anim-carousel { animation: carousel-fade-in 300ms ease-out both; }
+.vp-anim-fade-up { animation: vp-fade-up 400ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.vp-anim-fade-in { animation: vp-fade-in 200ms ease-out both; }
+.vp-anim-scale-in { animation: vp-scale-in 160ms cubic-bezier(0.16, 1, 0.3, 1) both; }
+.vp-anim-slide-up { animation: vp-slide-up 260ms cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-/* Motion is an enhancement — it is fully removable. */
+/* ==========================================================================
+   THEME TRANSITION
+   `theme-switching` is added to <html> only while the theme is changing, so the
+   whole tree eases between token values instead of snapping. It is removed
+   afterwards, leaving ordinary hover/focus transitions at their own timings.
+   ========================================================================== */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition:
+    background-color 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    fill 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    stroke 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 900ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 900ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition-delay: 0ms !important;
+}
+
+/* The circular wipe is driven from `ThemeProvider`; the default cross-fade is
+   disabled so the two snapshots sit still while the clip-path animates. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+/* The incoming theme is painted over the outgoing one, which is what makes the
+   expanding circle read as the new theme sweeping in. */
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
+@media (prefers-reduced-motion: reduce) {
+  html.theme-switching,
+  html.theme-switching *,
+  html.theme-switching *::before,
+  html.theme-switching *::after {
+    transition: none !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

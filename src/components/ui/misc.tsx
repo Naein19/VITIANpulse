@@ -63,7 +63,7 @@ export function Stat({
     danger: 'text-danger-ink',
   };
   return (
-    <div className={cn('rounded-md border border-line bg-surface p-3.5', className)}>
+    <div className={cn('rounded-md border border-line bg-primary p-3.5', className)}>
       <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-faint">{label}</p>
       <p className={cn('vp-numeric mt-1.5 text-[22px] font-bold leading-none tracking-tight', tones[tone])}>{value}</p>
       {hint && <p className="mt-1.5 text-[12px] text-muted">{hint}</p>}
@@ -100,7 +100,7 @@ export function Alert({
     warning: 'border-warning/30 bg-warning-soft text-warning-ink',
     danger: 'border-danger/30 bg-danger-soft text-danger-ink',
     success: 'border-success/30 bg-success-soft text-success-ink',
-    neutral: 'border-line bg-sunken text-soft',
+    neutral: 'border-line bg-tertiary text-soft',
   };
   return (
     <div
@@ -156,7 +156,7 @@ export function Meter({
       aria-valuemin={0}
       aria-valuemax={max}
       aria-label={label}
-      className={cn('h-1.5 w-full overflow-hidden rounded-full bg-sunken', className)}
+      className={cn('h-1.5 w-full overflow-hidden rounded-full bg-tertiary', className)}
     >
       <div className={cn('h-full rounded-full transition-[width] duration-500', tones[tone])} style={{ width: `${pct}%` }} />
     </div>
@@ -220,8 +220,8 @@ export function LiveClock({ initial, className }: { initial: string; className?:
 export function PulseDot({ className }: { className?: string }) {
   return (
     <span className={cn('relative inline-flex size-2 shrink-0', className)} aria-hidden="true">
-      <span className="vp-anim-pulse-ring absolute inset-0 rounded-full bg-pulse" />
-      <span className="relative inline-flex size-2 rounded-full bg-pulse" />
+      <span className="vp-anim-pulse-ring absolute inset-0 rounded-full bg-green" />
+      <span className="relative inline-flex size-2 rounded-full bg-green" />
     </span>
   );
 }
@@ -231,7 +231,7 @@ export function Kbd({ children, className }: { children: ReactNode; className?: 
   return (
     <kbd
       className={cn(
-        'inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] border border-line-strong bg-sunken px-1.5',
+        'inline-flex h-5 min-w-5 items-center justify-center rounded-[4px] border border-line-strong bg-tertiary px-1.5',
         'font-mono text-[10.5px] font-medium text-muted',
         className,
       )}

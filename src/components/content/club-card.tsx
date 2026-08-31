@@ -30,7 +30,7 @@ export function ClubCard({
             <Link href={href} className="truncate after:absolute after:inset-0 hover:underline underline-offset-2">
               {club.name}
             </Link>
-            {club.verified && <BadgeCheck className="size-3.5 shrink-0 text-brand" aria-label="Verified club" />}
+            {club.verified && <BadgeCheck className="size-3.5 shrink-0 text-link" aria-label="Verified club" />}
           </h3>
           <p className="truncate text-[11.5px] text-faint">
             {humanise(club.category)} · {formatCount(club.followerCount)} followers
@@ -42,7 +42,7 @@ export function ClubCard({
   }
 
   return (
-    <article className="group relative flex flex-col rounded-md border border-line bg-surface p-4 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm">
+    <article className="group relative flex flex-col rounded-md border border-line bg-primary p-4 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm">
       <div className="flex items-start gap-3">
         <ClubAvatar club={club} />
         <div className="min-w-0 flex-1">
@@ -51,7 +51,7 @@ export function ClubCard({
               {club.name}
             </Link>
             {club.verified && (
-              <BadgeCheck className="mt-0.5 size-3.5 shrink-0 text-brand" aria-label="Verified club" />
+              <BadgeCheck className="mt-0.5 size-3.5 shrink-0 text-link" aria-label="Verified club" />
             )}
           </h3>
           <p className="mt-0.5 text-[11.5px] text-faint">{humanise(club.category)}</p>
@@ -88,8 +88,8 @@ export function ClubAvatar({ club, size = 'md' }: { club: Pick<Club, 'name' | 's
       aria-hidden="true"
       className={cn('inline-flex shrink-0 items-center justify-center rounded-md border font-bold tracking-tight', sizes[size])}
       style={{
-        backgroundColor: `var(--vp-cat-${categoryHue(club.category)}-bg)`,
-        color: `var(--vp-cat-${categoryHue(club.category)}-fg)`,
+        backgroundColor: `var(--cat-${categoryHue(club.category)}-bg)`,
+        color: `var(--cat-${categoryHue(club.category)}-fg)`,
         borderColor: 'transparent',
       }}
     >

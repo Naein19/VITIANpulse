@@ -57,7 +57,7 @@ export function ShareButton({
       title="Share"
       className={cn(
         'inline-flex items-center gap-1.5 rounded-sm text-faint transition-colors duration-150 hover:text-ink',
-        withLabel ? 'h-8 border border-line-strong bg-surface px-2.5 text-[12.5px] font-medium hover:border-line-heavy' : 'p-1',
+        withLabel ? 'h-8 border border-line-strong bg-primary px-2.5 text-[12.5px] font-medium hover:border-line-strong' : 'p-1',
         className,
       )}
     >

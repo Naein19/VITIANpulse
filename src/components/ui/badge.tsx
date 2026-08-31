@@ -12,9 +12,9 @@ export type BadgeTone =
   | 'neutral' | 'brand' | 'pulse' | 'success' | 'warning' | 'danger' | 'info' | 'outline';
 
 const TONES: Record<BadgeTone, string> = {
-  neutral: 'bg-sunken text-muted border-line',
+  neutral: 'bg-tertiary text-muted border-line',
   brand: 'bg-brand-soft text-brand-ink border-transparent',
-  pulse: 'bg-pulse-soft text-[var(--vp-pulse-ink)] border-transparent',
+  pulse: 'bg-success-soft text-[rgb(var(--hue-green)))] border-transparent',
   success: 'bg-success-soft text-success-ink border-transparent',
   warning: 'bg-warning-soft text-warning-ink border-transparent',
   danger: 'bg-danger-soft text-danger-ink border-transparent',
@@ -80,8 +80,8 @@ export function CategoryBadge({
         className,
       )}
       style={{
-        backgroundColor: `var(--vp-cat-${key}-bg)`,
-        color: `var(--vp-cat-${key}-fg)`,
+        backgroundColor: `var(--cat-${key}-bg)`,
+        color: `var(--cat-${key}-fg)`,
       }}
     >
       {humanise(category)}
@@ -121,8 +121,8 @@ export function EventCategoryBadge({
         className,
       )}
       style={{
-        backgroundColor: `var(--vp-cat-${key}-bg)`,
-        color: `var(--vp-cat-${key}-fg)`,
+        backgroundColor: `var(--cat-${key}-bg)`,
+        color: `var(--cat-${key}-fg)`,
       }}
     >
       {humanise(category)}

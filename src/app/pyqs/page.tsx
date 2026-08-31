@@ -98,7 +98,7 @@ export default async function PyqHubPage() {
                 <Link
                   key={branch.branch}
                   href={`/pyqs/${branch.branch.toLowerCase()}`}
-                  className="group flex items-center justify-between rounded-md border border-line bg-surface p-4 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm"
+                  className="group flex items-center justify-between rounded-md border border-line bg-primary p-4 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm"
                 >
                   <div className="min-w-0">
                     <p className="text-[16px] font-bold tracking-tight text-ink">{branch.branch}</p>
@@ -127,7 +127,7 @@ export default async function PyqHubPage() {
             {recent.items.length === 0 ? (
               <p className="py-6 text-center text-[13px] text-muted">Nothing uploaded yet.</p>
             ) : (
-              <ul className="divide-y divide-line rounded-md border border-line bg-surface">
+              <ul className="divide-y divide-line rounded-md border border-line bg-primary">
                 {recent.items.map((paper) => (
                   <PaperRow key={paper.id} paper={paper} bookmarked={bookmarks.has(paper.id)} signedIn={Boolean(user)} />
                 ))}
@@ -143,7 +143,7 @@ export default async function PyqHubPage() {
             {popular.items.length === 0 ? (
               <p className="py-6 text-center text-[13px] text-muted">No downloads recorded yet.</p>
             ) : (
-              <ul className="divide-y divide-line rounded-md border border-line bg-surface">
+              <ul className="divide-y divide-line rounded-md border border-line bg-primary">
                 {popular.items.map((paper) => (
                   <PaperRow key={paper.id} paper={paper} bookmarked={bookmarks.has(paper.id)} signedIn={Boolean(user)} />
                 ))}
@@ -173,7 +173,7 @@ export default async function PyqHubPage() {
         </section>
 
         {/* ---------------------------------------------------- contribution */}
-        <section className="mt-8 rounded-md border border-dashed border-line-strong bg-sunken p-5">
+        <section className="mt-8 rounded-md border border-dashed border-line-strong bg-tertiary p-5">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="max-w-lg">
               <h2 className="flex items-center gap-2 text-[15px] font-semibold text-ink">

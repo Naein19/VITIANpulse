@@ -16,13 +16,25 @@ import { getSupabaseServerClient, getSupabaseServiceClient } from '@/server/supa
  * rather than silently serving demo data to real users.
  */
 
-let memoryStore: MemoryStore | null = null;
+/**
+ * The in-memory store is pinned to `globalThis`.
+ *
+ * A plain module-level `let` is not enough: Next re-evaluates modules across
+ * HMR boundaries and route segments in development, which yields more than one
+ * instance — a write from a server action then lands in a different store than
+ * the one a page reads from, and the mutation appears to vanish. Anchoring to
+ * the global object guarantees exactly one store per process.
+ */
+const MEMORY_STORE_KEY = Symbol.for('vitpulse.memoryStore');
+
+type GlobalWithStore = typeof globalThis & { [MEMORY_STORE_KEY]?: MemoryStore };
 
 function getMemoryStore(): MemoryStore {
-  if (!memoryStore) {
-    memoryStore = new MemoryStore(buildSeed(), { persist: !isTest });
+  const globalRef = globalThis as GlobalWithStore;
+  if (!globalRef[MEMORY_STORE_KEY]) {
+    globalRef[MEMORY_STORE_KEY] = new MemoryStore(buildSeed(), { persist: !isTest });
   }
-  return memoryStore;
+  return globalRef[MEMORY_STORE_KEY];
 }
 
 export function isDemoMode(): boolean {
@@ -64,7 +76,7 @@ export async function getPrivilegedStore(): Promise<Store> {
 
 /** Test helper: resets the in-memory dataset to a fresh seed. */
 export function __resetMemoryStore(now?: Date): void {
-  memoryStore = new MemoryStore(buildSeed(now), { persist: false });
+  (globalThis as GlobalWithStore)[MEMORY_STORE_KEY] = new MemoryStore(buildSeed(now), { persist: false });
 }
 
 export { MemoryStore } from './memory-store';

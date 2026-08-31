@@ -67,8 +67,8 @@ export function BookmarkButton({
       }}
       className={cn(
         'inline-flex items-center gap-1.5 rounded-sm transition-colors duration-150',
-        withLabel ? 'h-8 border border-line-strong bg-surface px-2.5 text-[12.5px] font-medium hover:border-line-heavy' : 'p-1',
-        optimistic ? 'text-brand' : 'text-faint hover:text-ink',
+        withLabel ? 'h-8 border border-line-strong bg-primary px-2.5 text-[12.5px] font-medium hover:border-line-strong' : 'p-1',
+        optimistic ? 'text-link' : 'text-faint hover:text-ink',
         pending && 'opacity-60',
         className,
       )}

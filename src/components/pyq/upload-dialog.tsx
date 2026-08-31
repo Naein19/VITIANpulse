@@ -125,7 +125,7 @@ export function UploadPaperDialog({ signedIn }: { signedIn: boolean }) {
               type="file"
               accept="application/pdf"
               required
-              className="h-auto py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-sunken file:px-2.5 file:py-1 file:text-[12.5px] file:font-medium file:text-soft"
+              className="h-auto py-2 file:mr-3 file:rounded-sm file:border-0 file:bg-tertiary file:px-2.5 file:py-1 file:text-[12.5px] file:font-medium file:text-soft"
             />
           </Field>
 

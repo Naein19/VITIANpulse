@@ -72,7 +72,7 @@ export function Dropdown({
           aria-label={label}
           className={cn(
             'vp-anim-scale-in absolute top-[calc(100%+6px)] z-50 min-w-56 overflow-hidden rounded-md',
-            'border border-line-strong bg-raised py-1 shadow-lg',
+            'border border-line-strong bg-primary py-1 shadow-lg',
             align === 'end' ? 'right-0' : 'left-0',
             panelClassName,
           )}
@@ -97,8 +97,8 @@ export function DropdownItem({
 }) {
   const classes = cn(
     'flex w-full items-center gap-2.5 px-3 py-2 text-left text-[13px] transition-colors duration-100',
-    'focus:outline-none focus-visible:bg-canvas-alt',
-    disabled ? 'cursor-not-allowed text-faint' : 'text-soft hover:bg-canvas-alt hover:text-ink',
+    'focus:outline-none focus-visible:bg-secondary',
+    disabled ? 'cursor-not-allowed text-faint' : 'text-soft hover:bg-accent hover:text-ink',
     destructive && 'text-danger-ink hover:bg-danger-soft',
     className,
   );

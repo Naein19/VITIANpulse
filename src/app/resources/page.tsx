@@ -94,7 +94,7 @@ export default async function ResourcesPage({ searchParams }: { searchParams: Pr
       <PageBody>
         <div className="grid gap-8 lg:grid-cols-[220px_minmax(0,1fr)]">
           <nav aria-label="Jump to section" className="hidden lg:block">
-            <div className="sticky top-[calc(var(--vp-header-h)+16px)]">
+            <div className="sticky top-4">
               <h2 className="mb-2 border-b border-line pb-2 text-[12px] font-bold uppercase tracking-[0.12em] text-ink">
                 On this page
               </h2>
@@ -105,7 +105,7 @@ export default async function ResourcesPage({ searchParams }: { searchParams: Pr
                     <li key={section}>
                       <a
                         href={`#${section.toLowerCase()}`}
-                        className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-[12.5px] text-muted transition-colors hover:bg-canvas-alt hover:text-ink"
+                        className="flex items-center gap-2 rounded-sm px-2 py-1.5 text-[12.5px] text-muted transition-colors hover:bg-accent hover:text-ink"
                       >
                         <Icon className="size-3.5 shrink-0 text-faint" aria-hidden="true" />
                         <span className="truncate">{humanise(section)}</span>
@@ -172,7 +172,7 @@ export default async function ResourcesPage({ searchParams }: { searchParams: Pr
               </div>
             )}
 
-            <section className="mt-10 rounded-md border border-dashed border-line-strong bg-sunken p-5">
+            <section className="mt-10 rounded-md border border-dashed border-line-strong bg-tertiary p-5">
               <h2 className="text-[15px] font-semibold text-ink">A link is broken or missing?</h2>
               <p className="mt-1 max-w-xl text-[13px] leading-relaxed text-muted">
                 Resources are curated by editors. Tell the team what is wrong and it gets fixed for everyone rather than

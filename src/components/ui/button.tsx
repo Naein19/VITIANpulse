@@ -13,14 +13,14 @@ export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 const VARIANTS: Record<ButtonVariant, string> = {
   primary:
-    'bg-brand text-[var(--vp-brand-contrast)] border border-brand hover:bg-brand-hover hover:border-brand-hover shadow-xs',
+    'bg-brand text-brand-fg border border-brand hover:bg-brand hover:border-brand shadow-xs',
   secondary:
-    'bg-raised text-ink border border-line-strong hover:bg-canvas-alt hover:border-line-heavy shadow-xs',
-  outline: 'bg-transparent text-ink border border-line-strong hover:bg-canvas-alt hover:border-line-heavy',
-  ghost: 'bg-transparent text-soft border border-transparent hover:bg-canvas-alt hover:text-ink',
+    'bg-primary text-ink border border-line-strong hover:bg-accent hover:border-line-strong shadow-xs',
+  outline: 'bg-transparent text-ink border border-line-strong hover:bg-accent hover:border-line-strong',
+  ghost: 'bg-transparent text-soft border border-transparent hover:bg-accent hover:text-ink',
   danger: 'bg-danger text-white border border-danger hover:opacity-90 shadow-xs',
-  pulse: 'bg-pulse text-[var(--vp-pulse-ink)] border border-pulse hover:brightness-95 font-semibold',
-  link: 'bg-transparent text-brand underline underline-offset-4 decoration-brand/40 hover:decoration-brand border-0 px-0',
+  pulse: 'bg-green text-[rgb(var(--hue-green)))] border border-green hover:brightness-95 font-semibold',
+  link: 'bg-transparent text-link underline underline-offset-4 decoration-link/40 hover:decoration-link border-0 px-0',
 };
 
 const SIZES: Record<ButtonSize, string> = {

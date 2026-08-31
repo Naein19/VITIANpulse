@@ -30,6 +30,31 @@ function makeClock(now: Date) {
       d.setHours(hour, minute, 0, 0);
       return d.toISOString();
     },
+    /**
+     * Places an event relative to the current hour rather than at a fixed clock
+     * time, so today's board always has something live and something upcoming
+     * regardless of when the demo dataset is generated. Snapped to the nearest
+     * half hour so the times read naturally.
+     */
+    todayAt: (hoursFromNow: number) => {
+      const start = new Date(base + hoursFromNow * HOUR);
+      start.setMinutes(start.getMinutes() < 30 ? 0 : 30, 0, 0);
+      // Keep the event on today's date. Late in the evening a positive offset
+      // would spill into tomorrow and drop off today's board, so fold it back
+      // into the remaining hours instead.
+      const endOfDay = new Date(base);
+      endOfDay.setHours(23, 0, 0, 0);
+      if (start.getTime() > endOfDay.getTime()) {
+        // Fold the overflow back into the remaining hours, preserving the
+        // relative order so several late events do not collapse onto one time.
+        const remaining = Math.max(30 * 60_000, endOfDay.getTime() - base);
+        const ratio = Math.min(1, hoursFromNow / 6);
+        const folded = new Date(base + remaining * (0.25 + ratio * 0.6));
+        folded.setMinutes(folded.getMinutes() < 30 ? 0 : 30, 0, 0);
+        return folded.toISOString();
+      }
+      return start.toISOString();
+    },
     days: (n: number) => n * DAY,
     hours: (n: number) => n * HOUR,
   };

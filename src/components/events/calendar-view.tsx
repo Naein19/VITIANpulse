@@ -57,27 +57,27 @@ export function CalendarView({
   const daysWithEvents = cells.filter((c) => c.day !== null && (byDay.get(c.key)?.length ?? 0) > 0);
 
   return (
-    <div className="rounded-md border border-line bg-surface">
+    <div className="rounded-md border border-line bg-primary">
       <div className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
         <h2 className="text-[15px] font-semibold text-ink">{formatMonthYear(first)}</h2>
         <div className="flex items-center gap-1">
           <Link
             href={buildHref({ year: prev.y, month: prev.m })}
             aria-label="Previous month"
-            className="inline-flex size-7 items-center justify-center rounded-sm border border-line-strong text-muted transition-colors hover:border-line-heavy hover:text-ink"
+            className="inline-flex size-7 items-center justify-center rounded-sm border border-line-strong text-muted transition-colors hover:border-line-strong hover:text-ink"
           >
             <ChevronLeft className="size-3.5" aria-hidden="true" />
           </Link>
           <Link
             href={buildHref({ year: undefined, month: undefined })}
-            className="inline-flex h-7 items-center rounded-sm border border-line-strong px-2.5 text-[12px] font-medium text-muted transition-colors hover:border-line-heavy hover:text-ink"
+            className="inline-flex h-7 items-center rounded-sm border border-line-strong px-2.5 text-[12px] font-medium text-muted transition-colors hover:border-line-strong hover:text-ink"
           >
             Today
           </Link>
           <Link
             href={buildHref({ year: next.y, month: next.m })}
             aria-label="Next month"
-            className="inline-flex size-7 items-center justify-center rounded-sm border border-line-strong text-muted transition-colors hover:border-line-heavy hover:text-ink"
+            className="inline-flex size-7 items-center justify-center rounded-sm border border-line-strong text-muted transition-colors hover:border-line-strong hover:text-ink"
           >
             <ChevronRight className="size-3.5" aria-hidden="true" />
           </Link>
@@ -86,7 +86,7 @@ export function CalendarView({
 
       {/* ------------------------------------------------- desktop month grid */}
       <div className="hidden md:block">
-        <div className="grid grid-cols-7 border-b border-line bg-sunken">
+        <div className="grid grid-cols-7 border-b border-line bg-tertiary">
           {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
             <div
               key={day}
@@ -107,7 +107,7 @@ export function CalendarView({
                   'min-h-26 border-b border-r border-line p-1.5',
                   index % 7 === 6 && 'border-r-0',
                   index >= cells.length - 7 && 'border-b-0',
-                  !cell.day && 'bg-sunken/50',
+                  !cell.day && 'bg-tertiary/50',
                   isToday && 'bg-brand-soft/30',
                 )}
               >
@@ -116,7 +116,7 @@ export function CalendarView({
                     <span
                       className={cn(
                         'vp-numeric mb-1 inline-flex size-5 items-center justify-center rounded-full text-[11.5px] font-semibold',
-                        isToday ? 'bg-brand text-[var(--vp-brand-contrast)]' : 'text-muted',
+                        isToday ? 'bg-brand text-brand-fg' : 'text-muted',
                       )}
                     >
                       {cell.day}
@@ -127,10 +127,10 @@ export function CalendarView({
                           <Link
                             href={`/events/${event.slug}`}
                             title={`${formatTime(event.startsAt)} — ${event.title}`}
-                            className="block truncate rounded-[3px] px-1 py-0.5 text-[10.5px] leading-tight transition-colors hover:bg-canvas-alt"
+                            className="block truncate rounded-[3px] px-1 py-0.5 text-[10.5px] leading-tight transition-colors hover:bg-accent"
                             style={{
-                              backgroundColor: `var(--vp-cat-${eventHue(event.category)}-bg)`,
-                              color: `var(--vp-cat-${eventHue(event.category)}-fg)`,
+                              backgroundColor: `var(--cat-${eventHue(event.category)}-bg)`,
+                              color: `var(--cat-${eventHue(event.category)}-fg)`,
                             }}
                           >
                             {formatTime(event.startsAt)} {event.title}

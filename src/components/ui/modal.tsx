@@ -91,7 +91,7 @@ export function Modal({
         type="button"
         aria-label="Close dialog"
         onClick={onClose}
-        className="vp-anim-fade-in absolute inset-0 bg-[var(--vp-overlay)] backdrop-blur-[2px]"
+        className="vp-anim-fade-in absolute inset-0 bg-[var(--overlay)] backdrop-blur-[2px]"
         tabIndex={-1}
       />
       <div
@@ -101,7 +101,7 @@ export function Modal({
         aria-label={title}
         tabIndex={-1}
         className={cn(
-          'relative z-10 flex w-full flex-col border border-line-strong bg-raised shadow-lg outline-none',
+          'relative z-10 flex w-full flex-col border border-line-strong bg-primary shadow-lg outline-none',
           variant === 'sheet'
             ? 'vp-anim-slide-up max-h-[88vh] rounded-t-lg'
             : cn('vp-anim-scale-in max-h-[86vh] rounded-lg', SIZES[size]),
@@ -122,7 +122,7 @@ export function Modal({
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4">{children}</div>
         {footer && (
-          <div className="flex flex-wrap items-center justify-end gap-2 border-t border-line bg-surface px-5 py-3">
+          <div className="flex flex-wrap items-center justify-end gap-2 border-t border-line bg-primary px-5 py-3">
             {footer}
           </div>
         )}

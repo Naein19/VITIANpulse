@@ -22,7 +22,7 @@ export function ResourceLink({
 }) {
   return (
     <li id={resource.slug} className="group relative scroll-mt-20">
-      <div className="flex h-full items-start gap-3 rounded-md border border-line bg-surface p-3.5 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm">
+      <div className="flex h-full items-start gap-3 rounded-md border border-line bg-primary p-3.5 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm">
         <div className="min-w-0 flex-1">
           <h3 className="flex items-start gap-1.5 text-[13.5px] font-semibold leading-snug text-ink">
             <a

@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
   BadgeCheck, CalendarDays, DoorOpen, ExternalLink, Mail, MapPin, UserRound, Users,
@@ -78,9 +77,9 @@ export default async function ClubDetailPage({
       <JsonLd data={organizationJsonLd(club.name, club.tagline, `${siteUrl}${base}`)} />
 
       {/* ------------------------------------------------------------ banner */}
-      <div className="relative overflow-hidden border-b border-line bg-canvas-alt">
+      <div className="relative overflow-hidden border-b border-line bg-secondary">
         <div className="vp-dot-bg vp-fade-b pointer-events-none absolute inset-0 opacity-70" aria-hidden="true" />
-        <div className="relative mx-auto max-w-[var(--vp-shell-max)] px-4 py-7 sm:px-6 sm:py-9">
+        <div className="relative mx-auto max-w-[var(--content-max)] px-4 py-7 sm:px-6 sm:py-9">
           <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Clubs', href: '/clubs' }, { label: club.name }]} />
 
           <div className="flex flex-wrap items-start gap-5">
@@ -97,7 +96,7 @@ export default async function ClubDetailPage({
               <h1 className="flex flex-wrap items-center gap-2 text-[27px] leading-tight text-ink sm:text-[33px]">
                 {club.name}
                 {club.verified && (
-                  <BadgeCheck className="size-5 shrink-0 text-brand" aria-label="Verified by the university" />
+                  <BadgeCheck className="size-5 shrink-0 text-link" aria-label="Verified by the university" />
                 )}
               </h1>
               <p className="mt-2 max-w-2xl text-[15px] leading-relaxed text-muted">{club.tagline}</p>
@@ -230,8 +229,8 @@ export default async function ClubDetailPage({
           </div>
 
           {/* ------------------------------------------------------- sidebar */}
-          <aside className="min-w-0 space-y-6 lg:sticky lg:top-[calc(var(--vp-header-h)+16px)] lg:self-start">
-            <section className="rounded-md border border-line bg-surface p-4">
+          <aside className="min-w-0 space-y-6 lg:sticky lg:top-4 lg:self-start">
+            <section className="rounded-md border border-line bg-primary p-4">
               <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Club details</h2>
               <dl className="divide-y divide-line">
                 <MetaRow label="Category">{humanise(club.category)}</MetaRow>
@@ -251,7 +250,7 @@ export default async function ClubDetailPage({
               {club.email && (
                 <a
                   href={`mailto:${club.email}`}
-                  className="mt-3 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-brand hover:underline underline-offset-2"
+                  className="mt-3 inline-flex items-center gap-1.5 text-[12.5px] font-medium text-link hover:underline underline-offset-2"
                 >
                   <Mail className="size-3.5" aria-hidden="true" />
                   {club.email}
@@ -260,7 +259,7 @@ export default async function ClubDetailPage({
             </section>
 
             {club.socialLinks.length > 0 && (
-              <section className="rounded-md border border-line bg-surface p-4">
+              <section className="rounded-md border border-line bg-primary p-4">
                 <h2 className="mb-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">Find them on</h2>
                 <ul className="space-y-1">
                   {club.socialLinks.map((link) => (
@@ -269,7 +268,7 @@ export default async function ClubDetailPage({
                         href={link.url}
                         target="_blank"
                         rel="noopener noreferrer nofollow"
-                        className="flex items-center justify-between rounded-sm px-2 py-1.5 text-[13px] text-soft transition-colors hover:bg-canvas-alt hover:text-ink"
+                        className="flex items-center justify-between rounded-sm px-2 py-1.5 text-[13px] text-soft transition-colors hover:bg-accent hover:text-ink"
                       >
                         {humanise(link.platform)}
                         <ExternalLink className="size-3 text-faint" aria-hidden="true" />
@@ -281,7 +280,7 @@ export default async function ClubDetailPage({
             )}
 
             {club.coordinators.length > 0 && (
-              <section className="rounded-md border border-line bg-surface p-4">
+              <section className="rounded-md border border-line bg-primary p-4">
                 <h2 className="mb-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">
                   Student coordinators
                 </h2>

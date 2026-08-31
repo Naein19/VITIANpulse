@@ -56,8 +56,8 @@ export function SearchField({
         placeholder={placeholder}
         aria-label={placeholder}
         className={cn(
-          'h-8 w-full min-w-52 rounded-sm border border-line-strong bg-raised pl-8 pr-8 text-[13px] text-ink',
-          'placeholder:text-faint focus:outline-none focus-visible:border-brand focus-visible:ring-2 focus-visible:ring-brand/25',
+          'h-8 w-full min-w-52 rounded-sm border border-line-strong bg-primary pl-8 pr-8 text-[13px] text-ink',
+          'placeholder:text-faint focus:outline-none focus-visible:border-blue focus-visible:ring-2 focus-visible:ring-blue/25',
         )}
       />
       {value && (

@@ -8,7 +8,7 @@ export const metadata = { title: 'Page not found' };
 export default function NotFound() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-20 text-center sm:py-28">
-      <span className="mb-5 inline-flex size-12 items-center justify-center rounded-md border border-line bg-surface text-faint">
+      <span className="mb-5 inline-flex size-12 items-center justify-center rounded-md border border-line bg-primary text-faint">
         <Compass className="size-5" aria-hidden="true" />
       </span>
       <p className="vp-numeric text-[13px] font-semibold uppercase tracking-[0.16em] text-faint">Error 404</p>
@@ -36,7 +36,7 @@ export default function NotFound() {
             <li key={item.href}>
               <Link
                 href={item.href}
-                className="inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-surface px-3 py-1.5 text-[12.5px] font-medium text-soft transition-colors hover:border-line-heavy hover:text-ink"
+                className="inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-primary px-3 py-1.5 text-[12.5px] font-medium text-soft transition-colors hover:border-line-strong hover:text-ink"
               >
                 <item.icon className="size-3.5 text-faint" aria-hidden="true" />
                 {item.label}

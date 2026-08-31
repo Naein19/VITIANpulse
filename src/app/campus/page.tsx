@@ -115,7 +115,7 @@ export default async function CampusPage({ searchParams }: { searchParams: Promi
                 {filtered.map((location) => (
                   <article
                     key={location.id}
-                    className="group relative flex flex-col rounded-md border border-line bg-surface p-4 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm"
+                    className="group relative flex flex-col rounded-md border border-line bg-primary p-4 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm"
                   >
                     <div className="mb-2 flex items-start justify-between gap-2">
                       <div className="min-w-0">
@@ -157,7 +157,7 @@ export default async function CampusPage({ searchParams }: { searchParams: Promi
           </div>
 
           <aside className="min-w-0 space-y-6">
-            <section className="rounded-md border border-line bg-surface p-4">
+            <section className="rounded-md border border-line bg-primary p-4">
               <h2 className="mb-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-faint">In an emergency</h2>
               <p className="text-[13px] leading-relaxed text-muted">
                 The health centre operates around the clock and the security control room can dispatch an ambulance.

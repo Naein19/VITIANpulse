@@ -182,6 +182,8 @@ export function posts(clock: Clock): Row[] {
 
 const EVENTS: ReadonlyArray<{
   key: string; title: string; cat: string; club?: string; dayOffset: number; startHour: number; hours: number;
+  /** Hours from "now" — used instead of `startHour` so today's board is always live. */
+  liveOffset?: number;
   venue: string; location?: string; summary: string; paras: string[]; seats?: number; taken?: number;
   paid?: number; regRequired?: boolean; featured?: boolean; tags: string[]; school?: string;
 }> = [
@@ -191,16 +193,16 @@ const EVENTS: ReadonlyArray<{
   { key: 'hackathon', title: 'Pulse Hack 36 — a 36-hour campus hackathon', cat: 'HACKATHON', club: 'coding', dayOffset: 12, startHour: 9, hours: 36, venue: 'Innovation & Incubation Centre', location: 'incub', seats: 240, taken: 186, regRequired: true, featured: true, tags: ['hackathon', 'overnight', 'teams'], school: 'SCOPE',
     summary: 'Teams of up to four build for thirty-six hours across four tracks, with mentors on the floor throughout.',
     paras: ['Four tracks: campus utility, health, sustainability and open innovation. Teams of up to four, at least one first or second year per team.', 'Mentors from the Innovation Centre and alumni engineers are on the floor for the whole run. Hardware from the robotics lab can be borrowed with prior notice.', 'Meals and a rest area are provided. Judging is on working demos, not slides.'] },
-  { key: 'today-colloquium', title: 'Annual Research Colloquium — opening day', cat: 'ACADEMIC', dayOffset: 0, startHour: 9, hours: 7, venue: 'Main Auditorium', location: 'aud', regRequired: false, featured: true, tags: ['research', 'colloquium', 'poster'], school: 'SCOPE',
+  { key: 'today-colloquium', title: 'Annual Research Colloquium — opening day', cat: 'ACADEMIC', dayOffset: 0, startHour: 9, hours: 3, liveOffset: -0.75, venue: 'Main Auditorium', location: 'aud', regRequired: false, featured: true, tags: ['research', 'colloquium', 'poster'], school: 'SCOPE',
     summary: 'Keynote on translational research followed by a forty-two team student poster walk.',
     paras: ['The colloquium opens with a keynote on moving laboratory research into deployed systems, followed by a poster walk across four thematic zones.', 'Open to all students and faculty. The poster walk in particular is worth an hour of anyone\'s time, whatever their branch.'] },
-  { key: 'today-recruitment', title: 'Coding Club intro session — what we actually do', cat: 'CLUB_RECRUITMENT', club: 'coding', dayOffset: 0, startHour: 17, hours: 2, venue: 'AB-1 · Lab 108', location: 'ab1', seats: 90, taken: 63, regRequired: false, tags: ['recruitment', 'intro', 'coding'],
+  { key: 'today-recruitment', title: 'Coding Club intro session — what we actually do', cat: 'CLUB_RECRUITMENT', club: 'coding', dayOffset: 0, startHour: 17, hours: 2, liveOffset: 3, venue: 'AB-1 · Lab 108', location: 'ab1', seats: 90, taken: 63, regRequired: false, tags: ['recruitment', 'intro', 'coding'],
     summary: 'An honest walkthrough of the contest ladder, the open-source sprint and the time commitment.',
     paras: ['A straight description of what membership involves: the weekly contest ladder, the open-source sprint, and roughly how many hours a week each track really takes.', 'Attend before applying. It is far easier to decide the club is not for you now than in week eight.'] },
-  { key: 'today-match', title: 'Inter-hostel volleyball — league fixture', cat: 'SPORTS', club: 'sports', dayOffset: 0, startHour: 18, hours: 2, venue: 'Sports Complex · Court 2', location: 'sports', regRequired: false, tags: ['volleyball', 'inter-hostel', 'league'],
+  { key: 'today-match', title: 'Inter-hostel volleyball — league fixture', cat: 'SPORTS', club: 'sports', dayOffset: 0, startHour: 18, hours: 2, liveOffset: 5, venue: 'Sports Complex · Court 2', location: 'sports', regRequired: false, tags: ['volleyball', 'inter-hostel', 'league'],
     summary: 'Two league fixtures back to back under floodlights. Free entry.',
     paras: ['Two league fixtures back to back on the indoor courts. Standings are updated on the board outside the complex after each round.', 'Free entry, no registration. Supporters welcome.'] },
-  { key: 'today-library', title: 'Literature search and citation clinic', cat: 'WORKSHOP', dayOffset: 0, startHour: 14, hours: 2, venue: 'Central Library · Seminar Room', location: 'lib', seats: 25, taken: 19, regRequired: true, tags: ['library', 'research', 'citation'],
+  { key: 'today-library', title: 'Literature search and citation clinic', cat: 'WORKSHOP', dayOffset: 0, startHour: 14, hours: 2, liveOffset: 1.5, venue: 'Central Library · Seminar Room', location: 'lib', seats: 25, taken: 19, regRequired: true, tags: ['library', 'research', 'citation'],
     summary: 'A practical clinic on searching the journal databases and managing citations for final-year projects.',
     paras: ['Covers searching the subscribed journal databases properly, setting up alerts, and running a citation manager so your bibliography is not a last-week panic.', 'Aimed at final-year project students, but open to anyone starting a literature review.'] },
   { key: 'colloquium', title: 'Research Colloquium — day two parallel tracks', cat: 'ACADEMIC', dayOffset: 1, startHour: 9, hours: 8, venue: 'AB-2 & Innovation Centre', location: 'ab2', regRequired: false, tags: ['research', 'colloquium'], school: 'SCOPE',
@@ -270,7 +272,10 @@ const EVENTS: ReadonlyArray<{
 
 export function events(clock: Clock): Row[] {
   return EVENTS.map((e, i) => {
-    const startsAt = clock.atDay(e.dayOffset, e.startHour, 0);
+    const startsAt =
+      e.liveOffset === undefined
+        ? clock.atDay(e.dayOffset, e.startHour, 0)
+        : clock.todayAt(e.liveOffset);
     const endsAt = new Date(Date.parse(startsAt) + e.hours * 3_600_000).toISOString();
     const published = clock.iso(-clock.days(3 + (i % 25)));
     return {
