@@ -3,6 +3,7 @@ import { slugify } from '@/lib/sanitize';
 import type { Row } from '@/server/db/store';
 import type { Clock } from './data';
 import { DEMO_NOTICE } from './data';
+import { CAMPUS_CONTACTS, OFFICIAL_LINKS } from '@/data/vitap';
 
 /** Demo opportunities, resources, PYQ catalogue, ads and community content. */
 
@@ -100,56 +101,51 @@ export function opportunities(clock: Clock): Row[] {
 
 /* -------------------------------------------------------------- resources */
 
-const RESOURCES: ReadonlyArray<[key: string, title: string, cat: string, desc: string, fileType: string | null, tags: string[]]> = [
-  ['acad-cal', 'Academic calendar — current semester', 'ACADEMIC_CALENDAR', 'Term dates, instruction days, assessment windows and holidays for the running semester.', 'PDF', ['calendar', 'semester']],
-  ['acad-cal-next', 'Academic calendar — next semester (provisional)', 'ACADEMIC_CALENDAR', 'Provisional dates for the coming semester, subject to revision by the academic office.', 'PDF', ['calendar', 'provisional']],
-  ['timetable', 'Slot-wise class timetable', 'TIMETABLE', 'The master slot grid plus branch-wise timetables for every school.', 'PDF', ['timetable', 'slots']],
-  ['lab-timetable', 'Laboratory session timetable', 'TIMETABLE', 'Lab allocations by batch, including make-up slot availability.', 'PDF', ['timetable', 'labs']],
-  ['exam-schedule', 'End-semester examination schedule', 'EXAMINATION', 'Slot-wise examination dates and reporting times for the end-semester assessment.', 'PDF', ['exams', 'schedule']],
-  ['exam-guidelines', 'Examination hall guidelines', 'EXAMINATION', 'Permitted materials, reporting times, identification requirements and malpractice policy.', 'PDF', ['exams', 'rules']],
-  ['revaluation', 'Revaluation and grievance process', 'EXAMINATION', 'How to apply for revaluation, the fee structure, and the timeline for results.', null, ['exams', 'revaluation']],
-  ['bonafide', 'Bonafide certificate request', 'FORMS', 'Request a bonafide certificate for visa, bank, scholarship or internship purposes.', null, ['forms', 'certificate']],
-  ['leave-form', 'Hostel leave and outing form', 'FORMS', 'Apply for hostel leave, night-out permission or a long absence.', null, ['forms', 'hostel']],
-  ['nodues', 'No-dues clearance form', 'FORMS', 'Departmental clearance required before hall tickets and transcripts are issued.', 'PDF', ['forms', 'clearance']],
-  ['bus-pass', 'Campus shuttle pass application', 'FORMS', 'Apply for or renew a campus shuttle pass for the city and local routes.', null, ['forms', 'transport']],
-  ['portal-academic', 'Academic portal', 'PORTALS', 'Attendance, marks, course registration and the internal grade book.', null, ['portal', 'academics']],
-  ['portal-hostel', 'Hostel management portal', 'PORTALS', 'Room allocation, mess registration, leave records and complaint tickets.', null, ['portal', 'hostel']],
-  ['portal-placement', 'Placement portal', 'PORTALS', 'Drive registrations, eligibility status, offer tracking and placement announcements.', null, ['portal', 'placement']],
-  ['portal-library', 'Library catalogue and digital resources', 'PORTALS', 'Search the catalogue, reserve books and reach the journal databases.', null, ['portal', 'library']],
-  ['placement-prep', 'Placement preparation handbook', 'PLACEMENT', 'Aptitude, technical and interview preparation structured week by week.', 'PDF', ['placement', 'preparation']],
-  ['resume-guide', 'Resume and portfolio guidelines', 'PLACEMENT', 'Formatting standards, common mistakes, and what recruiters actually read first.', 'PDF', ['placement', 'resume']],
-  ['past-recruiters', 'Recruiter profiles and past processes', 'PLACEMENT', 'What previous drives assessed and the round structure companies have used.', null, ['placement', 'recruiters']],
-  ['scholarship-list', 'Scholarship directory', 'SCHOLARSHIP', 'Government, institutional and private scholarships with eligibility summaries.', null, ['scholarship', 'directory']],
-  ['fee-structure', 'Fee structure and payment schedule', 'SCHOLARSHIP', 'Semester fee components, instalment dates and the late-payment policy.', 'PDF', ['fees', 'payment']],
-  ['hostel-rules', 'Hostel handbook', 'HOSTEL', 'Residential rules, mess timings, visitor policy and the disciplinary framework.', 'PDF', ['hostel', 'rules']],
-  ['hostel-mess', 'Mess menu and timings', 'HOSTEL', 'Weekly mess menu with breakfast, lunch, snacks and dinner service windows.', null, ['hostel', 'mess']],
-  ['library-guide', 'Library user guide', 'LIBRARY', 'Borrowing limits, renewal, fines, discussion-room booking and off-campus access.', 'PDF', ['library', 'guide']],
-  ['plagiarism', 'Academic integrity and plagiarism policy', 'LIBRARY', 'What counts as plagiarism, the similarity thresholds used, and the consequences.', 'PDF', ['integrity', 'policy']],
-  ['counselling', 'Student counselling and wellbeing', 'STUDENT_SERVICES', 'Confidential counselling appointments, wellbeing workshops and peer support.', null, ['wellbeing', 'counselling']],
-  ['grievance', 'Student grievance redressal', 'STUDENT_SERVICES', 'How to raise an academic, administrative or interpersonal grievance and what happens next.', null, ['grievance', 'process']],
-  ['accessibility', 'Accessibility and accommodations', 'STUDENT_SERVICES', 'Requesting examination accommodations, accessible seating and assistive support.', null, ['accessibility', 'support']],
-  ['emergency', 'Emergency contacts', 'EMERGENCY', 'Health centre, security control room, ambulance dispatch, fire and warden numbers.', null, ['emergency', 'contacts']],
-  ['security', 'Campus security and lost property', 'EMERGENCY', 'Security control room, gate passes, incident reporting and the lost property desk.', null, ['security', 'safety']],
-];
-
+/**
+ * Resources are the *real* VIT-AP systems, documents and offices from
+ * `src/data/vitap.ts`, plus the campus contact numbers the university
+ * publishes. These are genuine links, not demo content.
+ */
 export function resources(clock: Clock): Row[] {
-  return RESOURCES.map(([key, title, cat, desc, fileType, tags], i) => ({
-    id: seedId('resource', key),
-    slug: slugify(title),
-    title,
-    description: desc,
-    category: cat,
-    url: `https://example.com/vitpulse-demo/resource/${key}`,
+  const links = OFFICIAL_LINKS.map((link, i) => ({
+    id: seedId('resource', link.url),
+    slug: slugify(link.title),
+    title: link.title,
+    description: link.description,
+    category: link.category,
+    url: link.url,
     external: true,
-    fileType,
-    tags,
-    contact: cat === 'EMERGENCY' ? 'Security control room · extension 1100' : null,
+    fileType: link.fileType,
+    tags: link.title.toLowerCase().split(/[^a-z]+/).filter((t) => t.length > 3).slice(0, 4),
+    contact: null,
     status: 'PUBLISHED',
     clickCount: 20 + ((i * 89) % 900),
     createdAt: clock.iso(-clock.days(150 - i)),
     updatedAt: clock.iso(-clock.days(4 + (i % 40))),
-    demo: true,
+    demo: false,
   }));
+
+  // Published institutional phone numbers, surfaced under Emergency so they are
+  // one tap away rather than buried in a PDF.
+  const contacts = CAMPUS_CONTACTS.map((contact, i) => ({
+    id: seedId('resource', `contact-${contact.label}`),
+    slug: slugify(contact.label),
+    title: contact.label,
+    description: `Published university contact number: ${contact.value}`,
+    category: 'EMERGENCY',
+    url: `tel:${contact.value.replace(/[^0-9+]/g, '')}`,
+    external: true,
+    fileType: null,
+    tags: ['contact', 'phone', 'hostel'],
+    contact: contact.value,
+    status: 'PUBLISHED',
+    clickCount: 10 + i * 7,
+    createdAt: clock.iso(-clock.days(120)),
+    updatedAt: clock.iso(-clock.days(10)),
+    demo: false,
+  }));
+
+  return [...links, ...contacts];
 }
 
 /* -------------------------------------------------------------------- PYQ */

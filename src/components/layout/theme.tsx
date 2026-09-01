@@ -11,24 +11,35 @@ import { cn } from '@/lib/cn';
  * as a class on <html>. The inline script below runs before paint, which stops
  * the flash of the wrong theme on first load.
  *
- * Switching is deliberately gradual rather than instant. Two mechanisms combine:
+ * Switching is a slow dissolve, not a wipe: the whole page cross-fades in
+ * place, the way a room does when the lights change, rather than a shape
+ * sweeping across it.
  *
- *  1. A circular wipe using the View Transitions API, expanding from the point
- *     the user actually clicked, so the new theme sweeps across the page.
- *  2. A `theme-switching` class on <html> for the duration, which turns on
- *     colour transitions across the whole tree. That makes every token —
- *     surfaces, borders, ink, shadows — ease to its new value rather than snap.
+ * A `theme-switching` class goes on <html> for the duration, which turns on
+ * colour transitions across the whole tree, so every token — surfaces,
+ * borders, ink, shadows — eases to its new value rather than snapping. The
+ * wallpaper cross-fades its day and night plates on its own curve (see
+ * Wallpaper and the `.vp-wall-*` rules), which is what carries the feeling.
+ *
+ * Notably this does *not* use the View Transitions API. That API replaces the
+ * page with a pair of static snapshots for the duration, so the wallpaper's
+ * own cross-fade never runs — you get the wipe instead of the dissolve. Doing
+ * it with plain CSS transitions means every element genuinely eases, including
+ * the images.
  *
  * The class is only present while switching, so ordinary hover and focus
- * transitions keep their own (much shorter) timings. Both mechanisms are
- * skipped entirely under `prefers-reduced-motion`.
+ * transitions keep their own, much shorter timings, and the whole thing is
+ * skipped under `prefers-reduced-motion`.
  */
 
 export type Theme = 'light' | 'dark' | 'system';
 const STORAGE_KEY = 'vitpulse-theme';
 
-/** How long the sweep and the colour crossfade run. */
-const TRANSITION_MS = 900;
+/**
+ * How long the dissolve runs. Long on purpose: the point is to be able to
+ * watch the lights come up, not to get it over with.
+ */
+const TRANSITION_MS = 1500;
 
 /** Injected into <head>; must stay dependency-free and synchronous. */
 export const themeScript = `(function(){try{var t=localStorage.getItem('${STORAGE_KEY}')||'system';var d=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.classList.toggle('dark',d);document.documentElement.style.colorScheme=d?'dark':'light';}catch(e){}})();`;
@@ -36,15 +47,10 @@ export const themeScript = `(function(){try{var t=localStorage.getItem('${STORAG
 interface ThemeContextValue {
   theme: Theme;
   resolved: 'light' | 'dark';
-  setTheme: (theme: Theme, origin?: { x: number; y: number }) => void;
+  setTheme: (theme: Theme) => void;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
-
-/** `startViewTransition` is not in the DOM lib yet in every TS release. */
-type DocumentWithViewTransition = Document & {
-  startViewTransition?: (callback: () => void) => { ready: Promise<void>; finished: Promise<void> };
-};
 
 function applyClass(theme: Theme): 'light' | 'dark' {
   const dark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -87,45 +93,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme, beginColourCrossfade]);
 
   const setTheme = useCallback(
-    (next: Theme, origin?: { x: number; y: number }) => {
+    (next: Theme) => {
       localStorage.setItem(STORAGE_KEY, next);
       setThemeState(next);
 
-      const commit = () => setResolved(applyClass(next));
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const doc = document as DocumentWithViewTransition;
-
-      // Reduced motion, or no View Transitions support: change immediately, but
-      // still let the colour tokens ease rather than snap.
-      if (reduceMotion || typeof doc.startViewTransition !== 'function') {
-        if (!reduceMotion) beginColourCrossfade();
-        commit();
-        return;
-      }
-
-      beginColourCrossfade();
-      const transition = doc.startViewTransition(commit);
-
-      void transition.ready.then(() => {
-        const x = origin?.x ?? window.innerWidth - 64;
-        const y = origin?.y ?? 32;
-        // Reach the furthest corner so the wipe always covers the viewport.
-        const radius = Math.hypot(
-          Math.max(x, window.innerWidth - x),
-          Math.max(y, window.innerHeight - y),
-        );
-
-        document.documentElement.animate(
-          {
-            clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`],
-          },
-          {
-            duration: TRANSITION_MS,
-            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-            pseudoElement: '::view-transition-new(root)',
-          },
-        );
-      });
+      // Arm the transitions before flipping the class, so the very first frame
+      // after the change is already interpolating rather than jumping.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) beginColourCrossfade();
+      setResolved(applyClass(next));
     },
     [beginColourCrossfade],
   );
@@ -164,11 +139,7 @@ export function ThemeToggle({ className }: { className?: string }) {
           aria-checked={theme === value}
           aria-label={label}
           title={label}
-          onClick={(event) => {
-            // The wipe originates from the control the user pressed.
-            const rect = event.currentTarget.getBoundingClientRect();
-            setTheme(value, { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
-          }}
+          onClick={() => setTheme(value)}
           className={cn(
             'inline-flex size-6.5 items-center justify-center rounded-full transition-colors duration-150',
             theme === value ? 'bg-primary text-ink shadow-xs' : 'text-faint hover:text-muted',

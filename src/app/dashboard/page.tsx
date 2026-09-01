@@ -12,6 +12,7 @@ import { EventCard } from '@/components/content/event-card';
 import { PostCard } from '@/components/content/post-card';
 import { OpportunityCard } from '@/components/content/opportunity-card';
 import { ClubCard } from '@/components/content/club-card';
+import { CalendarPanel } from '@/components/campus/calendar-panel';
 import { pageMetadata } from '@/lib/metadata';
 import { formatRelative } from '@/lib/format';
 import { getSessionUser } from '@/server/auth/session';
@@ -217,6 +218,8 @@ export default async function DashboardPage() {
 
           {/* ---------------------------------------------------- side rail */}
           <aside className="min-w-0 space-y-7 lg:sticky lg:top-4 lg:self-start">
+            <CalendarPanel year={user.year} />
+
             <SideBlock title="Deadlines" href="/opportunities?filter=closing-soon" linkLabel="All">
               {deadlines.items.length === 0 ? (
                 <p className="py-3 text-[12.5px] text-faint">Nothing closing soon.</p>

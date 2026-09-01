@@ -21,6 +21,7 @@ const STATIC_ROUTES: Array<{ path: string; changeFrequency: MetadataRoute.Sitema
   { path: '/discussions', changeFrequency: 'daily', priority: 0.6 },
   { path: '/lost-found', changeFrequency: 'daily', priority: 0.5 },
   { path: '/map', changeFrequency: 'monthly', priority: 0.5 },
+  { path: '/calendar', changeFrequency: 'weekly', priority: 0.8 },
   { path: '/search', changeFrequency: 'monthly', priority: 0.4 },
 ];
 

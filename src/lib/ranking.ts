@@ -185,15 +185,19 @@ export function scoreOpportunity(opp: Opportunity, ctx: RankingContext): number 
   return explainOpportunityScore(opp, ctx).total;
 }
 
-/** Crude but sufficient school inference used only as a soft ranking signal. */
+/**
+ * Maps a programme to the school that runs it, using VIT-AP's real structure.
+ * Used only as a soft ranking signal, so an unmapped programme is fine.
+ */
 export function branchToSchool(branch: string): string | null {
-  if (branch.startsWith('CSE')) return 'SCOPE';
-  if (branch === 'ECE' || branch === 'EEE') return 'SENSE';
-  if (branch === 'MECH' || branch === 'CIVIL') return 'SMEC';
-  if (branch === 'BIOTECH' || branch === 'BSC') return 'SASH';
+  if (branch.startsWith('CSE') || branch === 'CSBS' || branch === 'MTECH') return 'SCOPE';
+  if (branch.startsWith('ECE') || branch === 'EEE' || branch === 'ECM') return 'SENSE';
+  if (branch.startsWith('MECH')) return 'SMEC';
+  if (branch === 'BIOTECH') return 'SBST';
+  if (branch === 'BSC-STATS') return 'SAS';
+  if (branch === 'BSC-PSYCH') return 'VISH';
   if (branch === 'BBA' || branch === 'BCOM' || branch === 'MBA') return 'VSB';
   if (branch === 'LAW') return 'VSL';
-  if (branch === 'DESIGN') return 'VSD';
   return null;
 }
 

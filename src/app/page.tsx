@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import { ArrowRight, FileText, LibraryBig, Sparkles, Users } from 'lucide-react';
 import { CommandCentre } from '@/components/home/hero';
+import { LandingHero } from '@/components/home/landing-hero';
+import { ScrollRail } from '@/components/home/scroll-rail';
 import { PostCard } from '@/components/content/post-card';
 import { EventCard } from '@/components/content/event-card';
 import { ClubCard } from '@/components/content/club-card';
@@ -17,7 +19,7 @@ import { getSessionUser } from '@/server/auth/session';
 import { listImportantPosts, listPosts } from '@/server/db/repositories/posts';
 import { listEvents, listTodayEvents } from '@/server/db/repositories/events';
 import { listClubs, listRecruitingClubs } from '@/server/db/repositories/clubs';
-import { listOpportunities, pyqBranchSummary } from '@/server/db/repositories/catalog';
+import { listLocations, listOpportunities, pyqBranchSummary } from '@/server/db/repositories/catalog';
 import { bookmarkedIds, listFollowedClubIds } from '@/server/db/repositories/engagement';
 import { makeContext } from '@/lib/ranking';
 import type { RankingContext } from '@/lib/ranking';
@@ -48,7 +50,7 @@ export default async function HomePage() {
 
   const [
     today, important, feed, upcoming, recruiting, opportunities, branches, allClubs,
-    bookmarkedPosts, bookmarkedEvents, bookmarkedOpps,
+    bookmarkedPosts, bookmarkedEvents, bookmarkedOpps, locations,
   ] = await Promise.all([
     listTodayEvents(6),
     listImportantPosts(3),
@@ -61,6 +63,7 @@ export default async function HomePage() {
     bookmarkedIds(user?.id ?? null, 'POST'),
     bookmarkedIds(user?.id ?? null, 'EVENT'),
     bookmarkedIds(user?.id ?? null, 'OPPORTUNITY'),
+    listLocations(),
   ]);
 
   const urgent = important.find((p) => p.importance === 'URGENT') ?? null;
@@ -73,20 +76,21 @@ export default async function HomePage() {
       : `Welcome back, ${user.displayName.split(' ')[0]}. Follow a few clubs to shape this feed around what you care about.`
     : null;
 
+  const stats = {
+    events: upcoming.total,
+    clubs: allClubs.total,
+    papers: totalPapers,
+    opportunities: opportunities.total,
+  };
+
   return (
     <>
-      <CommandCentre
-        today={today}
-        urgent={urgent}
-        now={now}
-        greeting={greeting}
-        stats={{
-          events: upcoming.total,
-          clubs: allClubs.total,
-          papers: totalPapers,
-          opportunities: opportunities.total,
-        }}
-      />
+      {/* The banner is the masthead; the command centre below it answers "what
+          is happening right now". Both show for everyone — a signed-in student
+          still gets the live schedule one scroll down. */}
+      <LandingHero stats={stats} signedIn={signedIn} />
+
+      <CommandCentre today={today} urgent={urgent} now={now} greeting={greeting} stats={stats} />
 
       <div className="mx-auto max-w-[var(--content-max)] px-4 py-8 sm:px-6 sm:py-10">
         <Suspense fallback={null}>
@@ -367,6 +371,10 @@ export default async function HomePage() {
           )}
         </Section>
       </div>
+
+      {/* The side-scrolling tour closes the page: by here a visitor has seen
+          the live surfaces, and this is what else is behind them. */}
+      <ScrollRail stats={{ ...stats, locations: locations.length }} />
     </>
   );
 }

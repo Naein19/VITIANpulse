@@ -129,8 +129,8 @@ export function CalendarView({
                             title={`${formatTime(event.startsAt)} — ${event.title}`}
                             className="block truncate rounded-[3px] px-1 py-0.5 text-[10.5px] leading-tight transition-colors hover:bg-accent"
                             style={{
-                              backgroundColor: `var(--cat-${eventHue(event.category)}-bg)`,
-                              color: `var(--cat-${eventHue(event.category)}-fg)`,
+                              backgroundColor: `rgb(var(--cat-${eventHue(event.category)}-bg))`,
+                              color: `rgb(var(--cat-${eventHue(event.category)}-fg))`,
                             }}
                           >
                             {formatTime(event.startsAt)} {event.title}

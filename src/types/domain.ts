@@ -19,13 +19,25 @@ export const ROLES = [
 ] as const;
 export type Role = (typeof ROLES)[number];
 
+/**
+ * Programmes VIT-AP actually offers, using the short codes students use.
+ * Verified against the programme list on vitap.ac.in — see src/data/vitap.ts.
+ * Note there is no Civil or Design programme at VIT-AP.
+ */
 export const BRANCHES = [
-  'CSE', 'CSE-AI', 'CSE-DS', 'CSE-CYBER', 'ECE', 'EEE', 'MECH', 'CIVIL',
-  'BIOTECH', 'BBA', 'BCOM', 'BSC', 'LAW', 'DESIGN', 'MTECH', 'MBA', 'PHD',
+  'CSE', 'CSE-AIML', 'CSE-BLOCKCHAIN', 'CSE-CYBER', 'CSE-DA', 'CSE-SE', 'CSBS',
+  'ECE', 'ECE-EMBEDDED', 'ECE-VLSI', 'EEE', 'ECM',
+  'MECH', 'MECH-AUTO', 'MECH-ROBOTICS',
+  'BIOTECH', 'BBA', 'BCOM', 'BSC-STATS', 'BSC-PSYCH', 'LAW',
+  'MTECH', 'MBA', 'PHD',
 ] as const;
 export type Branch = (typeof BRANCHES)[number];
 
-export const SCHOOLS = ['SCOPE', 'SENSE', 'SMEC', 'SASH', 'VSB', 'VSL', 'VSD', 'SCHOOL_OF_LAW'] as const;
+/**
+ * The eight schools, using the codes VIT-AP itself uses in its URLs
+ * (vitap.ac.in/allschools/<code>).
+ */
+export const SCHOOLS = ['SCOPE', 'SENSE', 'SMEC', 'SAS', 'VISH', 'VSB', 'VSL', 'SBST'] as const;
 export type School = (typeof SCHOOLS)[number];
 
 export interface Profile {
@@ -310,6 +322,21 @@ export interface PyqSubject {
 export const EXAM_TYPES = ['CAT1', 'CAT2', 'FAT', 'QUIZ', 'LAB', 'MAKEUP', 'RETEST'] as const;
 export type ExamType = (typeof EXAM_TYPES)[number];
 
+/**
+ * The wording VIT itself uses on the academic calendar and the CoE notices.
+ * `humanise()` would render CAT1 as "Cat1", which is not what any student or
+ * noticeboard calls it.
+ */
+export const EXAM_TYPE_LABEL: Record<ExamType, string> = {
+  CAT1: 'CAT-1',
+  CAT2: 'CAT-2',
+  FAT: 'Theory FAT',
+  QUIZ: 'Quiz',
+  LAB: 'Lab FAT',
+  MAKEUP: 'Make-up',
+  RETEST: 'Re-test',
+};
+
 export interface PyqPaper {
   id: string;
   subjectId: string;
@@ -458,12 +485,19 @@ export interface CampusLocation {
   description: string;
   timings: string | null;
   contact: string | null;
-  /** Normalised 0-100 coordinates on the illustrated campus plan. */
-  mapX: number;
-  mapY: number;
-  /** Real-world coordinates, populated when a mapping provider is wired up. */
+  /**
+   * Normalised 0-100 position on the schematic plan, or null for a place with
+   * no published coordinate. Derived from lat/lng, never drawn by hand.
+   */
+  mapX: number | null;
+  mapY: number | null;
+  /** Real WGS84 coordinates, or null when no public source gives them. */
   lat: number | null;
   lng: number | null;
+  /** Storeys, where OpenStreetMap records them. */
+  levels: number | null;
+  /** Provenance of lat/lng, shown in the UI so the claim is auditable. */
+  coordSource: 'VITAP' | 'OSM' | null;
   tags: string[];
 }
 

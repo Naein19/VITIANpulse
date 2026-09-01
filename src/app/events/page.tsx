@@ -6,6 +6,8 @@ import { EventCard } from '@/components/content/event-card';
 import { CalendarView } from '@/components/events/calendar-view';
 import { TimelineView } from '@/components/events/timeline-view';
 import { EventFilters } from '@/components/events/event-filters';
+import { CalendarPanel } from '@/components/campus/calendar-panel';
+import { EventPosterCard } from '@/components/media/entity-poster';
 import { SegmentedControl, FilterChips } from '@/components/ui/tabs';
 import { Pagination } from '@/components/ui/pagination';
 import { EmptyState } from '@/components/ui/empty-state';
@@ -76,7 +78,9 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
         : {}),
   };
 
-  const [listResult, monthEvents, timelineResult, clubs, bookmarks] = await Promise.all([
+  const showPosterWall = view === 'list' && window === 'upcoming' && category === 'ALL' && !search && page === 1;
+
+  const [listResult, monthEvents, timelineResult, clubs, bookmarks, featured] = await Promise.all([
     view === 'list'
       ? listEvents({
           ...baseQuery,
@@ -98,6 +102,9 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
     view === 'timeline' ? listEvents({ ...baseQuery, pageSize: 40 }) : Promise.resolve(null),
     listClubs({ pageSize: 60, sort: 'name' }),
     bookmarkedIds(user?.id ?? null, 'EVENT'),
+    showPosterWall
+      ? listEvents({ window: 'upcoming', featuredOnly: true, pageSize: 6 })
+      : Promise.resolve(null),
   ]);
 
   const buildHref = hrefBuilder('/events', params, {
@@ -149,17 +156,39 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
       </PageHeader>
 
       <PageBody>
+        {featured && featured.items.length > 0 && (
+          <section aria-labelledby="poster-wall" className="mb-8">
+            <div className="mb-3 flex items-baseline justify-between gap-3 border-b border-line-strong pb-2">
+              <h2 id="poster-wall" className="text-[12px] font-bold uppercase tracking-[0.12em] text-ink">
+                On the noticeboard
+              </h2>
+              <p className="text-[11.5px] text-faint">Featured this fortnight</p>
+            </div>
+            <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+              {featured.items.map((event) => (
+                <li key={event.id}>
+                  <EventPosterCard event={event} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
         <div className="grid gap-7 lg:grid-cols-[240px_minmax(0,1fr)]">
-          <EventFilters
-            clubs={clubs.items.map((c) => ({ id: c.id, name: c.name }))}
-            current={{
-              school: school ?? '',
-              club: clubId ?? '',
-              free: free ?? '',
-              registration: registration ?? '',
-            }}
-            params={params}
-          />
+          <div className="min-w-0 space-y-5">
+            <EventFilters
+              clubs={clubs.items.map((c) => ({ id: c.id, name: c.name }))}
+              current={{
+                school: school ?? '',
+                club: clubId ?? '',
+                free: free ?? '',
+                registration: registration ?? '',
+              }}
+              params={params}
+            />
+            {/* Club events are demo content; these are the real university dates. */}
+            <CalendarPanel year={user?.year ?? null} className="hidden lg:block" />
+          </div>
 
           <div className="min-w-0">
             {view === 'calendar' && (

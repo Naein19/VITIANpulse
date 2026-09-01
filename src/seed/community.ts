@@ -134,7 +134,7 @@ const DISCUSSIONS: ReadonlyArray<{
   { key: 'study-spots', title: 'Underrated study spots on campus', cat: 'CAMPUS', author: 'sneha', ageHours: 200, upvotes: 71,
     body: 'The library third floor is always full by 10:00. Where else actually works for a long focused session?',
     replies: [
-      ['priya', 190, 33, 'AB-3 upper-floor corridors between class blocks are quiet and have power points. Not officially study space but nobody minds.'],
+      ['priya', 190, 33, 'Central Block upper-floor corridors between class blocks are quiet and have power points. Not officially study space but nobody minds.'],
       ['vikram', 180, 17, 'The reading hall in the hostel common area is empty during the day when everyone is in class.'],
     ] },
   { key: 'exam-stress', title: 'Managing the run-up to end-semesters', cat: 'GENERAL', author: 'priya', ageHours: 6, upvotes: 56,
@@ -198,9 +198,9 @@ const LOST_FOUND: ReadonlyArray<[key: string, kind: string, title: string, desc:
   ['bottle', 'FOUND', 'Blue steel water bottle with sticker on the side', 'Left behind in the library third floor reading hall. Blue steel, one large sticker on the side. Kept it at the library desk.', 'Central Library, third floor', 3, 'OPEN', 'priya'],
   ['earbuds', 'LOST', 'Wireless earbuds case, black, small scratch on lid', 'Lost somewhere between the sports complex and the north hostels on Tuesday evening. Black case with a scratch across the lid.', 'Between sports complex and north hostels', 4, 'OPEN', 'vikram'],
   ['notebook', 'FOUND', 'Spiral notebook with data structures notes', 'Found in AB-1 lab 108 after the evening contest. Full of handwritten data structures notes — someone will be missing this.', 'AB-1, Lab 108', 5, 'OPEN', 'rohan'],
-  ['umbrella', 'LOST', 'Compact black umbrella left in a lecture theatre', 'Left it under a seat in AB-3 LT-2 during the morning slot. Compact, black, folds into a short sleeve.', 'AB-3, LT-2', 7, 'RESOLVED', 'priya'],
-  ['keys', 'FOUND', 'Set of keys on a blue lanyard', 'Found on the path near the amphitheatre. Three keys on a blue lanyard. Deposited at the security control room.', 'Near the amphitheatre', 2, 'PENDING_REVIEW', 'arjun'],
-  ['charger', 'LOST', 'Laptop charger, 65W, in a grey pouch', 'Left in the Innovation Centre studio over the weekend. 65W brick in a grey drawstring pouch.', 'Innovation Centre studio', 6, 'PENDING_REVIEW', 'rohan'],
+  ['umbrella', 'LOST', 'Compact black umbrella left in a lecture theatre', 'Left it under a seat in Central Block LT-2 during the morning slot. Compact, black, folds into a short sleeve.', 'Central Block, LT-2', 7, 'RESOLVED', 'priya'],
+  ['keys', 'FOUND', 'Set of keys on a blue lanyard', 'Found on the path near the Central Junction. Three keys on a blue lanyard. Deposited at the security control room.', 'Near the Central Junction', 2, 'PENDING_REVIEW', 'arjun'],
+  ['charger', 'LOST', 'Laptop charger, 65W, in a grey pouch', 'Left in the Innovation & Incubation Centre studio over the weekend. 65W brick in a grey drawstring pouch.', 'Innovation & Incubation Centre studio', 6, 'PENDING_REVIEW', 'rohan'],
 ];
 
 export function lostFound(clock: Clock): Row[] {

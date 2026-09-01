@@ -1,4 +1,4 @@
-import { randomUUID } from 'node:crypto';
+import { createHash, randomUUID } from 'node:crypto';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import {
@@ -26,11 +26,14 @@ export class MemoryStore implements Store {
   private tables: Tables = {};
   private dirty = false;
   private flushTimer: NodeJS.Timeout | null = null;
+  /** Content hash of the seed this snapshot was built from. */
+  private readonly seedHash: string;
 
   constructor(
     seed: Tables,
     private readonly options: { persist?: boolean } = {},
   ) {
+    this.seedHash = fingerprint(seed);
     const restored = options.persist ? this.restore() : null;
     this.tables = restored ?? structuredClone(seed);
   }
@@ -39,8 +42,12 @@ export class MemoryStore implements Store {
     try {
       if (!existsSync(DATA_FILE)) return null;
       const raw = readFileSync(DATA_FILE, 'utf8');
-      const parsed = JSON.parse(raw) as { version: number; tables: Tables };
+      const parsed = JSON.parse(raw) as { version: number; seedHash?: string; tables: Tables };
       if (parsed.version !== SNAPSHOT_VERSION) return null;
+      // A snapshot built from a different seed is stale, not resumable: editing
+      // the dataset would otherwise leave the running app showing the old rows,
+      // with foreign keys pointing at records that no longer exist.
+      if (parsed.seedHash !== this.seedHash) return null;
       return parsed.tables;
     } catch {
       return null;
@@ -63,7 +70,10 @@ export class MemoryStore implements Store {
     if (!this.options.persist || !this.dirty) return;
     try {
       mkdirSync(dirname(DATA_FILE), { recursive: true });
-      writeFileSync(DATA_FILE, JSON.stringify({ version: SNAPSHOT_VERSION, tables: this.tables }));
+      writeFileSync(
+        DATA_FILE,
+        JSON.stringify({ version: SNAPSHOT_VERSION, seedHash: this.seedHash, tables: this.tables }),
+      );
       this.dirty = false;
     } catch (error) {
       console.warn('[vitpulse] could not persist local data:', (error as Error).message);
@@ -166,3 +176,22 @@ export class MemoryStore implements Store {
 
 /** Bumping this invalidates any snapshot written by an older schema. */
 export const SNAPSHOT_VERSION = 4;
+
+/**
+ * Identity fingerprint of a seed, used to detect a stale snapshot.
+ *
+ * Hashes the table names and row ids rather than whole rows: seed timestamps are
+ * relative to boot time, so a full content hash would differ on every start and
+ * persistence would never resume. Seed ids are derived from slugs, so renaming a
+ * building or adding a club does change the fingerprint — which is the case that
+ * matters, because those ids are what other tables point at.
+ */
+function fingerprint(seed: Tables): string {
+  const hash = createHash('sha256');
+  for (const table of Object.keys(seed).sort()) {
+    const rows = seed[table as TableName] ?? [];
+    hash.update(`${table}:${rows.length}:`);
+    for (const row of rows) hash.update(`${String(row.id)},`);
+  }
+  return hash.digest('hex').slice(0, 16);
+}

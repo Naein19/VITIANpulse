@@ -1,6 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 import {
-  Bookmark, Building2, CalendarDays, FileText, Home, LayoutDashboard, LibraryBig,
+  Bookmark, Building2, CalendarClock, CalendarDays, FileText, Home, LayoutDashboard, LibraryBig,
   MapPin, MessageSquare, Newspaper, PackageSearch, Search, Shield, Sparkles, Users,
 } from 'lucide-react';
 
@@ -31,6 +31,7 @@ export interface DesktopApp {
 export const ALL_APPS: readonly DesktopApp[] = [
   { id: 'home', label: 'Home', href: '/', icon: Home, hue: 'blue', description: "Today's campus command centre" },
   { id: 'events', label: 'Events', href: '/events', icon: CalendarDays, hue: 'orange', description: 'What is on and when', matchPrefix: true },
+  { id: 'calendar', label: 'Calendar', href: '/calendar', icon: CalendarClock, hue: 'purple', description: 'Semester dates, CATs and FATs' },
   { id: 'clubs', label: 'Clubs', href: '/clubs', icon: Users, hue: 'lilac', description: 'Every student organisation', matchPrefix: true },
   { id: 'pyqs', label: 'PYQ Hub', href: '/pyqs', icon: FileText, hue: 'teal', description: 'Previous year papers', matchPrefix: true },
   { id: 'opportunities', label: 'Opportunities', href: '/opportunities', icon: Sparkles, hue: 'yellow', description: 'Internships and deadlines', matchPrefix: true },
@@ -46,9 +47,9 @@ export const ALL_APPS: readonly DesktopApp[] = [
   { id: 'admin', label: 'Admin', href: '/admin', icon: Shield, hue: 'red', description: 'Console', matchPrefix: true, adminOnly: true },
 ];
 
-/** The six shortcuts on each flanking rail, split left and right. */
+/** The shortcuts on each flanking rail, split left and right. */
 export const LEFT_RAIL_APPS = ALL_APPS.filter((a) =>
-  ['home', 'campus', 'events', 'clubs', 'pyqs', 'map'].includes(a.id),
+  ['home', 'campus', 'events', 'calendar', 'clubs', 'pyqs', 'map'].includes(a.id),
 );
 
 export const RIGHT_RAIL_APPS = ALL_APPS.filter((a) =>

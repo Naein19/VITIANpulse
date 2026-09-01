@@ -13,7 +13,7 @@ import { can } from '@/server/auth/rbac';
 import { listPyqPapers } from '@/server/db/repositories/catalog';
 import { getPyqHubConnector } from '@/server/integrations/pyq-hub';
 import { Alert } from '@/components/ui/misc';
-import { CONTENT_STATUSES, type ContentStatus } from '@/types/domain';
+import { CONTENT_STATUSES, EXAM_TYPE_LABEL, type ContentStatus } from '@/types/domain';
 import { enumParam, hrefBuilder, intParam, type SearchParams } from '@/lib/query-params';
 
 /** PYQ upload moderation. */
@@ -93,7 +93,7 @@ export default async function AdminPyqPage({ searchParams }: { searchParams: Pro
                       <p className="text-[13px] font-semibold text-ink">{paper.subjectName}</p>
                     </Td>
                     <Td>
-                      <Badge tone="outline" size="xs">{paper.examType}</Badge>
+                      <Badge tone="outline" size="xs">{EXAM_TYPE_LABEL[paper.examType]}</Badge>
                       <span className="vp-numeric ml-1.5 text-[12px] text-muted">{paper.year}</span>
                     </Td>
                     <Td className="text-[12.5px]">
@@ -130,7 +130,7 @@ export default async function AdminPyqPage({ searchParams }: { searchParams: Pro
               <DataListRow
                 key={paper.id}
                 title={`${paper.subjectCode} — ${paper.subjectName}`}
-                subtitle={`${paper.examType} ${paper.year} · ${paper.branch} Sem ${paper.semester}`}
+                subtitle={`${EXAM_TYPE_LABEL[paper.examType]} ${paper.year} · ${paper.branch} Sem ${paper.semester}`}
                 meta={<Badge tone="outline" size="xs">{humanise(paper.status)}</Badge>}
                 action={<PyqReviewActions id={paper.id} status={paper.status} canDelete={canDelete} />}
               />

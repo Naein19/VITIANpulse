@@ -1,6 +1,6 @@
 import { cn } from '@/lib/cn';
 import { humanise } from '@/lib/format';
-import type { EventCategory, Importance, PostCategory } from '@/types/domain';
+import type { ClubCategory, EventCategory, Importance, PostCategory } from '@/types/domain';
 import type { ReactNode } from 'react';
 
 /**
@@ -49,7 +49,7 @@ export function Badge({ tone = 'neutral', size = 'sm', className, children, dot 
 
 /* --------------------------------------------------- categorical variants */
 
-const POST_CATEGORY_VAR: Record<PostCategory, string> = {
+export const POST_CATEGORY_VAR: Record<PostCategory, string> = {
   ANNOUNCEMENT: 'announcement',
   CAMPUS: 'campus',
   GUEST: 'guest',
@@ -80,8 +80,8 @@ export function CategoryBadge({
         className,
       )}
       style={{
-        backgroundColor: `var(--cat-${key}-bg)`,
-        color: `var(--cat-${key}-fg)`,
+        backgroundColor: `rgb(var(--cat-${key}-bg))`,
+        color: `rgb(var(--cat-${key}-fg))`,
       }}
     >
       {humanise(category)}
@@ -90,7 +90,7 @@ export function CategoryBadge({
 }
 
 /** Event categories reuse the same hue set, mapped by closest meaning. */
-const EVENT_CATEGORY_VAR: Record<EventCategory, string> = {
+export const EVENT_CATEGORY_VAR: Record<EventCategory, string> = {
   TECHNICAL: 'campus',
   CULTURAL: 'guest',
   SPORTS: 'sports',
@@ -121,8 +121,8 @@ export function EventCategoryBadge({
         className,
       )}
       style={{
-        backgroundColor: `var(--cat-${key}-bg)`,
-        color: `var(--cat-${key}-fg)`,
+        backgroundColor: `rgb(var(--cat-${key}-bg))`,
+        color: `rgb(var(--cat-${key}-fg))`,
       }}
     >
       {humanise(category)}
@@ -154,3 +154,18 @@ export function SponsoredBadge({ className }: { className?: string }) {
     </span>
   );
 }
+
+
+/**
+ * Club categories, mapped into the same hue set. Exported so posters and
+ * avatars tint from one table rather than three drifting copies.
+ */
+export const CLUB_CATEGORY_VAR: Record<ClubCategory, string> = {
+  TECHNICAL: 'campus',
+  CULTURAL: 'guest',
+  SPORTS: 'sports',
+  PROFESSIONAL: 'placement',
+  SOCIAL: 'opportunity',
+  REGIONAL: 'club',
+  CREATIVE: 'announcement',
+};

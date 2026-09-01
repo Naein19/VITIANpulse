@@ -51,7 +51,8 @@ explorable:
 | `npm run test` | Unit and integration tests (Vitest) |
 | `npm run e2e` | End-to-end tests (Playwright) |
 | `npm run verify` | Typecheck → lint → test → build, as CI runs it |
-| `npm run db:migrate` | Apply Supabase migrations |
+| `npm run db:migrate` | Apply Supabase migrations via the CLI |
+| `npm run db:sql` | Regenerate the copy-paste bundle in `sql/` |
 
 ---
 
@@ -66,13 +67,23 @@ persistent, multi-user data.
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
    - `SUPABASE_SERVICE_ROLE_KEY` — **server only**, never prefixed with
      `NEXT_PUBLIC_`
-3. Apply the migrations in order:
+3. Create the schema. Either paste the SQL yourself, which needs no CLI:
+
+   > Open the project's **SQL Editor** and run `sql/01_schema.sql` through
+   > `sql/05_reference_data.sql` in order. See [sql/README.md](./sql/README.md)
+   > — it covers what each file does, which are safe to re-run, and how to
+   > check afterwards that RLS is actually on.
+
+   or use the Supabase CLI:
+
    ```bash
    supabase link --project-ref <ref>
    supabase db push
    ```
-   This creates the schema, the helper functions, every RLS policy and the two
-   storage buckets.
+
+   Either way you get the schema, the helper functions, every RLS policy, the
+   two storage buckets, and the real VIT-AP reference data (campus locations,
+   clubs, official links).
 4. Set `SUPER_ADMIN_EMAILS` to your address, sign in once to be promoted, then
    clear the variable.
 5. Restart. `getStore()` switches to Postgres automatically.
@@ -110,9 +121,11 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the full picture. In brief:
 ```
 src/app/          Routes
 src/components/   Shell, layout, design system, feature components
+src/data/         Verified real VIT-AP data (campus, calendars, clubs, links)
 src/lib/          Pure utilities (ranking, formatting, sanitisation, env)
 src/server/       Auth, actions, repositories, store adapters, integrations
-src/seed/         Demo dataset
+src/seed/         Demo dataset (built on top of src/data/)
+sql/              Generated copy-paste bundle for the Supabase SQL editor
 supabase/         SQL migrations: schema, functions, RLS, storage
 e2e/              Playwright specs
 refrence/         Captured design reference (excluded from build and lint)

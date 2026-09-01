@@ -9,8 +9,7 @@ import { Field, Input, Select, Textarea } from '@/components/ui/field';
 import { Alert } from '@/components/ui/misc';
 import { useToast } from '@/components/ui/toast';
 import { uploadPyqAction } from '@/server/actions/pyq';
-import { BRANCHES, EXAM_TYPES } from '@/types/domain';
-import { humanise } from '@/lib/format';
+import { BRANCHES, EXAM_TYPES, EXAM_TYPE_LABEL } from '@/types/domain';
 
 /**
  * Paper upload.
@@ -94,7 +93,7 @@ export function UploadPaperDialog({ signedIn }: { signedIn: boolean }) {
             <Field label="Exam" htmlFor="pyq-exam" required error={errors.examType}>
               <Select id="pyq-exam" name="examType" required defaultValue="CAT1">
                 {EXAM_TYPES.map((type) => (
-                  <option key={type} value={type}>{humanise(type)}</option>
+                  <option key={type} value={type}>{EXAM_TYPE_LABEL[type]}</option>
                 ))}
               </Select>
             </Field>

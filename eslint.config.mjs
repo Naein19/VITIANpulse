@@ -27,4 +27,9 @@ export default [
       eqeqeq: ['error', 'smart'],
     },
   },
+  {
+    // Build scripts are command-line tools: printing what they did is the point.
+    files: ['scripts/**/*.ts'],
+    rules: { 'no-console': 'off' },
+  },
 ];

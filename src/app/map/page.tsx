@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { PageBody, PageHeader } from '@/components/layout/page-header';
-import { CampusMap } from '@/components/campus/campus-map';
+import { MapExplorer } from '@/components/campus/map-explorer';
 import { Alert } from '@/components/ui/misc';
 import { pageMetadata } from '@/lib/metadata';
 import { listLocations } from '@/server/db/repositories/catalog';
@@ -32,11 +32,12 @@ export default async function MapPage({ searchParams }: { searchParams: Promise<
         compact
       />
       <PageBody>
-        <CampusMap locations={locations} initialSelected={selected} />
+        <MapExplorer locations={locations} initialSelected={selected} />
         <Alert tone="neutral" className="mt-6">
-          The plan is illustrative and shows relative positions rather than surveyed coordinates. Each location row
-          already carries latitude and longitude columns, so a real mapping provider can be wired in without a schema
-          change.
+          Names, descriptions and opening hours come from VIT-AP&rsquo;s own campus tour and facilities pages.
+          Coordinates and building heights come from OpenStreetMap contributors (ODbL), rendered with MapLibre GL JS
+          and OpenFreeMap&rsquo;s public tiles — both free and open source, no API key. Places with no published
+          position are listed as unmapped rather than given an invented one.
         </Alert>
       </PageBody>
     </>

@@ -12,8 +12,8 @@ import { PaperRow } from '@/components/pyq/paper-row';
 import { UploadPaperDialog } from '@/components/pyq/upload-dialog';
 import { SearchField } from '@/components/content/search-field';
 import { pageMetadata } from '@/lib/metadata';
-import { formatCount, humanise } from '@/lib/format';
-import { BRANCHES, EXAM_TYPES, type Branch, type ExamType } from '@/types/domain';
+import { formatCount } from '@/lib/format';
+import { BRANCHES, EXAM_TYPES, EXAM_TYPE_LABEL, type Branch, type ExamType } from '@/types/domain';
 import { listPyqPapers, listPyqSubjects, pyqBranchSummary } from '@/server/db/repositories/catalog';
 import { fetchExternalPapers } from '@/server/integrations/pyq-hub';
 import { bookmarkedIds } from '@/server/db/repositories/engagement';
@@ -234,7 +234,7 @@ export default async function BranchPyqPage({
                 activeKey={examType ?? 'ALL'}
                 items={[
                   { key: 'ALL', label: 'All exams', href: buildHref({ exam: undefined }) },
-                  ...EXAM_TYPES.map((type) => ({ key: type, label: humanise(type), href: buildHref({ exam: type }) })),
+                  ...EXAM_TYPES.map((type) => ({ key: type, label: EXAM_TYPE_LABEL[type], href: buildHref({ exam: type }) })),
                 ]}
               />
               {years.length > 1 && (

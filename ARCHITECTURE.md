@@ -263,12 +263,133 @@ src/
     storage/               Upload handling
     supabase/              Client factories
     validation/            Zod schemas
+  data/                    Verified real VIT-AP data (see §Real data vs demo data)
   seed/                    Demo dataset (clearly marked, never presented as real)
   types/                   Domain model
 supabase/migrations/       SQL: schema, functions, RLS, storage
 e2e/                       Playwright specs
 refrence/                  Captured design reference (excluded from build/lint)
 ```
+
+---
+
+## 8a. Real data vs demo data
+
+Two datasets live side by side and are never mixed.
+
+`src/data/vitap.ts` holds **verified institutional fact**, transcribed from
+VIT-AP's own public pages: the eight schools and their codes, the programme
+list, twenty campus buildings with the names and descriptions the university
+gives them, both Fall 2026-27 academic calendars (the senior batch and the 2026
+fresher batch follow different dates), the registered clubs and chapters, the
+official portal links, and the published hostel office numbers. Every source is
+named in the file header, and `VERIFIED_ON` records when it was last checked.
+Individual staff names are deliberately excluded — institutional offices only.
+
+`src/seed/` holds **demo content** — posts, events, threads, lost-and-found
+reports, advertisements — used to make the app fully explorable with no
+credentials. Every row carries a `demo` marker and a visible notice, and the UI
+never presents it as a real university announcement.
+
+The seed layer builds *on top of* the real layer: campus locations come from
+`CAMPUS_LOCATIONS`, clubs from `VITAP_CLUBS`, resources from `OFFICIAL_LINKS`,
+and demo events are placed at real venues. So a demo event says "AB-2 · Lab 301"
+rather than an invented building, and deleting the demo dataset leaves the real
+data intact.
+
+Surfaces that show real data say so: `/calendar` cites the university's calendar
+page and its own transcription date, `/map` links to the single published campus
+coordinate rather than inventing per-building latitudes, and the calendar panel
+on `/events` and `/dashboard` is labelled as real dates next to the demo feed.
+
+---
+
+## 8b. Maps and posters
+
+**The campus map is a real map.** `src/components/campus/campus-map-3d.tsx`
+renders OpenStreetMap data with [MapLibre GL JS](https://github.com/maplibre/maplibre-gl-js)
+(BSD-3) through [OpenFreeMap](https://openfreemap.org)'s public vector tiles.
+Both are open source and free with no API key, no account and no request
+ceiling, which is what makes this clonable and runnable by anyone.
+
+The 3D is load-bearing, not decoration. OSM records `building:levels` for this
+campus, so the extrusion shows the real massing: the eleven-storey Central Block
+does stand over the three-storey academic blocks, and the fourteen-storey hostel
+towers do dominate the south. That is exactly what a flat plan cannot tell a
+first-year trying to find a room.
+
+Three things this cost, all documented in the component:
+
+- `maplibre-gl` is pinned to **v5**. On v6.6 the style fetches but never
+  finishes loading — no source caches are built, no tile is requested, no error
+  is raised — leaving a blank canvas. v5 is also the line OpenFreeMap ships and
+  tests its own public instance against.
+- The CSP names `https://tiles.openfreemap.org` in `connect-src` and allows
+  `worker-src blob:` (MapLibre decodes tiles in a worker). Every third-party
+  origin is listed by name rather than wildcarded, so adding one is a reviewable
+  change.
+- The library is imported inside an effect, so a visitor who never opens the map
+  never downloads ~800 kB of it. `/map`'s own bundle stays under 8 kB.
+
+`CampusPlan` is the offline fallback: the same real coordinates projected to
+scale into a 0-100 square, with a scale bar derived from the projection. It is
+not a hand-drawn diagram, and it plots nothing we lack a coordinate for.
+
+**Posters** (`src/components/media/poster.tsx`) solve the cold-start problem:
+clubs rarely have artwork on day one, and a directory of grey placeholders looks
+abandoned. The slug seeds a small PRNG that picks one of seven motifs and lays
+out its geometry; the category picks the palette from the same tokens the badges
+use. It is deterministic, so the same club gets the same poster on the server
+and the client and on every later render, and distinctive enough that a regular
+reader recognises a club by its artwork before reading the name. The moment real
+artwork exists, `posterUrl` / `bannerUrl` takes over and none of this runs.
+
+One note on the palette: the `--cat-*` tokens are stored as bare `R G B` triples
+so they compose with Tailwind's opacity syntax. Used directly in a colour
+position they are not a colour at all and the declaration is silently dropped —
+which is why every consumer writes `rgb(var(--cat-…))`.
+
+---
+
+## 8c. The landing page
+
+Three moving parts, none of which ship a line of JavaScript.
+
+**The skyline** (`components/home/campus-scene.tsx`) is inline SVG whose towers
+are the real VIT-AP buildings, ordered west to east by longitude and drawn at
+their true relative heights from OpenStreetMap's `building:levels`. Windows lit
+one row per real storey. So even the decoration is telling the truth about the
+campus, and a student who lives there recognises the outline.
+
+**The headline** fades up word by word on a CSS stagger — inline
+`animation-delay`, no client component, no hydration cost.
+
+**The side-scrolling tour** (`components/home/scroll-rail.tsx`) pins the section
+and moves the rail horizontally as you scroll down, using a CSS scroll-driven
+animation: `view-timeline-name` on the tall outer section, `animation-timeline`
+on the track. No scroll listener, no layout reads, nothing on the main thread.
+
+Two details that took measuring:
+
+- The travel distance is `calc(-100% + 100cqw - 3rem)` — the track's own width
+  against the stage's, via a container query context on the stage. A fixed
+  percentage over- or under-shoots the moment a card is added or the window is
+  resized; this is exact and self-maintaining.
+- The whole enhancement is inside `@supports (animation-timeline: view())` and
+  `@media (min-width: 1024px) and (prefers-reduced-motion: no-preference)`.
+  Outside that — every narrow screen, every browser without scroll-driven
+  animations, anyone who asked for less motion — the identical markup is a
+  plain horizontal snap scroller. That is the baseline, not a degraded mode: it
+  works with a swipe, a trackpad, the scrollbar and the keyboard.
+
+### Text contrast
+
+The four-step text ramp is contrast-solved rather than picked by eye: every
+step clears WCAG AA (4.5:1) against `--bg-tertiary`, the hardest surface any of
+it lands on, in both themes. The values inherited from the captured reference
+did not — dark `muted` measured 2.8:1 and dark `faint` 2.4:1, which is why the
+metadata under every card title was effectively invisible. The measured ratio
+sits in a comment beside each token so the next edit has to keep it.
 
 ---
 

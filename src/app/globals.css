@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'maplibre-gl/dist/maplibre-gl.css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -29,10 +30,13 @@
   --border-strong: 158 160 150;   /* #9ea096                               */
 
   /* --- Ink -------------------------------------------------------------- */
-  --text-primary: 35 37 29;       /* #23251d                               */
-  --text-secondary: 101 103 94;   /* #65675e                               */
-  --text-muted: 115 117 107;      /* #73756b                               */
-  --text-faint: 158 160 150;      /* #9ea096                               */
+  /* The ramp is contrast-solved, not eyeballed: every step clears WCAG AA
+     (4.5:1) against --bg-tertiary, the hardest surface it can land on. The
+     captured reference's own faint grey measured 2.2:1 and was unreadable. */
+  --text-primary: 35 37 29;       /* #23251d  15.2:1                        */
+  --text-secondary: 75 76 70;     /* #4b4c46   7.2:1                        */
+  --text-muted: 90 92 84;         /* #5a5c54   5.6:1                        */
+  --text-faint: 103 105 97;       /* #676961   4.6:1                        */
   --text-inverse: 253 253 248;    /* #fdfdf8                               */
 
   /* Inverted fill used by the reference's `hover-invert` controls. */
@@ -60,10 +64,13 @@
   --border-soft: 50 52 63;        /* #32343f                               */
   --border-strong: 74 78 92;      /* #4a4e5c                               */
 
-  --text-primary: 237 238 244;    /* #edeef4                               */
-  --text-secondary: 176 180 196;  /* #b0b4c4                               */
-  --text-muted: 110 114 129;      /* #6e7281                               */
-  --text-faint: 98 102 116;       /* #626674                               */
+  /* Same contrast solve as the light ramp. The previous muted and faint greys
+     measured 2.8:1 and 2.4:1 on --bg-tertiary — the metadata under every card
+     title was effectively invisible. */
+  --text-primary: 237 238 244;    /* #edeef4  11.6:1                        */
+  --text-secondary: 195 199 215;  /* #c3c7d7   8.0:1                        */
+  --text-muted: 169 173 187;      /* #a9adbb   6.0:1                        */
+  --text-faint: 148 151 163;      /* #9497a3   4.6:1                        */
   --text-inverse: 30 31 35;
 
   --invert-bg: 238 239 233;
@@ -472,4 +479,177 @@ html.theme-switching *::after {
 @media print {
   .vp-no-print { display: none !important; }
   body { background: #fff; color: #000; }
+}
+
+/* ==========================================================================
+   MAP
+   MapLibre ships its own chrome; these rules retheme it with the app's tokens
+   so the map reads as part of the product rather than an embedded widget.
+   ========================================================================== */
+
+.vp-map .maplibregl-ctrl-group {
+  background: rgb(var(--bg-primary) / 0.9);
+  border: 1px solid rgb(var(--border-strong));
+  border-radius: 6px;
+  box-shadow: none;
+  backdrop-filter: blur(8px);
+}
+.vp-map .maplibregl-ctrl-group button + button { border-top-color: rgb(var(--border)); }
+.vp-map .maplibregl-ctrl-group button span { filter: var(--map-icon-filter, none); }
+.vp-map .maplibregl-ctrl-attrib,
+.vp-map .maplibregl-ctrl-scale {
+  background: rgb(var(--bg-primary) / 0.85);
+  color: rgb(var(--text-faint));
+  border-color: rgb(var(--border));
+  font-size: 10px;
+}
+.vp-map .maplibregl-ctrl-attrib a { color: rgb(var(--text-muted)); }
+.dark .vp-map { --map-icon-filter: invert(1); }
+
+/* Markers are DOM nodes, so they inherit the same category palette as badges. */
+.vp-marker {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px 2px 5px;
+  border-radius: 999px;
+  border: 1px solid var(--marker-fg);
+  background: var(--marker-bg);
+  color: var(--marker-fg);
+  font-size: 10.5px;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.18);
+  transition: transform 160ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease, box-shadow 160ms ease;
+  transform-origin: bottom center;
+}
+.vp-marker:hover { transform: scale(1.08); }
+.vp-marker:focus-visible { outline: 2px solid rgb(var(--brand-bg)); outline-offset: 2px; }
+.vp-marker-dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; }
+.vp-marker[data-dimmed='true'] { opacity: 0.28; }
+.vp-marker[data-active='true'] {
+  transform: scale(1.16);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.28);
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vp-marker { transition: none; }
+}
+
+/* ==========================================================================
+   LANDING — SVG scene and the horizontal scroll rail
+
+   All of this is CSS and inline SVG: no animation library, nothing to
+   hydrate, and the global prefers-reduced-motion rule above already stops
+   every keyframe here for anyone who has asked for that.
+   ========================================================================== */
+
+/* --- The skyline scene ---------------------------------------------------- */
+
+@keyframes vp-rise {
+  from { transform: scaleY(0); opacity: 0; }
+  to   { transform: scaleY(1); opacity: 1; }
+}
+@keyframes vp-twinkle {
+  0%, 100% { opacity: 0.15; }
+  50%      { opacity: 0.85; }
+}
+@keyframes vp-draw {
+  from { stroke-dashoffset: var(--draw-len, 600); }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes vp-sweep {
+  0%   { transform: translateX(-16%); opacity: 0; }
+  12%  { opacity: 0.9; }
+  88%  { opacity: 0.9; }
+  100% { transform: translateX(116%); opacity: 0; }
+}
+@keyframes vp-ping {
+  0%   { r: 2; opacity: 0.9; }
+  100% { r: 26; opacity: 0; }
+}
+@keyframes vp-drift {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-5px); }
+}
+@keyframes vp-trace {
+  from { stroke-dashoffset: 320; }
+  to   { stroke-dashoffset: -320; }
+}
+
+.vp-scene-tower {
+  transform-origin: bottom center;
+  animation: vp-rise 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.vp-scene-window { animation: vp-twinkle 4.5s ease-in-out infinite; }
+.vp-scene-ground {
+  stroke-dasharray: var(--draw-len, 600);
+  animation: vp-draw 1400ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
+}
+.vp-scene-sweep { animation: vp-sweep 7s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+.vp-scene-ping  { animation: vp-ping 3.2s cubic-bezier(0.2, 0.6, 0.3, 1) infinite; }
+.vp-scene-float { animation: vp-drift 6s ease-in-out infinite; }
+.vp-scene-route {
+  stroke-dasharray: 26 300;
+  animation: vp-trace 9s linear infinite;
+}
+
+/* --- The horizontal rail -------------------------------------------------- */
+
+/*
+ * Baseline everywhere: an ordinary horizontal scroller with snap points, which
+ * works with a trackpad, a touch swipe, the scrollbar and the keyboard.
+ */
+.vp-rail {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 4px;
+  padding-bottom: 10px;
+}
+.vp-rail > * { scroll-snap-align: start; flex: 0 0 auto; }
+
+/*
+ * Travel exactly as far as the track overflows its stage, so the last card
+ * lands flush against the right edge instead of sailing off it. `100%` is the
+ * track's own width; `100cqw` is the stage's, from the container query context
+ * declared on .vp-pin-stage. Both are measured live, so adding a card to the
+ * rail needs no change here.
+ */
+@keyframes vp-rail-x {
+  to { transform: translate3d(calc(-100% + 100cqw - 3rem), 0, 0); }
+}
+
+/*
+ * Progressive enhancement: where the browser has scroll-driven animations, the
+ * section pins and the rail travels sideways as the page scrolls down — the
+ * side-scroll effect — with no scroll listener and no main-thread work. Where
+ * it does not, the rule never applies and the snap scroller above stands.
+ */
+@supports (animation-timeline: view()) {
+  @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+    .vp-pin { height: 240vh; view-timeline-name: --vp-pin; view-timeline-axis: block; }
+    .vp-pin-stage {
+      position: sticky;
+      top: 0;
+      display: flex;
+      height: clamp(400px, 66vh, 640px);
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      container-type: inline-size;
+    }
+    .vp-pin-stage .vp-rail {
+      overflow: visible;
+      scroll-snap-type: none;
+      animation: vp-rail-x linear both;
+      animation-timeline: --vp-pin;
+      animation-range: contain 0% contain 100%;
+      will-change: transform;
+    }
+  }
 }

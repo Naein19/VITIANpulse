@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { PageBody } from '@/components/layout/page-header';
 import { Badge, EventCategoryBadge } from '@/components/ui/badge';
+import { EventPoster } from '@/components/media/entity-poster';
 import { Alert, Breadcrumbs, MetaRow, Meter, RichText } from '@/components/ui/misc';
 import { Button } from '@/components/ui/button';
 import { BookmarkButton } from '@/components/content/bookmark-button';
@@ -108,6 +109,15 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
         <div className="grid gap-9 lg:grid-cols-[minmax(0,1fr)_330px]">
           <article className="min-w-0">
             <Breadcrumbs items={breadcrumbs} />
+
+            {/* The poster, sized to sit beside the title on a wide screen and
+                above it on a narrow one — the way a printed bill would. */}
+            <EventPoster
+              event={event}
+              ratio="wide"
+              linked={false}
+              className="mb-5 border border-line shadow-sm sm:hidden"
+            />
 
             <div className="mb-3 flex flex-wrap items-center gap-2">
               <EventCategoryBadge category={event.category} size="sm" />
@@ -216,6 +226,13 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
 
           {/* ---------------------------------------------------- action rail */}
           <aside className="min-w-0 space-y-6 lg:sticky lg:top-4 lg:self-start">
+            <EventPoster
+              event={event}
+              ratio="portrait"
+              linked={false}
+              className="hidden border border-line shadow-sm sm:block"
+            />
+
             <section className="rounded-md border border-line-strong bg-primary p-4 shadow-sm">
               {event.registrationRequired && !past ? (
                 <>

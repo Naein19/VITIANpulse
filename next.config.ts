@@ -3,6 +3,8 @@ import type { NextConfig } from 'next';
 /**
  * Content Security Policy.
  * `unsafe-inline` on style-src is required by Next's inlined critical CSS.
+ * Every third-party origin is listed by name: adding one should be a visible,
+ * reviewable change rather than a wildcard nobody notices.
  * Script nonces are not used because Next injects its own bootstrap inline
  * scripts; we instead rely on strict input sanitisation (see src/lib/sanitize.ts)
  * and never render user HTML.
@@ -13,7 +15,12 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' blob: data: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.supabase.co https://pyqs-hub.vercel.app",
+  // tiles.openfreemap.org serves the campus map's vector tiles, style and glyphs.
+  // Named explicitly rather than wildcarded so the allowlist stays auditable.
+  "connect-src 'self' https://*.supabase.co https://pyqs-hub.vercel.app https://tiles.openfreemap.org",
+  // MapLibre runs its tile decoder in a worker created from a blob URL.
+  "worker-src 'self' blob:",
+  "child-src 'self' blob:",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

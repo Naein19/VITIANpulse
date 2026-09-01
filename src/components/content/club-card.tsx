@@ -1,9 +1,10 @@
 import Link from 'next/link';
 import { BadgeCheck, Users } from 'lucide-react';
 import { cn } from '@/lib/cn';
-import { Badge } from '@/components/ui/badge';
+import { Badge, CLUB_CATEGORY_VAR } from '@/components/ui/badge';
 import { formatCount, humanise } from '@/lib/format';
 import { FollowButton } from './follow-button';
+import { ClubPoster } from '@/components/media/entity-poster';
 import type { Club } from '@/types/domain';
 
 /** Club directory card. Recruitment state is the loudest signal on it. */
@@ -42,34 +43,42 @@ export function ClubCard({
   }
 
   return (
-    <article className="group relative flex flex-col rounded-md border border-line bg-primary p-4 transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm">
-      <div className="flex items-start gap-3">
-        <ClubAvatar club={club} />
-        <div className="min-w-0 flex-1">
-          <h3 className="flex items-start gap-1.5 text-[14.5px] font-semibold leading-snug text-ink">
-            <Link href={href} className="after:absolute after:inset-0 hover:underline underline-offset-[3px]">
-              {club.name}
-            </Link>
-            {club.verified && (
-              <BadgeCheck className="mt-0.5 size-3.5 shrink-0 text-link" aria-label="Verified club" />
-            )}
-          </h3>
-          <p className="mt-0.5 text-[11.5px] text-faint">{humanise(club.category)}</p>
+    <article className="group relative flex flex-col overflow-hidden rounded-md border border-line bg-primary transition-[border-color,box-shadow] duration-200 hover:border-line-strong hover:shadow-sm">
+      {/* The club's poster. Its own artwork when it has one, generated art when
+          it does not — either way the directory reads as a wall of clubs. */}
+      <ClubPoster club={club} ratio="banner" compact className="border-b border-line" />
+
+      <div className="-mt-7 flex flex-1 flex-col p-4">
+        <div className="flex items-start gap-3">
+          <span className="rounded-md ring-2 ring-[rgb(var(--bg-primary))]">
+            <ClubAvatar club={club} />
+          </span>
+          <div className="min-w-0 flex-1 pt-7">
+            <h3 className="flex items-start gap-1.5 text-[14.5px] font-semibold leading-snug text-ink">
+              <Link href={href} className="after:absolute after:inset-0 hover:underline underline-offset-[3px]">
+                {club.name}
+              </Link>
+              {club.verified && (
+                <BadgeCheck className="mt-0.5 size-3.5 shrink-0 text-link" aria-label="Verified club" />
+              )}
+            </h3>
+            <p className="mt-0.5 text-[11.5px] text-faint">{humanise(club.category)}</p>
+          </div>
         </div>
-      </div>
 
-      <p className="vp-clamp-2 mt-2.5 text-[13px] leading-relaxed text-muted">{club.tagline}</p>
+        <p className="vp-clamp-2 mt-2.5 text-[13px] leading-relaxed text-muted">{club.tagline}</p>
 
-      <div className="mt-auto flex items-center gap-2 border-t border-line pt-3 text-[11.5px] text-faint">
-        <span className="inline-flex items-center gap-1">
-          <Users className="size-3" aria-hidden="true" />
-          <span className="vp-numeric">{formatCount(club.followerCount)}</span>
-        </span>
-        {recruiting && <Badge tone="pulse" size="xs" dot>Recruiting</Badge>}
-        {club.recruitmentStatus === 'UPCOMING' && <Badge tone="info" size="xs">Opening soon</Badge>}
-        <span className="relative z-1 ml-auto">
-          <FollowButton clubId={club.id} initial={following} signedIn={signedIn} size="xs" />
-        </span>
+        <div className="mt-auto flex items-center gap-2 border-t border-line pt-3 text-[11.5px] text-faint">
+          <span className="inline-flex items-center gap-1">
+            <Users className="size-3" aria-hidden="true" />
+            <span className="vp-numeric">{formatCount(club.followerCount)}</span>
+          </span>
+          {recruiting && <Badge tone="pulse" size="xs" dot>Recruiting</Badge>}
+          {club.recruitmentStatus === 'UPCOMING' && <Badge tone="info" size="xs">Opening soon</Badge>}
+          <span className="relative z-1 ml-auto">
+            <FollowButton clubId={club.id} initial={following} signedIn={signedIn} size="xs" />
+          </span>
+        </div>
       </div>
     </article>
   );
@@ -88,8 +97,8 @@ export function ClubAvatar({ club, size = 'md' }: { club: Pick<Club, 'name' | 's
       aria-hidden="true"
       className={cn('inline-flex shrink-0 items-center justify-center rounded-md border font-bold tracking-tight', sizes[size])}
       style={{
-        backgroundColor: `var(--cat-${categoryHue(club.category)}-bg)`,
-        color: `var(--cat-${categoryHue(club.category)}-fg)`,
+        backgroundColor: `rgb(var(--cat-${CLUB_CATEGORY_VAR[club.category]}-bg))`,
+        color: `rgb(var(--cat-${CLUB_CATEGORY_VAR[club.category]}-fg))`,
         borderColor: 'transparent',
       }}
     >
@@ -98,15 +107,4 @@ export function ClubAvatar({ club, size = 'md' }: { club: Pick<Club, 'name' | 's
   );
 }
 
-function categoryHue(category: Club['category']): string {
-  const map: Record<Club['category'], string> = {
-    TECHNICAL: 'campus',
-    CULTURAL: 'guest',
-    SPORTS: 'sports',
-    PROFESSIONAL: 'placement',
-    SOCIAL: 'opportunity',
-    REGIONAL: 'club',
-    CREATIVE: 'announcement',
-  };
-  return map[category];
-}
+

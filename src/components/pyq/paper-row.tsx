@@ -8,7 +8,7 @@ import { BookmarkButton } from '@/components/content/bookmark-button';
 import { useToast } from '@/components/ui/toast';
 import { formatBytes, formatCount } from '@/lib/format';
 import { recordPyqDownloadAction } from '@/server/actions/pyq';
-import type { PyqPaper } from '@/types/domain';
+import { EXAM_TYPE_LABEL, type PyqPaper } from '@/types/domain';
 
 /**
  * A single question paper.
@@ -54,10 +54,10 @@ export function PaperRow({
         <p className="truncate text-[13.5px] font-medium text-ink">
           {showSubject && <span className="font-mono text-[12.5px] text-muted">{paper.subjectCode}</span>}
           {showSubject && <span className="mx-1.5 text-faint">·</span>}
-          {showSubject ? paper.subjectName : `${paper.examType} ${paper.year}`}
+          {showSubject ? paper.subjectName : `${EXAM_TYPE_LABEL[paper.examType]} ${paper.year}`}
         </p>
         <p className="mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11.5px] text-faint">
-          <Badge tone="outline" size="xs">{paper.examType}</Badge>
+          <Badge tone="outline" size="xs">{EXAM_TYPE_LABEL[paper.examType]}</Badge>
           <span className="vp-numeric">{paper.year}</span>
           {paper.slot && <span>Slot {paper.slot}</span>}
           <span>Sem {paper.semester}</span>
@@ -73,7 +73,7 @@ export function PaperRow({
           type="button"
           onClick={download}
           disabled={pending}
-          aria-label={`Download ${paper.subjectCode} ${paper.examType} ${paper.year}`}
+          aria-label={`Download ${paper.subjectCode} ${EXAM_TYPE_LABEL[paper.examType]} ${paper.year}`}
           className={cn(
             'inline-flex h-8 items-center gap-1.5 rounded-sm border border-line-strong bg-primary px-2.5',
             'text-[12.5px] font-medium text-ink transition-colors hover:border-line-strong disabled:opacity-60',

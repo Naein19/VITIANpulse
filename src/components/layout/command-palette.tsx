@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
-  ArrowRight, Bookmark, Bell, CalendarDays, FileText, LayoutDashboard, Loader2, Moon, Search,
+  ArrowRight, Bookmark, Bell, CalendarClock, CalendarDays, FileText, LayoutDashboard, Loader2, Moon, Search,
   Sparkles, Users, LibraryBig, Newspaper,
 } from 'lucide-react';
 import { cn } from '@/lib/cn';
@@ -148,6 +148,7 @@ function CommandPalette({ onClose }: { onClose: () => void }) {
   const commands = useMemo<Command[]>(
     () => [
       { id: 'events', label: 'Browse events', icon: CalendarDays, group: 'Go to', run: () => go('/events') },
+      { id: 'calendar', label: 'Academic calendar', hint: 'CAT and FAT dates', icon: CalendarClock, group: 'Go to', run: () => go('/calendar') },
       { id: 'clubs', label: 'Browse clubs', icon: Users, group: 'Go to', run: () => go('/clubs') },
       { id: 'pyqs', label: 'Open PYQ Hub', icon: FileText, group: 'Go to', run: () => go('/pyqs') },
       { id: 'news', label: 'Read campus news', icon: Newspaper, group: 'Go to', run: () => go('/news') },

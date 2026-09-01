@@ -12,6 +12,7 @@ import { EmptyState } from '@/components/ui/empty-state';
 import { FollowButton } from '@/components/content/follow-button';
 import { ShareButton } from '@/components/content/share-button';
 import { ClubAvatar } from '@/components/content/club-card';
+import { ClubPoster } from '@/components/media/entity-poster';
 import { EventCard } from '@/components/content/event-card';
 import { PostCard } from '@/components/content/post-card';
 import { JsonLd } from '@/components/seo/json-ld';
@@ -78,7 +79,13 @@ export default async function ClubDetailPage({
 
       {/* ------------------------------------------------------------ banner */}
       <div className="relative overflow-hidden border-b border-line bg-secondary">
-        <div className="vp-dot-bg vp-fade-b pointer-events-none absolute inset-0 opacity-70" aria-hidden="true" />
+        {/* The club's own banner when it has one, its generated poster when it
+            does not. Held behind a scrim so the heading stays legible either way. */}
+        <div className="pointer-events-none absolute inset-0" aria-hidden="true">
+          <ClubPoster club={club} ratio="banner" compact className="size-full rounded-none opacity-45" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[rgb(var(--bg-secondary))] via-[rgb(var(--bg-secondary))]/85 to-[rgb(var(--bg-secondary))]/55" />
+        </div>
+        <div className="vp-dot-bg vp-fade-b pointer-events-none absolute inset-0 opacity-40" aria-hidden="true" />
         <div className="relative mx-auto max-w-[var(--content-max)] px-4 py-7 sm:px-6 sm:py-9">
           <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Clubs', href: '/clubs' }, { label: club.name }]} />
 
