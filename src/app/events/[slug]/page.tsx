@@ -65,13 +65,18 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
     }),
   ]);
 
+
+  // The visitor hash is derived from request headers, which Next.js forbids
+  // reading inside after(). Resolve it here and close over the value.
+  const visitorHash = await currentVisitorHash();
+
   after(async () => {
     await incrementEventView(event.id);
     await trackSafe({
       name: 'event_view',
       path: `/events/${event.slug}`,
       entityId: event.id,
-      visitorHash: await currentVisitorHash(),
+      visitorHash,
       meta: { category: event.category },
     });
   });

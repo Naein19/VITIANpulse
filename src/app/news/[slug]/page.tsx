@@ -56,13 +56,18 @@ export default async function NewsDetailPage({ params }: { params: Promise<{ slu
 
   // Counters and analytics run after the response is streamed, so measurement
   // never sits between the reader and the page.
+
+  // The visitor hash is derived from request headers, which Next.js forbids
+  // reading inside after(). Resolve it here and close over the value.
+  const visitorHash = await currentVisitorHash();
+
   after(async () => {
     await incrementPostView(post.id);
     await trackSafe({
       name: 'post_view',
       path: `/news/${post.slug}`,
       entityId: post.id,
-      visitorHash: await currentVisitorHash(),
+      visitorHash,
       meta: { category: post.category, importance: post.importance },
     });
   });

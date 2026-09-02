@@ -21,10 +21,12 @@ test.describe('public browsing', () => {
     await page.goto('/events');
     await expect(page.getByRole('heading', { name: 'Events', exact: true })).toBeVisible();
 
-    await page.getByRole('link', { name: 'Calendar' }).click();
+    // "Calendar view" not "Calendar": the global nav also has a Calendar link,
+    // so the view switcher names itself explicitly.
+    await page.getByRole('link', { name: 'Calendar view' }).click();
     await expect(page).toHaveURL(/view=calendar/);
 
-    await page.getByRole('link', { name: 'Timeline' }).click();
+    await page.getByRole('link', { name: 'Timeline view' }).click();
     await expect(page).toHaveURL(/view=timeline/);
 
     // Filters live in the URL, so the view is shareable exactly as seen.
@@ -62,7 +64,9 @@ test.describe('public browsing', () => {
   test('resources are grouped and searchable', async ({ page }) => {
     await page.goto('/resources');
     await expect(page.getByRole('heading', { name: /student resources/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: /emergency/i })).toBeVisible();
+    // Section headings only: a resource is legitimately titled "Emergency
+    // information", so an unscoped /emergency/i matches two real headings.
+    await expect(page.getByRole('heading', { level: 2, name: /^emergency/i })).toBeVisible();
   });
 
   test('an unknown route renders the 404 page rather than crashing', async ({ page }) => {

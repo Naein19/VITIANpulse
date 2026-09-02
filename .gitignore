@@ -12,3 +12,4 @@ test-results/
 .env*.local
 .DS_Store
 .vercel
+.vitpulse-e2e/

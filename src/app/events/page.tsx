@@ -123,10 +123,11 @@ export default async function EventsPage({ searchParams }: { searchParams: Promi
             <SearchField placeholder="Search events…" defaultValue={search ?? ''} basePath="/events" />
             <SegmentedControl
               activeKey={view}
+              label="Event view"
               items={[
-                { key: 'list', label: 'List', href: buildHref({ view: 'list' }), icon: <LayoutGrid className="size-3.5" aria-hidden="true" /> },
-                { key: 'calendar', label: 'Calendar', href: buildHref({ view: 'calendar' }), icon: <CalendarRange className="size-3.5" aria-hidden="true" /> },
-                { key: 'timeline', label: 'Timeline', href: buildHref({ view: 'timeline' }), icon: <ListOrdered className="size-3.5" aria-hidden="true" /> },
+                { key: 'list', label: 'List', ariaLabel: 'List view', href: buildHref({ view: 'list' }), icon: <LayoutGrid className="size-3.5" aria-hidden="true" /> },
+                { key: 'calendar', label: 'Calendar', ariaLabel: 'Calendar view', href: buildHref({ view: 'calendar' }), icon: <CalendarRange className="size-3.5" aria-hidden="true" /> },
+                { key: 'timeline', label: 'Timeline', ariaLabel: 'Timeline view', href: buildHref({ view: 'timeline' }), icon: <ListOrdered className="size-3.5" aria-hidden="true" /> },
               ]}
             />
           </>

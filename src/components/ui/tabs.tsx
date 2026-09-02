@@ -18,6 +18,12 @@ export interface TabItem {
   href: string;
   count?: number;
   icon?: ReactNode;
+  /**
+   * Accessible name, when the visible label is ambiguous out of context.
+   * "Calendar" in the events view switcher is indistinguishable from the
+   * "Calendar" link in the global nav until it says "Calendar view".
+   */
+  ariaLabel?: string;
 }
 
 export function Tabs({
@@ -75,15 +81,19 @@ export function SegmentedControl({
   items,
   activeKey,
   className,
+  label,
 }: {
   items: readonly TabItem[];
   activeKey: string;
   className?: string;
+  /** Names the group for assistive tech, e.g. "Event view". */
+  label?: string;
 }) {
   return (
     <div
       className={cn('inline-flex rounded-sm border border-line-strong bg-tertiary p-0.5', className)}
       role="group"
+      aria-label={label}
     >
       {items.map((item) => {
         const active = item.key === activeKey;
@@ -91,6 +101,7 @@ export function SegmentedControl({
           <Link
             key={item.key}
             href={item.href}
+            aria-label={item.ariaLabel}
             aria-current={active ? 'true' : undefined}
             scroll={false}
             className={cn(

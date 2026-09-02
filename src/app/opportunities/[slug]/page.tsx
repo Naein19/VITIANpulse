@@ -50,13 +50,18 @@ export default async function OpportunityDetailPage({ params }: { params: Promis
     listOpportunities({ type: opportunity.type, pageSize: 3 }),
   ]);
 
+
+  // The visitor hash is derived from request headers, which Next.js forbids
+  // reading inside after(). Resolve it here and close over the value.
+  const visitorHash = await currentVisitorHash();
+
   after(async () => {
     await incrementOpportunityView(opportunity.id);
     await trackSafe({
       name: 'opportunity_click',
       path: `/opportunities/${opportunity.slug}`,
       entityId: opportunity.id,
-      visitorHash: await currentVisitorHash(),
+      visitorHash,
       meta: { type: opportunity.type },
     });
   });

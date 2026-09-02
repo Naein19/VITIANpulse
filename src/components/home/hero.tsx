@@ -46,9 +46,9 @@ export function CommandCentre({
               Live on campus
             </p>
 
-            <h1 id="today-heading" className="sr-only">
+            <h2 id="today-heading" className="sr-only">
               What is happening at VIT-AP today
-            </h1>
+            </h2>
 
             <div aria-hidden="true">
               <p className="text-[13px] font-semibold uppercase tracking-[0.2em] text-muted">{weekday}</p>
